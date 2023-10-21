@@ -32,17 +32,26 @@ import Header from "layouts/profile/components/Header";
 import PlatformSettings from "layouts/profile/components/PlatformSettings";
 
 // Data
-import profilesListData from "layouts/profile/data/profilesListData";
-import DataTable from "examples/Tables/DataTable";
 import { Card } from "@mui/material";
 import MDButton from "components/MDButton";
-import authorsTableData from "layouts/tables/data/authorsTableData";
 import { useNavigate } from "react-router-dom";
+import useFetch from "hooks/useFetch";
+
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 
 function Events() {
-    const { columns, rows } = authorsTableData();
-    const navigate = useNavigate()
+
+  const navigate = useNavigate()
+  const {data,loading,error} = useFetch("http://localhost:5000/api/admin/getAllEvents")
+  const events = data?.data?.events || [];
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -57,17 +66,37 @@ function Events() {
                 </MDTypography>
                 <Grid item xs={12} lg={12}>
                 <Card sx={{ height: "100%" }}>
-                    <MDBox pt={3}>
-                        <DataTable
-                        table={{ columns, rows }}
-                        isSorted={false}
-                        entriesPerPage={false}
-                        showTotalEntries={false}
-                        noEndBorder
-                        />
-                    </MDBox>
-                </Card>
-                </Grid>
+                  <TableContainer component={Paper}>
+                  <Table sx={{ width: "100%" }} aria-label="simple table">
+                    <TableHead sx={{ display: "table-header-group" }}>
+                      <TableRow sx={{width: "20px"}}>
+                        <TableCell >Title</TableCell>
+                        <TableCell >Date</TableCell>
+                        <TableCell >Location</TableCell>
+                        <TableCell >Sport</TableCell>
+                        <TableCell >Description</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {events.map((row) => (
+                        <TableRow
+                          key={row?.title}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {row?.title}
+                          </TableCell>
+                          <TableCell>{row?.date}</TableCell>
+                          <TableCell>{row?.location}</TableCell>
+                          <TableCell>{row?.sport}</TableCell>
+                          <TableCell>{row?.description}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Card>
+              </Grid>
             </MDBox>
             </Card>
             </Grid>
