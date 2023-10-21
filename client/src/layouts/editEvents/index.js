@@ -54,7 +54,7 @@ import team4 from "assets/images/team-4.jpg";
 import { Box, Card, TextField } from "@mui/material";
 import MDButton from "components/MDButton";
 
-function CreateUser() {
+function EditEvents() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -65,37 +65,44 @@ function CreateUser() {
                     <Card sx={{ boxShadow: "none" }}>
                         <MDBox p={2}>
                             <MDTypography sx={{ margin: '20px' }} variant="h6" fontWeight="medium" textTransform="capitalize">
-                                General Information
+                                Edit Event
                             </MDTypography>
                             <form>
                                 <Box p={2}>
                                     <TextField
-                                        name="username"
-                                        label="Username"
+                                        name="title"
+                                        label="Title"
                                         fullWidth
                                     />
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        name="fullName"
-                                        label="Full Name"
+                                        name="date"
+                                        label="Date"
                                         fullWidth
                                     />
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        name="password"
-                                        label="Password"
+                                        name="sport"
+                                        label="Sport"
                                         fullWidth
                                     />
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        label="Confirm Password"
+                                        name="location"
+                                        label="Location"
                                         fullWidth
                                     />
                                 </Box>
-                                
+                                <Box p={2}>
+                                    <TextField
+                                        name="description"
+                                        label="Description"
+                                        fullWidth
+                                    />
+                                </Box>
                             </form>
                         </MDBox>
                         <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
@@ -107,34 +114,27 @@ function CreateUser() {
                         <MDBox p={2}>
                             <Box p={2}>
                                 <TextField
-                                    name="email"
-                                    label="Email"
+                                    name="outcome"
+                                    label="Outcome"
                                     fullWidth
                                 />
                             </Box>
                             <Box p={2}>
                                 <TextField
-                                    name="nation"
-                                    label="Nation"
+                                    name="team1"
+                                    label="Team1"
                                     fullWidth
                                 />
                             </Box>
                             <Box p={2}>
                                 <TextField
-                                    name="mobile"
-                                    label="Mobile Number"
-                                    fullWidth
-                                />
-                            </Box>
-                            <Box p={2}>
-                                <TextField
-                                    name="role"
-                                    label="User Type"
+                                    name="team2"
+                                    label="Team2"
                                     fullWidth
                                 />
                             </Box>
                             <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" >
-                                Create
+                                Update
                             </MDButton>
                         </MDBox>
                         <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
@@ -147,4 +147,4 @@ function CreateUser() {
   );
 }
 
-export default CreateUser;
+export default EditEvents;
