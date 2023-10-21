@@ -78,6 +78,8 @@ const Login = async (req, res) => {
   const allusers = async (req, res) => {
     try {
       const activeUser = await userModel.find({ accountStatus: "active" });
+      // const isAuthenticated = activeUser.map((user) => user.isAuthenticated);
+      // return res.json({users: activeUser, isAuthenticated });
       return res.json(activeUser);
     } catch (error) {
       res.json(error);

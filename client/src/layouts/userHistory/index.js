@@ -26,6 +26,7 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
+import useFetch from "hooks/useFetch";
 
 // Overview page components
 import Header from "layouts/profile/components/Header";
@@ -39,10 +40,21 @@ import MDButton from "components/MDButton";
 import authorsTableData from "layouts/tables/data/authorsTableData";
 import { useNavigate } from "react-router-dom";
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 function UserHistory() {
-    const { columns, rows } = authorsTableData();
+
     const navigate = useNavigate()
+    const {data,loading,error} = useFetch("http://localhost:5000/api/user/LoginHistory")
+    const loginHistory = data?.data?.loginHistoryForAllUsers || [];
+    
+    console.log(loginHistory);
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -70,13 +82,30 @@ function UserHistory() {
                 <Grid item xs={12} lg={12}>
                 <Card sx={{ height: "100%" }}>
                     <MDBox pt={3}>
-                        <DataTable
-                        table={{ columns, rows }}
-                        isSorted={false}
-                        entriesPerPage={false}
-                        showTotalEntries={false}
-                        noEndBorder
-                        />
+                    <TableContainer component={Paper}>
+                  <Table sx={{ width: "100%" }} aria-label="simple table">
+                    <TableHead sx={{ display: "table-header-group" }}>
+                      <TableRow sx={{width: "20px"}}>
+                        <TableCell >UserId</TableCell>
+                        <TableCell >Name</TableCell>
+                        <TableCell >Date</TableCell>
+                       
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                            {loginHistory.map((user) => (
+                              user.loginHistory.map((history, index) => (
+                                <TableRow key={index}>
+                                  <TableCell>{user.userId}</TableCell>
+                                  <TableCell>{user.username}</TableCell>
+                                  <TableCell>{history.timestamp}</TableCell>
+                          
+                                </TableRow>
+                              ))
+                            ))}
+                          </TableBody>
+                  </Table>
+                </TableContainer>
                     </MDBox>
                 </Card>
                 </Grid>
