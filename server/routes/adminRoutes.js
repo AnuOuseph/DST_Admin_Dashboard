@@ -3,6 +3,21 @@ const express = require("express");
 const { createEvent, getAllEvents, getEventById, updateEvent, deleteEvent, updateEventOutcome } = require('../controllers/eventControllers');
 const { createBettingSession, getAllBettingSessions, updateBettingSession, deleteBettingSession, getCurrentBets } = require('../controllers/bettingSessionControllers');
 const { createAdmin } = require('../controllers/adminControllers');
+const { totalUsers, 
+    totalInvestedInBet, 
+    totalRevenue, 
+    totalInvestmentToday, 
+    totalInvestmentThisMonth, 
+    totalInvestmentThisYear, 
+    totalInvestmentByDay, 
+    totalInvestmentByMonth, 
+    totalInvestmentByYear, 
+    totalRevenueToday, 
+    totalRevenueThisMonth, 
+    totalRevenueThisYear, 
+    totalRevenueByDay,
+    totalRevenueByMonth,
+    totalRevenueByYear} = require("../controllers/dashboardController");
 
 const router = express.Router();
 
@@ -23,5 +38,23 @@ router.get('/getCurrentBets', getCurrentBets);
 
 //admin
 router.post('/createAdmin', createAdmin);
+
+//dashboard
+router.get('/totalUsers', totalUsers)
+router.get('/totalInvestedInBet', totalInvestedInBet)
+router.get('/totalRevenue', totalRevenue)
+router.get('/totalInvestmentToday', totalInvestmentToday)
+router.get('/totalInvestmentThisMonth', totalInvestmentThisMonth)
+router.get('/totalInvestmentThisYear', totalInvestmentThisYear)
+router.get('/totalInvestmentByDay', totalInvestmentByDay)
+router.get('/totalInvestmentByMonth', totalInvestmentByMonth)
+router.get('/totalInvestmentByYear', totalInvestmentByYear)
+router.get('/totalRevenueToday', totalRevenueToday)
+router.get('/totalRevenueThisMonth', totalRevenueThisMonth)
+router.get('/totalRevenueThisYear', totalRevenueThisYear)
+router.get('/totalRevenueByDay', totalRevenueByDay)
+router.get('/totalRevenueByMonth', totalRevenueByMonth)
+router.get('/totalRevenueByYear', totalRevenueByYear)
+
 
 module.exports = router;

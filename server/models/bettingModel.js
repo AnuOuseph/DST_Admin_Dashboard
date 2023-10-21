@@ -40,6 +40,8 @@ const bettingSessionSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'FinancialData', 
     },
+},{
+    timestamps: true
 });
 
 const BettingSession = mongoose.model('BettingSession', bettingSessionSchema);
