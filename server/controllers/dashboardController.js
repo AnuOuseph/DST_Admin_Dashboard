@@ -203,10 +203,9 @@ const totalInvestmentByMonth = async (req, res) => {
 
             const totalInvestmentAmount = totalInvestment.length > 0 ? totalInvestment[0].total : 0;
 
-            monthlyTotals.push({
-                month: month + 1,
-                totalInvestment: totalInvestmentAmount,
-            });
+            monthlyTotals.push(
+                totalInvestmentAmount,
+            );
         }
 
         res.json({ monthlyTotals });
@@ -222,7 +221,7 @@ const totalInvestmentByYear = async (req, res) => {
 
         const yearlyTotals = [];
 
-        for (let i = 0; i < 5; i++) {
+        for (let i = 4; i >= 0; i--) {
             const year = currentYear - i;
             const startDate = new Date(year, 0, 1, 0, 0, 0);
             const endDate = new Date(year, 11, 31, 23, 59, 59);
@@ -363,10 +362,9 @@ const totalRevenueByMonth = async (req, res) => {
             const totalRevenue = totalBetsAmount - totalWinningsAmount;
 
 
-            monthlyRevenue.push({
-                month: month + 1,
-                totalRevenue: totalRevenue,
-            });
+            monthlyRevenue.push(
+                totalRevenue,
+            );
         }
 
         res.json({ monthlyRevenue })
@@ -383,7 +381,7 @@ const totalRevenueByYear = async (req, res) => {
 
         const yearlyRevenue = [];
 
-        for (let i = 0; i < 5; i++) {
+        for (let i = 4; i >= 0; i--) {
             const year = currentYear - i;
             const startDate = new Date(year, 0, 1, 0, 0, 0);
             const endDate = new Date(year, 11, 31, 23, 59, 59);
