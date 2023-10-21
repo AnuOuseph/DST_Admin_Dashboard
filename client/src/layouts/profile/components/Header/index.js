@@ -70,23 +70,6 @@ function Header({ children }) {
 
   return (
     <MDBox position="relative" mb={5}>
-      {/* <MDBox
-        display="flex"
-        alignItems="center"
-        position="relative"
-        minHeight="18.75rem"
-        borderRadius="xl"
-        sx={{
-          backgroundImage: ({ functions: { rgba, linearGradient }, palette: { gradients } }) =>
-            `${linearGradient(
-              rgba(gradients.info.main, 0.6),
-              rgba(gradients.info.state, 0.6)
-            )}, url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "50%",
-          overflow: "hidden",
-        }}
-      /> */}
       <Card
         sx={{
           position: "relative",
@@ -109,18 +92,10 @@ function Header({ children }) {
                 label="Search User"
                 type="text"
               />
-              <Button sx={{
-                  margin: "10px",
-                }} 
-                variant="contained" 
-                color="dark"
-                >
+              <MDButton variant="gradient" color="dark" sx={{margin: "10px"}}>
                 Load
-              </Button>
-              <MDButton sx={{
-                  padding: "10px",
-                }}  
-                variant="outlined" color="dark" size="small">
+              </MDButton>
+              <MDButton variant="outlined" color="dark">
                 Reset
               </MDButton>
             </MDBox>

@@ -50,6 +50,8 @@ import SignUp from "layouts/authentication/sign-up";
 import Icon from "@mui/material/Icon";
 import CreateUser from "layouts/account";
 import ActiveUser from "layouts/activeuser";
+import Events from "layouts/events";
+import User from "layouts/billing";
 
 const routes = [
   {
@@ -74,23 +76,7 @@ const routes = [
     key: "users",
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/users",
-    component: <Billing />,
-  },
-  {
-    type: "collapse",
-    name: "Active User",
-    key: "active user",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/active-user",
-    component: <ActiveUser/>,
-  },
-  {
-    type: "collapse",
-    name: "Create User",
-    key: "Pcreate user",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/create-user",
-    component: <CreateUser />,
+    component: <User />,
   },
   {
     type: "collapse",
@@ -98,14 +84,14 @@ const routes = [
     key: "events",
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/events",
-    component: <Notifications />,
+    component: <Events />,
   },
   {
     type: "collapse",
     name: "Reports",
-    key: "reports",
+    key: "Current Bet",
     icon: <Icon fontSize="small">person</Icon>,
-    route: "/report",
+    route: "/current-bets",
     component: <Profile />,
   },
   // {
