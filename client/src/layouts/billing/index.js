@@ -34,62 +34,55 @@ import PaymentMethod from "layouts/billing/components/PaymentMethod";
 import Invoices from "layouts/billing/components/Invoices";
 import BillingInformation from "layouts/billing/components/BillingInformation";
 import Transactions from "layouts/billing/components/Transactions";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Card, TextField } from "@mui/material";
 import MDButton from "components/MDButton";
+import { useNavigate } from "react-router-dom";
 
-function Billing() {
+function User() {
+  const navigate = useNavigate();
   return (
     <DashboardLayout>
       <DashboardNavbar absolute isMini />
       <MDBox mt={8}>
-        <Header>
         <MDBox mb={3}>
+        <Card sx={{ boxShadow: "none" }}>
+          <Grid xs={12} lg={12} sx={{ display: "flex", justifyContent: "space-between", paddingX: "20px" }}>
+              <MDBox height="100%" mt={2} lineHeight={1}>
+              <TextField
+                sx={{
+                  padding: "10px",
+                }}
+                label="Search User"
+                type="text"
+              />
+                <MDButton variant="gradient" color="dark" sx={{margin: "10px"}}  >
+                  Load
+                </MDButton>
+                <MDButton variant="outlined" color="dark" sx={{margin: "10px"}}>
+                  Reset
+                </MDButton>
+              </MDBox>
+              <MDBox height="100%" mt={2} lineHeight={1}>
+                <MDButton variant="outlined" color="error" sx={{margin: "10px"}} onClick={()=>{navigate('/active-user')}}>
+                  Active User
+                </MDButton>
+                <MDButton variant="outlined" color="warning" sx={{margin: "10px"}} onClick={()=>{navigate('/create-user')}}>
+                  Create User
+                </MDButton>
+              </MDBox>
+          </Grid>
           <Grid container spacing={3}>
-            <Grid item xs={12} lg={8}>
-              {/* <Grid container spacing={3}>
-                <Grid item xs={12} xl={6}>
-                  <MasterCard number={4562112245947852} holder="jack peterson" expires="11/22" />
-                </Grid>
-                <Grid item xs={12} md={6} xl={3}>
-                  <DefaultInfoCard
-                    icon="account_balance"
-                    title="salary"
-                    description="Belong Interactive"
-                    value="+$2000"
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={3}>
-                  <DefaultInfoCard
-                    icon="paypal"
-                    title="paypal"
-                    description="Freelance Payment"
-                    value="$455.00"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <PaymentMethod />
-                </Grid>
-              </Grid> */}
-            </Grid>
              <Grid item xs={12} lg={12}>
-              <Invoices />
+              <Card sx={{ padding:"20px",boxShadow: "1px" }}>
+                <Invoices />
+              </Card>
             </Grid>
           </Grid>
+        </Card>
         </MDBox>
-        {/* <MDBox mb={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={7}>
-              <BillingInformation />
-            </Grid>
-            <Grid item xs={12} md={5}>
-              <Transactions />
-            </Grid>
-          </Grid>
-        </MDBox> */}
-        </Header>
       </MDBox>
     </DashboardLayout>
   );
 }
 
-export default Billing;
+export default User;

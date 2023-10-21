@@ -33,9 +33,16 @@ import PlatformSettings from "layouts/profile/components/PlatformSettings";
 
 // Data
 import profilesListData from "layouts/profile/data/profilesListData";
+import DataTable from "examples/Tables/DataTable";
+import { Card } from "@mui/material";
+import MDButton from "components/MDButton";
+import authorsTableData from "layouts/tables/data/authorsTableData";
+import { useNavigate } from "react-router-dom";
 
 
-function Overview() {
+function Events() {
+    const { columns, rows } = authorsTableData();
+    const navigate = useNavigate()
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -43,14 +50,31 @@ function Overview() {
         <MDBox mt={5} mb={3}>
           <Grid container spacing={1}>
             <Grid item xs={12} md={12} xl={12}>
-              <PlatformSettings />
+            <Card sx={{ boxShadow: "none" }}>
+            <MDBox p={2}>
+                <MDTypography sx={{ padding: "20px" }} variant="h6" fontWeight="medium" textTransform="capitalize">
+                Events
+                </MDTypography>
+                <Grid item xs={12} lg={12}>
+                <Card sx={{ height: "100%" }}>
+                    <MDBox pt={3}>
+                        <DataTable
+                        table={{ columns, rows }}
+                        isSorted={false}
+                        entriesPerPage={false}
+                        showTotalEntries={false}
+                        noEndBorder
+                        />
+                    </MDBox>
+                </Card>
+                </Grid>
+            </MDBox>
+            </Card>
             </Grid>
           </Grid>
         </MDBox>
-        
-        
     </DashboardLayout>
   );
 }
 
-export default Overview;
+export default Events;

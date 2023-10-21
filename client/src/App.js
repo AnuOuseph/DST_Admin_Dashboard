@@ -29,6 +29,9 @@ import MDBox from "components/MDBox";
 // Material Dashboard 2 React example components
 import Sidenav from "examples/Sidenav";
 import Configurator from "examples/Configurator";
+import SignIn from "layouts/authentication/sign-in";
+import CreateUser from "layouts/account";
+import ActiveUser from "layouts/activeuser";
 
 // Material Dashboard 2 React themes
 import theme from "assets/theme";
@@ -52,6 +55,8 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "co
 // Images
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
+import UserAuth from "layouts/userauth";
+import UserHistory from "layouts/userHistory";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -192,6 +197,11 @@ export default function App() {
       <Routes>
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/dashboard" />} />
+        <Route path="/authentication/sign-in" element={<SignIn />} />
+        <Route path="/active-user" element={<ActiveUser />} />
+        <Route path="/create-user" element={<CreateUser />} />
+        <Route path="/user-authentication" element={<UserAuth />} />
+        <Route path="/user-history" element={<UserHistory />} />
       </Routes>
     </ThemeProvider>
   );

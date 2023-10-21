@@ -36,6 +36,7 @@ import DataTable from "examples/Tables/DataTable";
 // Data
 import authorsTableData from "layouts/tables/data/authorsTableData";
 import projectsTableData from "layouts/tables/data/projectsTableData";
+import MDButton from "components/MDButton";
 
 function Tables() {
   const { columns, rows } = authorsTableData();
@@ -52,26 +53,12 @@ function Tables() {
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
-              {/* <MDBox
-                mx={2}
-                mt={-3}
-                py={3}
-                px={2}
-                variant="gradient"
-                bgColor="info"
-                borderRadius="lg"
-                coloredShadow="info"
-              >
-                <MDTypography variant="h6" color="white">
-                  Authors Table
-                </MDTypography>
-              </MDBox> */}
               <MDBox p={3}>
                 <Typography variant="h4" py={4}>
                   Personal Information
                 </Typography>
-                <Box display="flex">
-                  <Box>
+                <Grid display="flex" lg={12}>
+                  <Grid lg={4}>
                     <TextField
                       sx={{
                         padding: "10px", // Add your desired padding value here
@@ -79,8 +66,8 @@ function Tables() {
                       label="Client Id"
                       type="text"
                     />
-                  </Box>
-                  <Box>
+                  </Grid>
+                  <Grid lg={4}>
                     <TextField
                       sx={{
                         padding: "10px", // Add your desired padding value here
@@ -88,8 +75,8 @@ function Tables() {
                       label="Full Name"
                       type="text"
                     />
-                  </Box>
-                  <Box>
+                  </Grid>
+                  <Grid lg={4}>
                     <TextField
                       sx={{
                         padding: "10px", // Add your desired padding value here
@@ -97,8 +84,8 @@ function Tables() {
                       label="Password"
                       type="password"
                     />
-                  </Box>
-                  <Box>
+                  </Grid>
+                  <Grid lg={4}>
                     <TextField
                       sx={{
                         padding: "10px", // Add your desired padding value here
@@ -106,8 +93,8 @@ function Tables() {
                       label="Confirm Password"
                       type="password"
                     />
-                  </Box>
-                </Box>
+                  </Grid>
+                </Grid>
                 <Typography variant="h4" py={4}>
                   Previleges
                 </Typography>
@@ -157,31 +144,31 @@ function Tables() {
                   <Box px={2}>
                     <FormControlLabel
                       control={<Checkbox checked={checked} onChange={handleChange} />}
-                      label="User List"
+                      label="Current Bets"
                     />
                   </Box>
                   <Box px={2}>
                     <FormControlLabel
                       control={<Checkbox checked={checked} onChange={handleChange} />}
-                      label="Insert User"
+                      label="User History"
                     />
                   </Box>
                   <Box px={2}>
                     <FormControlLabel
                       control={<Checkbox checked={checked} onChange={handleChange} />}
-                      label="Bank"
+                      label="Casino Result"
                     />
                   </Box>
                   <Box px={2}>
                     <FormControlLabel
                       control={<Checkbox checked={checked} onChange={handleChange} />}
-                      label="Check me"
+                      label="Events"
                     />
                   </Box>
                   <Box px={2}>
                     <FormControlLabel
                       control={<Checkbox checked={checked} onChange={handleChange} />}
-                      label="Check me"
+                      label="Market Analysis"
                     />
                   </Box>
                 </Box>
@@ -196,28 +183,10 @@ function Tables() {
                       label="Transaction Code"
                       type="text"
                     />
-                    <Button sx={{
-                        margin: "10px",
-                      }} 
-                      variant="contained" 
-                      color="primary"
-                      >
-                      Click Me
-                    </Button>
+                    <MDButton variant="gradient" color="error" sx={{marginY: "10px"}}>
+                      Submit
+                    </MDButton>
                   </Box>
-              </MDBox>
-            </Card>
-          </Grid>
-          <Grid item xs={12}>
-            <Card>
-              <MDBox pt={3}>
-                <DataTable
-                  table={{ columns: pColumns, rows: pRows }}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                />
               </MDBox>
             </Card>
           </Grid>
