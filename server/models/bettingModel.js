@@ -35,7 +35,11 @@ const bettingSessionSchema = new mongoose.Schema({
     isWin: {
         type: Boolean,
         default: false,
-    }
+    },
+    associatedFinancialTransaction: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'FinancialData', 
+    },
 });
 
 const BettingSession = mongoose.model('BettingSession', bettingSessionSchema);

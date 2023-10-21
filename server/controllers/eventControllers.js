@@ -1,3 +1,4 @@
+const BettingSession = require('../models/bettingModel');
 const Event = require('../models/eventModel');
 
 //create new event
@@ -79,6 +80,10 @@ const updateEventOutcome = async (req, res) => {
         if( !event) {
             return res.status(404).json({ success: false, message: `Event not found with this ID ${eventId}`});
         }
+        const updateBettingSessions = await BettingSession.updateMany(
+            { event: eventId, selectedOutcome: outcome },
+            { $set: { isWin: true } }
+        );
         res.status(201).json({ success: true, message: 'Event outcome updated', event});
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error updating event outcome', error:error.message });
