@@ -36,6 +36,8 @@ const bettingSessionSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     }
+},{
+    timestamps: true
 });
 
 const BettingSession = mongoose.model('BettingSession', bettingSessionSchema);
