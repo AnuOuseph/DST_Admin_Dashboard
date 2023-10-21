@@ -1,3 +1,6 @@
+import axios from "axios";
+import { useEffect } from "react";
+
 /**
 =========================================================
 * Material Dashboard 2 React - v2.2.0
@@ -12,14 +15,64 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-
-export default {
-  sales: {
-    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    datasets: { label: "Mobile apps", data: [50, 40, 300, 320, 500, 350, 200, 230, 500] },
-  },
-  tasks: {
-    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    datasets: { label: "Desktop apps", data: [50, 40, 300, 220, 500, 250, 400, 230, 500] },
-  },
+export const reportsLineChartData = (
+  investmentByDay,
+  investmentByMonth,
+  investmentByYear,
+  revenueByDay,
+  revenueByMonth,
+  revenueByYear
+) => {
+  const days = [];
+  const totalInvestmentDay = [];
+  const year = [];
+  const totalInvestmentYear = [];
+  const totalRevenueDay = [];
+  const totalRevnueYear = [];
+  investmentByDay.forEach((item) => {
+    days.push(item.day);
+    totalInvestmentDay.push(item.totalInvestment);
+  });
+  investmentByYear.forEach((item) => {
+    year.push(item.year);
+    totalInvestmentYear.push(item.totalInvestment);
+  });
+  revenueByDay.forEach((item) => {
+    totalRevenueDay.push(item.totalRevenue);
+  });
+  revenueByYear.forEach((item) => {
+    totalRevnueYear.push(item.totalRevenue);
+  });
+  return {
+    dailyInvestment: {
+      labels: days,
+      datasets: { label: "Daily Investment", data: totalInvestmentDay },
+    },
+    monthlyInvestment: {
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      datasets: {
+        label: "Monthly Investment",
+        data: investmentByMonth,
+      },
+    },
+    yearlyInvestment: {
+      labels: year,
+      datasets: { label: "Yearly Investment", data: totalInvestmentYear },
+    },
+    dailyRevenue: {
+      labels: days,
+      datasets: { label: "Daily Revenue", data: totalRevenueDay },
+    },
+    monthlyRevenue: {
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      datasets: {
+        label: "Monthly Revenue",
+        data: revenueByMonth,
+      },
+    },
+    yearlyRevenue: {
+      labels: year,
+      datasets: { label: "Yearly Revenue", data: totalRevnueYear },
+    },
+  };
 };
