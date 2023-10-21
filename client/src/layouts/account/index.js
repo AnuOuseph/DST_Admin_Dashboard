@@ -53,8 +53,39 @@ import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 import { Box, Card, TextField } from "@mui/material";
 import MDButton from "components/MDButton";
+import useFetch from "hooks/useFetch";
+import { useState } from "react";
+import axios from "axios";
 
 function CreateUser() {
+    const [error,setError] = useState(null)
+    const [formData, setFormData] = useState({
+        username: '',
+        fullname: '',
+        email: '',
+        password: '',
+        mobile: '',
+        nation: '',
+        balance: '',
+    });
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+    console.log(formData)
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        try{
+            console.log("hahshagg")
+            const res = await axios.post("http://localhost:5000/registerUser",formData)
+            console.log("nbsbdhqb",res)
+        }catch(err){
+            console.log(err)
+            setError(err)
+        }
+    };
+
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -72,13 +103,19 @@ function CreateUser() {
                                     <TextField
                                         name="username"
                                         label="Username"
+                                        type="text"
+                                        value={formData.username}
+                                        onChange={handleChange}
                                         fullWidth
                                     />
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        name="fullName"
+                                        name="fullname"
                                         label="Full Name"
+                                        type="text"
+                                        value={formData.fullname}
+                                        onChange={handleChange}
                                         fullWidth
                                     />
                                 </Box>
@@ -86,12 +123,26 @@ function CreateUser() {
                                     <TextField
                                         name="password"
                                         label="Password"
+                                        type="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
                                         fullWidth
                                     />
                                 </Box>
                                 <Box p={2}>
                                     <TextField
                                         label="Confirm Password"
+                                        type="password"
+                                        fullWidth
+                                    />
+                                </Box>
+                                <Box p={2}>
+                                    <TextField
+                                        name="balance"
+                                        label="Balance"
+                                        type="number"
+                                        value={formData.balance}
+                                        onChange={handleChange}
                                         fullWidth
                                     />
                                 </Box>
@@ -109,6 +160,9 @@ function CreateUser() {
                                 <TextField
                                     name="email"
                                     label="Email"
+                                    type="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
                                     fullWidth
                                 />
                             </Box>
@@ -116,6 +170,9 @@ function CreateUser() {
                                 <TextField
                                     name="nation"
                                     label="Nation"
+                                    type="text"
+                                    value={formData.nation}
+                                    onChange={handleChange}
                                     fullWidth
                                 />
                             </Box>
@@ -123,6 +180,9 @@ function CreateUser() {
                                 <TextField
                                     name="mobile"
                                     label="Mobile Number"
+                                    type="number"
+                                    value={formData.mobile}
+                                    onChange={handleChange}
                                     fullWidth
                                 />
                             </Box>
@@ -130,10 +190,11 @@ function CreateUser() {
                                 <TextField
                                     name="role"
                                     label="User Type"
+                                    type="text"
                                     fullWidth
                                 />
                             </Box>
-                            <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" >
+                            <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit} >
                                 Create
                             </MDButton>
                         </MDBox>
