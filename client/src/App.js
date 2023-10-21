@@ -57,6 +57,9 @@ import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
 import UserAuth from "layouts/userauth";
 import UserHistory from "layouts/userHistory";
+import EditUser from "layouts/editUser";
+import AddEvents from "layouts/addEvents";
+import EditEvents from "layouts/editEvents";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -202,6 +205,9 @@ export default function App() {
         <Route path="/create-user" element={<CreateUser />} />
         <Route path="/user-authentication" element={<UserAuth />} />
         <Route path="/user-history" element={<UserHistory />} />
+        <Route path="/edit-user" element={<EditUser />} />
+        <Route path="/add-events" element={<AddEvents />} />
+        <Route path="/edit-events" element={<EditEvents />} />
       </Routes>
     </ThemeProvider>
   );
