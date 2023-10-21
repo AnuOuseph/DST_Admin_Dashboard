@@ -50,7 +50,7 @@ import Paper from '@mui/material/Paper';
 function Events() {
 
   const navigate = useNavigate()
-  const {data,loading,error} = useFetch("http://localhost:5000/api/admin/getAllEvents")
+  const {data,loading,error} = useFetch("http://localhost:4000/api/admin/getAllEvents")
   const events = data?.data?.events || [];
 
   const handleCreate = (event) => {

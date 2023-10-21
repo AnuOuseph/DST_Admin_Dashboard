@@ -51,7 +51,7 @@ import Paper from '@mui/material/Paper';
 function UserHistory() {
 
     const navigate = useNavigate()
-    const {data,loading,error} = useFetch("http://localhost:5000/api/user/LoginHistory")
+    const {data,loading,error} = useFetch("http://localhost:4000/api/user/LoginHistory")
     const loginHistory = data?.data?.loginHistoryForAllUsers
     || [];
     

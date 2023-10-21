@@ -77,7 +77,7 @@ function CreateUser() {
         e.preventDefault();
         try{
             console.log("hahshagg")
-            const res = await axios.post("http://localhost:5000/registerUser",formData)
+            const res = await axios.post("http://localhost:4000/registerUser",formData)
             console.log("nbsbdhqb",res)
         }catch(err){
             console.log(err)

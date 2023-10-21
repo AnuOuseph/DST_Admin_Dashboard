@@ -48,14 +48,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-
 function UserAuth() {
-
-    const navigate = useNavigate()
-    const {data,loading,error} = useFetch("http://localhost:5000/api/user/LoginHistory")
-    const userAuth = data?.data || [];
-    const isAuthenticated = data?.isAuthenticated || false; 
-    console.log(userAuth);
+  const navigate = useNavigate()
+  const {data,loading,error} = useFetch("http://localhost:4000/api/user/allUser")
+  const userAuth = data?.data || [];
+  console.log(userAuth);
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -89,21 +86,21 @@ function UserAuth() {
                       <TableRow sx={{width: "20px"}}>
                         <TableCell >Username</TableCell>
                         <TableCell >Authentication</TableCell>
-                       
                       </TableRow>
                     </TableHead>
-                    {/* <TableBody>
-                            {loginHistory.map((user) => (
-                              user.loginHistory.map((history, index) => (
-                                <TableRow key={index}>
-                                  <TableCell>{user.userId}</TableCell>
-                                  <TableCell>{user.username}</TableCell>
-                                  <TableCell>{history.timestamp}</TableCell>
-                          
-                                </TableRow>
-                              ))
-                            ))}
-                          </TableBody> */}
+                    <TableBody>
+                      {userAuth.map((row) => (
+                        <TableRow
+                          key={row?._id}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {row?.username}
+                          </TableCell>
+                          <TableCell>{row?.isAuthenticated ? 'Authenticated' : 'Not Authenticated'}</TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
                   </Table>
                 </TableContainer>
                     </MDBox>

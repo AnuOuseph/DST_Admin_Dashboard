@@ -50,7 +50,7 @@ import Paper from '@mui/material/Paper';
 function ActiveUser() {
 
   const navigate = useNavigate();
-  const {data,loading,error} = useFetch("http://localhost:5000/api/user/alluser")
+  const {data,loading,error} = useFetch("http://localhost:4000/api/user/alluser")
   const users = data?.data  || [];
   console.log(users);
   return (
@@ -87,8 +87,6 @@ function ActiveUser() {
           <Grid container spacing={3}>
              <Grid item xs={12} lg={12}>
               <Card sx={{ padding:"20px",boxShadow: "1px" }}>
-                {/* <Invoices /> */}
-
                 <TableContainer component={Paper}>
                   <Table sx={{ width: "100%" }} aria-label="simple table">
                     <TableHead sx={{ display: "table-header-group" }}>
@@ -128,8 +126,6 @@ function ActiveUser() {
                     </TableBody>
                   </Table>
                 </TableContainer>
-
-
               </Card>
             </Grid>
           </Grid>

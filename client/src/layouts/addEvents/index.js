@@ -79,7 +79,7 @@ function AddEvents() {
         const { name, value } = e.target;
         try{
             console.log("hahshagg")
-            const res = await axios.post("http://localhost:5000/api/admin/createEvent",formData)
+            const res = await axios.post("http://localhost:4000/api/admin/createEvent",formData)
             const mess = res?.data?.message;
             console.log("nbsbdhqb",res?.data)
             setMessage(mess)
