@@ -52,6 +52,17 @@ function Events() {
   const navigate = useNavigate()
   const {data,loading,error} = useFetch("http://localhost:5000/api/admin/getAllEvents")
   const events = data?.data?.events || [];
+
+  const handleCreate = (event) => {
+    console.log('Create event');
+  }
+  const handleEdit = (event) => {
+    console.log("Edit event:", event.title);
+  };
+
+  const handleDelete = (event) => {
+    console.log("Delete Event: ", event.title);
+  }
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -60,12 +71,15 @@ function Events() {
           <Grid container spacing={1}>
             <Grid item xs={12} md={12} xl={12}>
             <Card sx={{ boxShadow: "none" }}>
-            <MDBox p={2}>
+            <MDBox p={2} >
                 <MDTypography sx={{ padding: "20px" }} variant="h6" fontWeight="medium" textTransform="capitalize">
                 Events
                 </MDTypography>
                 <Grid item xs={12} lg={12}>
                 <Card sx={{ height: "100%" }}>
+                  <MDButton sx={{width: "20%", margin:"2%"}} variant="contained" color="primary" size="small" onClick={handleCreate}>
+                    Create Event
+                  </MDButton>
                   <TableContainer component={Paper}>
                   <Table sx={{ width: "100%" }} aria-label="simple table">
                     <TableHead sx={{ display: "table-header-group" }}>
@@ -74,7 +88,10 @@ function Events() {
                         <TableCell >Date</TableCell>
                         <TableCell >Location</TableCell>
                         <TableCell >Sport</TableCell>
-                        <TableCell >Description</TableCell>
+                        <TableCell >Team 1</TableCell>
+                        <TableCell >Team 2</TableCell>
+                        <TableCell >Edit</TableCell>
+                        <TableCell >Delete</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -89,7 +106,14 @@ function Events() {
                           <TableCell>{row?.date}</TableCell>
                           <TableCell>{row?.location}</TableCell>
                           <TableCell>{row?.sport}</TableCell>
-                          <TableCell>{row?.description}</TableCell>
+                          <TableCell>{row?.team1}</TableCell>
+                          <TableCell>{row?.team2}</TableCell>
+                          <TableCell>
+                            <MDButton variant="outlined" color="primary" onClick={() => handleEdit(row)}>Edit</MDButton>
+                          </TableCell>
+                          <TableCell>
+                            <MDButton variant="outlined" color="secondary" onClick={() => handleDelete(row)}>Delete</MDButton>
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
