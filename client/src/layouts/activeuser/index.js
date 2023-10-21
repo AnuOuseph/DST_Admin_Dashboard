@@ -51,7 +51,7 @@ function ActiveUser() {
 
   const navigate = useNavigate();
   const {data,loading,error} = useFetch("http://localhost:5000/api/user/alluser")
-  const users = data?.data|| [];
+  const users = data?.data  || [];
   console.log(users);
   return (
     <DashboardLayout>

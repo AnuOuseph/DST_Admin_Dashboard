@@ -52,7 +52,8 @@ function UserHistory() {
 
     const navigate = useNavigate()
     const {data,loading,error} = useFetch("http://localhost:5000/api/user/LoginHistory")
-    const loginHistory = data?.data?.loginHistoryForAllUsers || [];
+    const loginHistory = data?.data?.loginHistoryForAllUsers
+    || [];
     
     console.log(loginHistory);
   return (
