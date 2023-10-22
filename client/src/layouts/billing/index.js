@@ -63,10 +63,10 @@ function User() {
                 </MDButton>
               </MDBox>
               <MDBox height="100%" mt={2} lineHeight={1}>
-                <MDButton variant="outlined" color="error" sx={{margin: "10px"}} onClick={()=>{navigate('/active-user')}}>
+                <MDButton variant="outlined" color="error" sx={{margin: "10px"}} onClick={()=>{navigate('/users/active-user')}}>
                   Active User
                 </MDButton>
-                <MDButton variant="outlined" color="warning" sx={{margin: "10px"}} onClick={()=>{navigate('/create-user')}}>
+                <MDButton variant="outlined" color="warning" sx={{margin: "10px"}} onClick={()=>{navigate('/users/create-user')}}>
                   Create User
                 </MDButton>
               </MDBox>

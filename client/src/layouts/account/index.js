@@ -78,7 +78,7 @@ function CreateUser() {
         try{
             console.log("hahshagg")
             const res = await axios.post("http://localhost:4000/registerUser",formData)
-            console.log("nbsbdhqb",res)
+            console.log("nbsbdhqb",res?.data)
         }catch(err){
             console.log(err)
             setError(err)

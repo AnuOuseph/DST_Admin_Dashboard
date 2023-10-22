@@ -115,7 +115,6 @@ function AddEvents() {
                                 <Box p={2}>
                                     <TextField
                                         name="date"
-                                        label="Date"
                                         type="date"
                                         value={formData.date}
                                         onChange={handleChange}

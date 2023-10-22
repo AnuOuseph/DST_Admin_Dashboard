@@ -45,6 +45,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import UserHistory from "layouts/userHistory";
 
 
 function Events() {
@@ -54,7 +55,7 @@ function Events() {
   const events = data?.data?.events || [];
 
   const handleCreate = (event) => {
-    console.log('Create event');
+    navigate('/events/add-events')
   }
   const handleEdit = (event) => {
     console.log("Edit event:", event.title);
@@ -77,7 +78,7 @@ function Events() {
                 </MDTypography>
                 <Grid item xs={12} lg={12}>
                 <Card sx={{ height: "100%" }}>
-                  <MDButton sx={{width: "20%", margin:"2%"}} variant="contained" color="primary" size="small" onClick={handleCreate}>
+                  <MDButton sx={{width: "20%", margin:"2%",padding: "10px", alignSelf:"end"}} variant="contained" color="primary" size="small" onClick={handleCreate}>
                     Create Event
                   </MDButton>
                   <TableContainer component={Paper}>

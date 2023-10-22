@@ -201,13 +201,13 @@ export default function App() {
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/dashboard" />} />
         <Route path="/authentication/sign-in" element={<SignIn />} />
-        <Route path="/active-user" element={<ActiveUser />} />
-        <Route path="/create-user" element={<CreateUser />} />
+        <Route path="/users/active-user" element={<ActiveUser />} />
+        <Route path="/users/create-user" element={<CreateUser />} />
         <Route path="/user-authentication" element={<UserAuth />} />
         <Route path="/user-history" element={<UserHistory />} />
-        <Route path="/edit-user" element={<EditUser />} />
-        <Route path="/add-events" element={<AddEvents />} />
-        <Route path="/edit-events" element={<EditEvents />} />
+        <Route path="/users/edit-user" element={<EditUser />} />
+        <Route path="/events/add-events" element={<AddEvents />} />
+        <Route path="/events/edit-events" element={<EditEvents />} />
       </Routes>
     </ThemeProvider>
   );
