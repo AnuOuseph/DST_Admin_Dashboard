@@ -205,7 +205,7 @@ export default function App() {
         <Route path="/users/create-user" element={<CreateUser />} />
         <Route path="/user-authentication" element={<UserAuth />} />
         <Route path="/user-history" element={<UserHistory />} />
-        <Route path="/users/edit-user" element={<EditUser />} />
+        <Route path="/users/edit-user/:id" element={<EditUser />} />
         <Route path="/events/add-events" element={<AddEvents />} />
         <Route path="/events/edit-events" element={<EditEvents />} />
       </Routes>

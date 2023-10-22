@@ -53,6 +53,11 @@ function ActiveUser() {
   const {data,loading,error} = useFetch("http://localhost:4000/api/user/alluser")
   const users = data?.data  || [];
   console.log(users);
+
+  const handleEdit = (id) => {
+    navigate(`/users/edit-user/${id}`)
+  }
+  
   return (
     <DashboardLayout>
       <DashboardNavbar absolute isMini />
@@ -116,7 +121,7 @@ function ActiveUser() {
                           <TableCell>{row?.mobile}</TableCell>
                           <TableCell>{row?.balance}</TableCell>
                           <TableCell>
-                            <MDButton variant="outlined" color="primary" onClick={() => handleEdit(row)}>Edit</MDButton>
+                            <MDButton variant="outlined" color="primary" onClick={() => handleEdit(row._id)}>Edit</MDButton>
                           </TableCell>
                           <TableCell>
                             <MDButton variant="outlined" color="secondary" onClick={() => handleDelete(row)}>Delete</MDButton>

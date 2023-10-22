@@ -61,9 +61,6 @@ function Events() {
     console.log("Edit event:", event.title);
   };
 
-  const handleDelete = (event) => {
-    console.log("Delete Event: ", event.title);
-  }
   return (
     <DashboardLayout>
       <DashboardNavbar />
