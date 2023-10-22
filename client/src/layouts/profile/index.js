@@ -78,24 +78,47 @@ function Overview() {
             <Grid item xs={12} md={12} xl={12}>
               <Card sx={{ boxShadow: "none" }}>
               <MDBox>
-                <Grid xs={12} lg={12} sx={{ display: "flex", justifyContent: "space-between", paddingX: "20px" }}>
+                <Grid 
+                  xs={12} 
+                  lg={12} 
+                  sx={{ display: "flex", justifyContent: "space-between", paddingX: "20px" }}
+                >
                     <MDBox height="100%" mt={2} lineHeight={1}>
-                      <MDButton variant={sports?"gradient":"outlined"} color="dark" sx={{marginX: "10px"}} onClick={() => {setSports(true),setCasino(false)}} >
+                      <MDButton 
+                        variant={sports?"gradient":"outlined"} 
+                        color="dark" 
+                        sx={{marginX: "10px"}} 
+                        onClick={() => {setSports(true),setCasino(false)}} 
+                      >
                         Sports
                       </MDButton>
                     </MDBox>
                     <MDBox height="100%" mt={2} lineHeight={1}>
-                      <MDButton variant="outlined" color="error" sx={{marginX: "10px"}} onClick={()=>{navigate('/user-history')}}>
+                      <MDButton 
+                        variant="outlined" 
+                        color="error" 
+                        sx={{marginX: "10px"}} 
+                        onClick={()=>{navigate('/user-history')}}
+                      >
                         User History
                       </MDButton>
-                      <MDButton variant="outlined" color="warning" onClick={()=>{navigate('/user-authentication')}}>
+                      <MDButton 
+                        variant="outlined" 
+                        color="warning" 
+                        onClick={()=>{navigate('/user-authentication')}}
+                      >
                         User Authentication
                       </MDButton>
                     </MDBox>
                 </Grid>
               </MDBox>
               <MDBox p={2}>
-                <MDTypography sx={{ padding: "20px" }} variant="h6" fontWeight="medium" textTransform="capitalize">
+                <MDTypography 
+                  sx={{ padding: "20px" }} 
+                  variant="h6" 
+                  fontWeight="medium" 
+                  textTransform="capitalize"
+                >
                 </MDTypography>
                 <Grid item xs={12} lg={12}>
                   <Card sx={{ height: "100%" }}>

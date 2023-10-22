@@ -49,11 +49,8 @@ import UserHistory from "layouts/userHistory";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-
 function Events() {
-
   const navigate = useNavigate()
-
   const handleCreate = (event) => {
     navigate('/events/add-events')
   }
@@ -64,7 +61,6 @@ function Events() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch events from the API
     axios.get('http://localhost:4000/api/admin/getAllEvents')
       .then((response) => {
         console.log("hbs",response?.data?.data?.events)
@@ -81,7 +77,6 @@ function Events() {
     const isConfirmed = window.confirm("Are you sure you want to delete this event?");
     const eventId = event._id
     if (isConfirmed) {
-      // Make the delete request
       axios.delete(`http://localhost:4000/api/admin/deleteEvent/${event._id}`)
         .then((response) => {
           console.log(response)
@@ -105,12 +100,22 @@ function Events() {
             <Grid item xs={12} md={12} xl={12}>
               <Card sx={{ boxShadow: "none" }}>
                 <MDBox p={2} >
-                  <MDTypography sx={{ padding: "20px" }} variant="h6" fontWeight="medium" textTransform="capitalize">
+                  <MDTypography 
+                    sx={{ padding: "20px" }} 
+                    variant="h6" 
+                    fontWeight="medium" 
+                    textTransform="capitalize"
+                  >
                   Events
                   </MDTypography>
                   <Grid item xs={12} lg={12}>
                   <Card sx={{ height: "100%" }}>
-                    <MDButton variant="gradient" color="error" sx={{margin: "10px", width: "20%", padding: "10px", alignSelf:"end"}} onClick={handleCreate}>
+                    <MDButton 
+                      variant="gradient" 
+                      color="error" 
+                      sx={{margin: "10px", width: "20%", padding: "10px", alignSelf:"end"}} 
+                      onClick={handleCreate}
+                    >
                       Create Event
                     </MDButton>
                     <TableContainer component={Paper}>
@@ -142,10 +147,22 @@ function Events() {
                             <TableCell>{row?.team1}</TableCell>
                             <TableCell>{row?.team2}</TableCell>
                             <TableCell>
-                              <MDButton variant="outlined" color="warning" onClick={() => handleEdit(row)}>Edit</MDButton>
+                              <MDButton 
+                                variant="outlined" 
+                                color="warning" 
+                                onClick={() => handleEdit(row)}
+                              >
+                                Edit
+                              </MDButton>
                             </TableCell>
                             <TableCell>
-                              <MDButton variant="outlined" color="dark" onClick={() => handleDelete(row)}>Delete</MDButton>
+                              <MDButton 
+                                variant="outlined" 
+                                color="dark" 
+                                onClick={() => handleDelete(row)}
+                              >
+                                Delete
+                              </MDButton>
                             </TableCell>
                           </TableRow>
                         ))}

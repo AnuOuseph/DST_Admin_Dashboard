@@ -64,20 +64,17 @@ function EditEvents() {
     const { id } = useParams();
     console.log(id)
     const [event, setEvent] = useState(null);
-    // const {data,loading,error} = useFetch(`http://localhost:4000/api/admin/getEventById/${id}`)
-    // const event = data?.data?.event;
-    // console.log(event)
     useEffect(() => {
         const fetchData = async () => {
           try {
             const res = await axios.get(`http://localhost:4000/api/admin/getEventById/${id}`);
             const eventData = res?.data?.event;
-            console.log("Event Data:", eventData); // Debugging line
+            console.log("Event Data:", eventData); 
             setEvent(eventData);
             const inputDate = eventData?.date;
             const dateObject = new Date(inputDate);
             const year = dateObject.getFullYear();
-            const month = String(dateObject.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+            const month = String(dateObject.getMonth() + 1).padStart(2, '0');
             const day = String(dateObject.getDate()).padStart(2, '0');
             const formattedDate = `${year}-${month}-${day}`;
             console.log(formattedDate);
@@ -141,7 +138,12 @@ function EditEvents() {
                 <Grid item xs={12} md={6}>
                     <Card sx={{ boxShadow: "none" }}>
                         <MDBox p={2}>
-                            <MDTypography sx={{ margin: '20px' }} variant="h6" fontWeight="medium" textTransform="capitalize">
+                            <MDTypography 
+                                sx={{ margin: '20px' }} 
+                                variant="h6" 
+                                fontWeight="medium" 
+                                textTransform="capitalize"
+                            >
                                 Edit Event
                             </MDTypography>
                             <form>
@@ -226,7 +228,12 @@ function EditEvents() {
                                     fullWidth
                                 />
                             </Box>
-                            <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit} >
+                            <MDButton 
+                                sx={{ margin: '20px' }} 
+                                variant="gradient" 
+                                color="dark" 
+                                onClick={handleSubmit} 
+                            >
                                 Update
                             </MDButton>
                             <p style={{ fontSize: "12px", paddingX: "20px" }}>{message?message:null}</p>

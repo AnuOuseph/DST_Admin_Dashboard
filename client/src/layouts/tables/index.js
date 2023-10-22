@@ -39,7 +39,6 @@ import projectsTableData from "layouts/tables/data/projectsTableData";
 import MDButton from "components/MDButton";
 import axios from "axios";
 
-
 function Tables() {
   const { columns, rows } = authorsTableData();
   const { columns: pColumns, rows: pRows } = projectsTableData();
@@ -48,18 +47,24 @@ function Tables() {
   const [success, setSuccess] = useState(null);
 
   const [formData, setFormData] = useState({
-    adminID:'',
-    fullname:'',
-    password:'',
-    privileges:'',
-  })
+    adminID: "",
+    fullname: "",
+    password: "",
+    privileges: [],
+  });
+
+  const [validationErrors, setValidationErrors] = useState({
+    adminID: "",
+    fullname: "",
+    password: "",
+  });
 
   const handleAdmin = (e) => {
     const { name, value, type, checked } = e.target;
-  
-    if (type === 'checkbox') {
+
+    if (type === "checkbox") {
       const updatedPrivileges = [...formData.privileges];
-  
+
       if (checked) {
         updatedPrivileges.push(value);
       } else {
@@ -78,20 +83,58 @@ function Tables() {
         [name]: value,
       });
     }
+
+    setValidationErrors({
+      ...validationErrors,
+      [name]: "",
+    });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post(`http://localhost:4000/api/admin/createAdmin`, formData);
-      if(res.status === 201) {
-        setSuccess("Admin created successfully")
+
+    const { adminID, fullname, password } = formData;
+    const nameRegex = /^[a-zA-Z]+$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+
+    const newValidationErrors = {};
+
+    if (!adminID) {
+      newValidationErrors.adminID = "Admin ID is required.";
+    }
+    if (!fullname) {
+      newValidationErrors.fullname = "Full name is required.";
+    } else if (!nameRegex.test(fullname)) {
+      newValidationErrors.fullname = "Full name should contain only letters.";
+    }
+    if (!password) {
+      newValidationErrors.password = "Password is required.";
+    } else if (!passwordRegex.test(password)) {
+      newValidationErrors.password =
+        "Password must be at least 6 characters long and contain letters and numbers.";
+    }
+
+    if (Object.keys(newValidationErrors).length === 0) {
+      try {
+        const res = await axios.post(
+          `http://localhost:4000/api/admin/createAdmin`,
+          formData
+        );
+        if (res.status === 201) {
+          setSuccess("Admin created successfully");
+          setError(null); 
+        }
+      } catch (err) {
+        console.log(err);
+        setError(err);
       }
-    } catch (err) {
-      console.log(err);
-      setError(err);
+    } else {
+      setValidationErrors(newValidationErrors);
     }
   };
+
+  const isSubmitDisabled =
+    !formData.adminID || !formData.fullname || !formData.password;
 
   return (
     <DashboardLayout>
@@ -108,7 +151,7 @@ function Tables() {
                   <Grid lg={4}>
                     <TextField
                       sx={{
-                        padding: "10px", 
+                        padding: "10px",
                       }}
                       name="adminID"
                       label="Admin Id"
@@ -116,11 +159,14 @@ function Tables() {
                       value={formData.adminID}
                       onChange={handleAdmin}
                     />
+                    <div className="error-message"  style={{ color: 'red', fontSize: '12px' }}>
+                      {validationErrors.adminID}
+                    </div>
                   </Grid>
                   <Grid lg={4}>
                     <TextField
                       sx={{
-                        padding: "10px", 
+                        padding: "10px",
                       }}
                       name="fullname"
                       label="Full Name"
@@ -128,11 +174,14 @@ function Tables() {
                       value={formData.fullname}
                       onChange={handleAdmin}
                     />
+                    <div className="error-message" style={{ color: 'red', fontSize: '12px' }}>
+                      {validationErrors.fullname}
+                    </div>
                   </Grid>
                   <Grid lg={4}>
                     <TextField
                       sx={{
-                        padding: "10px", 
+                        padding: "10px",
                       }}
                       name="password"
                       label="Password"
@@ -140,11 +189,14 @@ function Tables() {
                       value={formData.password}
                       onChange={handleAdmin}
                     />
+                    <div className="error-message" style={{ color: 'red', fontSize: '12px' }}>
+                      {validationErrors.password}
+                    </div>
                   </Grid>
                   <Grid lg={4}>
                     <TextField
                       sx={{
-                        padding: "10px", 
+                        padding: "10px",
                       }}
                       name="confirm password"
                       label="Confirm Password"
@@ -152,11 +204,12 @@ function Tables() {
                   </Grid>
                 </Grid>
                 <Typography variant="h4" py={4}>
-                  Previleges
+                  Privileges
                 </Typography>
+                
                 <Box sx={{display: "flex", flexWrap: "wrap", padding: "10px",}}>
-                  <Box px={2}>
-                    <FormControlLabel
+                 <Box px={2}>
+                   <FormControlLabel
                       control={<Checkbox checked={formData.privileges.includes('All')} onChange={handleAdmin} name="privileges" value="All" />}
                       label="All"
                     />
@@ -282,17 +335,34 @@ function Tables() {
                     />
                   </Box>
                 </Box>
-                <Box sx={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                    }}>
-                    <MDButton variant="gradient" color="error" sx={{marginY: 1}} onClick={handleSubmit}>
-                      Submit
-                    </MDButton>
-                    {success && (
-                      <Typography variant="success-message" sx={{ fontSize: "12px", paddingX: "10px", textAlign: "center", }}>{success}</Typography>
-                    )}
-                  </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <MDButton
+                    variant="gradient"
+                    color="error"
+                    sx={{ marginY: 1 }}
+                    onClick={handleSubmit}
+                    disabled={isSubmitDisabled} 
+                  >
+                  Submit
+                  </MDButton>
+                  {success && (
+                    <Typography
+                      variant="success-message"
+                      sx={{
+                        fontSize: "12px",
+                        paddingX: "10px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {success}
+                    </Typography>
+                  )}
+                </Box>
               </MDBox>
             </Card>
           </Grid>
@@ -303,3 +373,5 @@ function Tables() {
 }
 
 export default Tables;
+
+

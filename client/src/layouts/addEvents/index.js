@@ -72,22 +72,53 @@ function AddEvents() {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+        setError(null)
     };
-    console.log(formData)
+    console.log(formData);
+
+    const isFormValid = () => {
+        const requiredFields = [
+          "title",
+          "date",
+          "sport",
+          "location",
+          "description",
+          "outcome",
+          "team1",
+          "team2",
+        ];
+    
+        return requiredFields.every((field) => formData[field].trim() !== "");
+      };
+
     const handleSubmit = async(e) => {
         e.preventDefault();
-        const { name, value } = e.target;
-        try{
-            console.log("hahshagg")
-            const res = await axios.post("http://localhost:4000/api/admin/createEvent",formData)
-            const mess = res?.data?.message;
-            console.log("nbsbdhqb",res?.data)
-            setMessage(mess)
-            setFormData({ ...formData, [name]: '' })
-        }catch(err){
-            console.log(err)
-            setError(err)
-        }
+        
+        if (!isFormValid()) {
+            setError("All fields are required");
+          } else {
+              try{
+                  console.log("hahshagg")
+                  const res = await axios.post("http://localhost:4000/api/admin/createEvent",formData)
+                  const mess = res?.data?.message;
+                  console.log("nbsbdhqb",res?.data)
+                  setMessage(mess)
+                  setFormData({ 
+                    title: "",
+                    date: "",
+                    sport: "",
+                    location: "",
+                    description: "",
+                    outcome: "",
+                    team1: "",
+                    team2: "",
+
+                  })
+              }catch(err){
+                  console.log(err)
+                  setError(err)
+              }
+          }
     };
   return (
     <DashboardLayout>
@@ -98,7 +129,12 @@ function AddEvents() {
                 <Grid item xs={12} md={6}>
                     <Card sx={{ boxShadow: "none" }}>
                         <MDBox p={2}>
-                            <MDTypography sx={{ margin: '20px' }} variant="h6" fontWeight="medium" textTransform="capitalize">
+                            <MDTypography 
+                                sx={{ margin: '20px' }} 
+                                variant="h6" 
+                                fontWeight="medium" 
+                                textTransform="capitalize"
+                            >
                                 Create Event
                             </MDTypography>
                             <form>
@@ -190,7 +226,12 @@ function AddEvents() {
                                     fullWidth
                                 />
                             </Box>
-                            <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit}>
+                            <MDButton 
+                                sx={{ margin: '20px' }} 
+                                variant="gradient" 
+                                color="dark" 
+                                onClick={handleSubmit}
+                            >
                                 Create
                             </MDButton>
                             <p style={{ fontSize: "12px", paddingX: "20px" }}>{message?message:null}</p>

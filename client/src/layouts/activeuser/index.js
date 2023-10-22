@@ -89,10 +89,20 @@ function ActiveUser() {
         <Card sx={{ boxShadow: "none" }}>
           <Grid xs={12} lg={12} sx={{ display: "flex", justifyContent: "end", paddingX: "20px" }}>
               <MDBox height="100%" mt={2} lineHeight={1}>
-                <MDButton variant="gradient" color="error" sx={{margin: "10px"}} onClick={()=>{navigate('/users/active-user')}}>
+                <MDButton 
+                  variant="gradient" 
+                  color="error" 
+                  sx={{margin: "10px"}} 
+                  onClick={()=>{navigate('/users/active-user')}}
+                >
                   Active User
                 </MDButton>
-                <MDButton variant="outlined" color="warning" sx={{margin: "10px"}} onClick={()=>{navigate('/users/create-user')}}>
+                <MDButton 
+                  variant="outlined" 
+                  color="warning" 
+                  sx={{margin: "10px"}} 
+                  onClick={()=>{navigate('/users/create-user')}}
+                >
                   Create User
                 </MDButton>
               </MDBox>
@@ -131,10 +141,22 @@ function ActiveUser() {
                           <TableCell>{row?.mobile}</TableCell>
                           <TableCell>{row?.balance}</TableCell>
                           <TableCell>
-                            <MDButton variant="outlined" color="primary" onClick={() => handleEdit(row._id)}>Edit</MDButton>
+                            <MDButton 
+                            variant="outlined" 
+                            color="primary" 
+                            onClick={() => handleEdit(row._id)}
+                            >
+                              Edit
+                            </MDButton>
                           </TableCell>
                           <TableCell>
-                            <MDButton variant="outlined" color="secondary" onClick={() => handleDelete(row)}>Delete</MDButton>
+                            <MDButton 
+                            variant="outlined" 
+                            color="secondary" 
+                            onClick={() => handleDelete(row)}
+                            >
+                              Delete
+                            </MDButton>
                           </TableCell>
                         </TableRow>
                       ))}

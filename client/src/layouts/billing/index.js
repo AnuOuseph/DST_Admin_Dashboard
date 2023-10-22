@@ -59,7 +59,6 @@ function User() {
   const handleEdit = (id) => {
     navigate(`/users/active-user/edit-user/${id}`)
   }
-  
 
   const handleDelete = (id) => {
     const isConfirmed = window.confirm("Are you sure you want to delete this user?");
@@ -84,13 +83,26 @@ function User() {
       <MDBox mt={8}>
         <MDBox mb={3}>
         <Card sx={{ boxShadow: "none" }}>
-          <Grid xs={12} lg={12} sx={{ display: "flex", justifyContent: "end", paddingX: "20px" }}>
-            
+          <Grid 
+            xs={12} 
+            lg={12} 
+            sx={{ display: "flex", justifyContent: "end", paddingX: "20px" }}
+          >
               <MDBox height="100%" mt={2} lineHeight={1}>
-                <MDButton variant="outlined" color="error" sx={{margin: "10px"}} onClick={()=>{navigate('/users/active-user')}}>
+                <MDButton 
+                  variant="outlined" 
+                  color="error" 
+                  sx={{margin: "10px"}} 
+                  onClick={()=>{navigate('/users/active-user')}}
+                >
                   Active User
                 </MDButton>
-                <MDButton variant="outlined" color="warning" sx={{margin: "10px"}} onClick={()=>{navigate('/users/create-user')}}>
+                <MDButton 
+                  variant="outlined" 
+                  color="warning" 
+                  sx={{margin: "10px"}} 
+                  onClick={()=>{navigate('/users/create-user')}}
+                >
                   Create User
                 </MDButton>
               </MDBox>
@@ -98,8 +110,6 @@ function User() {
           <Grid container spacing={3}>
              <Grid item xs={12} lg={12}>
               <Card sx={{ padding:"20px",boxShadow: "1px" }}>
-                
-                {/* <Invoices /> */}
                 <TableContainer component={Paper}>
                   <Table sx={{ width: "100%" }} aria-label="simple table">
                     <TableHead sx={{ display: "table-header-group" }}>
@@ -133,10 +143,22 @@ function User() {
                           <TableCell>{row?.balance}</TableCell>
                           <TableCell style={getStatusCellStyle(row?.accountStatus)}>{row?.accountStatus}</TableCell>
                           <TableCell>
-                            <MDButton variant="outlined" color="primary" onClick={() => handleEdit(row._id)}>Edit</MDButton>
+                            <MDButton 
+                              variant="outlined" 
+                              color="primary" 
+                              onClick={() => handleEdit(row._id)}
+                            >
+                              Edit
+                            </MDButton>
                           </TableCell>
                           <TableCell>
-                            <MDButton variant="outlined" color="secondary" onClick={() => handleDelete(row)}>Delete</MDButton>
+                            <MDButton 
+                              variant="outlined" 
+                              color="secondary" 
+                              onClick={() => handleDelete(row)}
+                            >
+                              Delete
+                            </MDButton>
                           </TableCell>
                         </TableRow>
                       ))}
@@ -172,6 +194,5 @@ function getStatusCellStyle(accountStatus) {
   }
   return style;
 }
-
 
 export default User;

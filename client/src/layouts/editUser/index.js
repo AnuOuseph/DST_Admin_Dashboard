@@ -41,7 +41,7 @@ function EditUser() {
             try {
                 const res = await axios.get(`http://localhost:4000/api/user/getSingleUserById/${id}`);
                 const userData = res?.data?.user;
-                console.log("Event Data:", userData); // Debugging line
+                console.log("Event Data:", userData); 
                 setUser(userData);
                 setFormData({
                     username: userData?.username || "",
@@ -107,7 +107,12 @@ function EditUser() {
                     <Grid item xs={12} md={6}>
                         <Card sx={{ boxShadow: "none" }}>
                             <MDBox p={2}>
-                                <MDTypography sx={{ margin: '20px' }} variant="h6" fontWeight="medium" textTransform="capitalize">
+                                <MDTypography 
+                                    sx={{ margin: '20px' }} 
+                                    variant="h6" 
+                                    fontWeight="medium" 
+                                    textTransform="capitalize"
+                                >
                                     General Information
                                 </MDTypography>
                                 <form>
@@ -141,7 +146,6 @@ function EditUser() {
                                             fullWidth
                                         />
                                     </Box>
-
                                 </form>
                             </MDBox>
                             <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
@@ -199,11 +203,14 @@ function EditUser() {
                                         </Select>
                                     </FormControl>
                                 </Box>
-                                <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit} >
+                                <MDButton 
+                                    sx={{ margin: '20px' }} 
+                                    variant="gradient" 
+                                    color="dark" 
+                                    onClick={handleSubmit} 
+                                >
                                     Update
                                 </MDButton>
-                                {/* <p style={{ fontSize: "12px", paddingX: "20px" }}>{message?message:null}</p>
-                            <p style={{ fontSize: "12px", paddingX: "20px", color: "red" }}>{err?err:null}</p> */}
                             </MDBox>
                             <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
                             </MDBox>
