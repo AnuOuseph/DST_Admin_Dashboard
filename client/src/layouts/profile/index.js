@@ -77,74 +77,74 @@ function Overview() {
           <Grid container spacing={1}>
             <Grid item xs={12} md={12} xl={12}>
               <Card sx={{ boxShadow: "none" }}>
-        <MDBox>
-          <Grid xs={12} lg={12} sx={{ display: "flex", justifyContent: "space-between", paddingX: "20px" }}>
-              <MDBox height="100%" mt={2} lineHeight={1}>
-                <MDButton variant={sports?"gradient":"outlined"} color="dark" sx={{marginX: "10px"}} onClick={() => {setSports(true),setCasino(false)}} >
-                  Sports
-                </MDButton>
+              <MDBox>
+                <Grid xs={12} lg={12} sx={{ display: "flex", justifyContent: "space-between", paddingX: "20px" }}>
+                    <MDBox height="100%" mt={2} lineHeight={1}>
+                      <MDButton variant={sports?"gradient":"outlined"} color="dark" sx={{marginX: "10px"}} onClick={() => {setSports(true),setCasino(false)}} >
+                        Sports
+                      </MDButton>
+                    </MDBox>
+                    <MDBox height="100%" mt={2} lineHeight={1}>
+                      <MDButton variant="outlined" color="error" sx={{marginX: "10px"}} onClick={()=>{navigate('/user-history')}}>
+                        User History
+                      </MDButton>
+                      <MDButton variant="outlined" color="warning" onClick={()=>{navigate('/user-authentication')}}>
+                        User Authentication
+                      </MDButton>
+                    </MDBox>
+                </Grid>
               </MDBox>
-              <MDBox height="100%" mt={2} lineHeight={1}>
-                <MDButton variant="outlined" color="error" sx={{marginX: "10px"}} onClick={()=>{navigate('/user-history')}}>
-                  User History
-                </MDButton>
-                <MDButton variant="outlined" color="warning" onClick={()=>{navigate('/user-authentication')}}>
-                  User Authentication
-                </MDButton>
+              <MDBox p={2}>
+                <MDTypography sx={{ padding: "20px" }} variant="h6" fontWeight="medium" textTransform="capitalize">
+                </MDTypography>
+                <Grid item xs={12} lg={12}>
+                  <Card sx={{ height: "100%" }}>
+                    <MDBox pt={3}>
+                      <TableContainer component={Paper}>
+                      <Table sx={{ width: "100%" }} aria-label="simple table">
+                        <TableHead sx={{ display: "table-header-group" }}>
+                          <TableRow sx={{width: "20px"}}>
+                          <TableCell >User</TableCell>
+                            <TableCell >Event</TableCell>
+                            <TableCell >Event Type</TableCell>
+                            <TableCell >Nation</TableCell>
+                            <TableCell >Amount</TableCell>
+                            <TableCell >Odds</TableCell>
+                            <TableCell >Time Remaining</TableCell>
+                            <TableCell >Created At</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {currentBets.map((row) => (
+                            <TableRow
+                              key={row?.user}
+                              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                              <TableCell component="th" scope="row">
+                                {row?.user && row.user.username}
+                              </TableCell>
+                              <TableCell>{row?.event?.title}</TableCell>
+                              <TableCell>{row?.eventType}</TableCell>
+                              <TableCell>{row?.nation}</TableCell>
+                              <TableCell>{row?.amount}</TableCell>
+                              <TableCell>{row?.odds}</TableCell>
+                              <TableCell>{row?.timeRemaining}</TableCell>
+                              <TableCell>{row?.createdAt}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                      </TableContainer>
+                    </MDBox>
+                  </Card>
+                </Grid>
               </MDBox>
+              </Card>
+            </Grid>
           </Grid>
         </MDBox>
-        <MDBox p={2}>
-          <MDTypography sx={{ padding: "20px" }} variant="h6" fontWeight="medium" textTransform="capitalize">
-          </MDTypography>
-          <Grid item xs={12} lg={12}>
-            <Card sx={{ height: "100%" }}>
-              <MDBox pt={3}>
-                <TableContainer component={Paper}>
-                <Table sx={{ width: "100%" }} aria-label="simple table">
-                  <TableHead sx={{ display: "table-header-group" }}>
-                    <TableRow sx={{width: "20px"}}>
-                    <TableCell >User</TableCell>
-                      <TableCell >Event</TableCell>
-                      <TableCell >Event Type</TableCell>
-                      <TableCell >Nation</TableCell>
-                      <TableCell >Amount</TableCell>
-                      <TableCell >Odds</TableCell>
-                      <TableCell >Time Remaining</TableCell>
-                      <TableCell >Created At</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {currentBets.map((row) => (
-                      <TableRow
-                        key={row?.user}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {row?.user && row.user.username}
-                        </TableCell>
-                        <TableCell>{row?.event?.title}</TableCell>
-                        <TableCell>{row?.eventType}</TableCell>
-                        <TableCell>{row?.nation}</TableCell>
-                        <TableCell>{row?.amount}</TableCell>
-                        <TableCell>{row?.odds}</TableCell>
-                        <TableCell>{row?.timeRemaining}</TableCell>
-                        <TableCell>{row?.createdAt}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-                </TableContainer>
-              </MDBox>
-            </Card>
-          </Grid>
-        </MDBox>
-        </Card>
-        </Grid>
-        </Grid>
-        </MDBox>
-    </DashboardLayout>
-  );
+      </DashboardLayout>
+    );
 }
 
 export default Overview;

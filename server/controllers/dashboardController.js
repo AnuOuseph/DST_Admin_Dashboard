@@ -477,4 +477,4 @@ module.exports = {
     totalRevenueByMonth,
     totalRevenueByYear,
     profitLoss
-}
+};
