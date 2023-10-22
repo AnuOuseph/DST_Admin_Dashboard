@@ -19,17 +19,16 @@ import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
+import { Card } from "@mui/material";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
 import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // Data
-import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import { reportsLineChartData } from "layouts/dashboard/data/reportsLineChartData";
 
 // Dashboard components
@@ -37,11 +36,22 @@ import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { CircularProgress, Paper, Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import PieChart from "examples/Charts/PieChart";
+import HorizontalBarChart from "examples/Charts/BarCharts/HorizontalBarChart";
+
+//mui
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 function Dashboard() {
   const [users, setUsers] = useState({});
+  const [activeUsers, setActiveUsers] = useState([]);
   const [revenue, setRevenue] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentBetsCount, setCurrentBetsCount] = useState(null);
@@ -63,10 +73,13 @@ function Dashboard() {
   const [revenueByDay, setRevenueByDay] = useState([]);
   const [revenueByMonth, setRevenueByMonth] = useState([]);
   const [revenueByYear, setRevenueByYear] = useState([]);
+  //P/L
+  const [profitandLossBySport, setProfitandLossBySport] = useState([]);
   //Chart data
   const [dailyRevenue, setDailyRevenue] = useState(null);
   const [monthlyRevenue, setMonthlyRevenue] = useState(null);
   const [yearlyRevenue, setYearlyRevenue] = useState(null);
+  const [profitLoss, setProfitLoss] = useState(null);
   //piechart
   const userPie = {
     labels: ["Total Users", "Active Users", "Suspended Users", "Banned Users"],
@@ -97,6 +110,8 @@ function Dashboard() {
       axios.get("http://localhost:4000/api/admin/totalRevenueByDay"),
       axios.get("http://localhost:4000/api/admin/totalRevenueByMonth"),
       axios.get("http://localhost:4000/api/admin/totalRevenueByYear"),
+      axios.get("http://localhost:4000/api/admin/profitLossBySport"),
+      axios.get("http://localhost:4000/api/user/alluser"),
     ];
     Promise.all(apiPromises).then((responses) => {
       const [
@@ -115,6 +130,8 @@ function Dashboard() {
         revenueDailyData,
         revenueMonthlyData,
         revenueYearlyData,
+        profitLossData,
+        activeUsersData,
       ] = responses;
       setUsers(userData?.data);
       setCurrentBetsCount(currentBet.data?.currentBets?.length);
@@ -131,6 +148,8 @@ function Dashboard() {
       setRevenueByDay(revenueDailyData.data?.dailyRevenue);
       setRevenueByMonth(revenueMonthlyData.data?.monthlyRevenue);
       setRevenueByYear(revenueYearlyData.data?.yearlyRevenue);
+      setProfitandLossBySport(profitLossData.data?.sportRevenue);
+      setActiveUsers(activeUsersData.data);
       setIsLoading(false);
     });
   }, []);
@@ -142,13 +161,15 @@ function Dashboard() {
       dailyRevenue,
       monthlyRevenue,
       yearlyRevenue,
+      profitLossBySport,
     } = reportsLineChartData(
       investmentByDay,
       investmentByMonth,
       investmentByYear,
       revenueByDay,
       revenueByMonth,
-      revenueByYear
+      revenueByYear,
+      profitandLossBySport
     );
     setMonthlyInvestment(monthlyInvestment);
     setDailyInvestment(dailyInvestment);
@@ -156,6 +177,7 @@ function Dashboard() {
     setDailyRevenue(dailyRevenue);
     setMonthlyRevenue(monthlyRevenue);
     setYearlyRevenue(yearlyRevenue);
+    setProfitLoss(profitLossBySport);
   }, [
     investmentByDay,
     investmentByMonth,
@@ -257,17 +279,6 @@ function Dashboard() {
         </Typography>
         <MDBox mt={4.5}>
           <Grid container spacing={3}>
-            {/* <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsBarChart
-                  color="dark"
-                  title="website views"
-                  description="Last Campaign Performance"
-                  date="campaign sent 2 days ago"
-                  chart={reportsBarChartData}
-                />
-              </MDBox>
-            </Grid> */}
             {!isLoading ? (
               <>
                 <Grid item xs={12} md={12} lg={6}>
@@ -324,17 +335,6 @@ function Dashboard() {
         </Typography>
         <MDBox mt={4.5}>
           <Grid container spacing={3}>
-            {/* <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsBarChart
-                  color="dark"
-                  title="website views"
-                  description="Last Campaign Performance"
-                  date="campaign sent 2 days ago"
-                  chart={reportsBarChartData}
-                />
-              </MDBox>
-            </Grid> */}
             {!isLoading ? (
               <>
                 <Grid item xs={12} md={12} lg={6}>
@@ -375,13 +375,72 @@ function Dashboard() {
             )}
           </Grid>
         </MDBox>
-        <MDBox>
+        <Typography ml={2} variant="h3">
+          Profit/Loss
+        </Typography>
+        <MDBox mt={4.5}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={8}>
-              <Projects />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <OrdersOverview />
+            {!isLoading ? (
+              <>
+                <Grid item xs={12} md={12} lg={12}>
+                  <MDBox mb={3} mt={0}>
+                    <HorizontalBarChart
+                      color="info"
+                      title="Sports P/L"
+                      description="P/L of each sports"
+                      chart={profitLoss}
+                    />
+                  </MDBox>
+                </Grid>
+              </>
+            ) : (
+              <Grid item xs={12}>
+                <CircularProgress />
+              </Grid>
+            )}
+          </Grid>
+        </MDBox>
+        <Typography ml={2} variant="h3">
+          Active Users
+        </Typography>
+        <MDBox mt={4}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={12} lg={12}>
+              <Card sx={{ padding: "20px", boxShadow: "1px" }}>
+                <TableContainer component={Paper}>
+                  <Table sx={{ width: "100%" }} aria-label="simple table">
+                    <TableHead sx={{ display: "table-header-group" }}>
+                      <TableRow sx={{ width: "20px" }}>
+                        <TableCell>Sl.No</TableCell>
+                        <TableCell>Email</TableCell>
+                        <TableCell>Username</TableCell>
+                        <TableCell>Full name</TableCell>
+                        <TableCell>Nation</TableCell>
+                        <TableCell>Mobile</TableCell>
+                        <TableCell>Balance</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {activeUsers.map((row, index) => (
+                        <TableRow
+                          key={row?.email}
+                          sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                        >
+                          <TableCell>{index + 1}</TableCell>
+                          <TableCell component="th" scope="row">
+                            {row?.email}
+                          </TableCell>
+                          <TableCell>{row?.username}</TableCell>
+                          <TableCell>{row?.fullname}</TableCell>
+                          <TableCell>{row?.nation.toUpperCase()}</TableCell>
+                          <TableCell>{row?.mobile}</TableCell>
+                          <TableCell>Rs {row?.balance}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Card>
             </Grid>
           </Grid>
         </MDBox>

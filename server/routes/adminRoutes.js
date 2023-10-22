@@ -17,7 +17,8 @@ const { totalUsers,
     totalRevenueThisYear, 
     totalRevenueByDay,
     totalRevenueByMonth,
-    totalRevenueByYear} = require("../controllers/dashboardController");
+    totalRevenueByYear,
+    profitLoss} = require("../controllers/dashboardController");
 
 const router = express.Router();
 
@@ -55,6 +56,7 @@ router.get('/totalRevenueThisYear', totalRevenueThisYear)
 router.get('/totalRevenueByDay', totalRevenueByDay)
 router.get('/totalRevenueByMonth', totalRevenueByMonth)
 router.get('/totalRevenueByYear', totalRevenueByYear)
+router.get('/profitLossBySport', profitLoss)
 
 
 module.exports = router;
