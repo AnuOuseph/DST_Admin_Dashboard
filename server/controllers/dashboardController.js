@@ -460,8 +460,6 @@ const profitLoss = async (req,res) => {
 }
 
 
-
-
 module.exports = {
     totalUsers,
     totalInvestedInBet,

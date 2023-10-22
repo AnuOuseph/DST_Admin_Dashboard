@@ -92,4 +92,11 @@ const updateEventOutcome = async (req, res) => {
 };
 
 
-module.exports = { createEvent, getAllEvents, getEventById, updateEvent, deleteEvent, updateEventOutcome };
+module.exports = { 
+    createEvent, 
+    getAllEvents, 
+    getEventById, 
+    updateEvent, 
+    deleteEvent, 
+    updateEventOutcome 
+};

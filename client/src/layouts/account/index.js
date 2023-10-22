@@ -59,6 +59,7 @@ import axios from "axios";
 
 function CreateUser() {
     const [error,setError] = useState(null)
+    const [success, setSuccess] = useState(null);
     const [formData, setFormData] = useState({
         username: '',
         fullname: '',
@@ -77,7 +78,10 @@ function CreateUser() {
         e.preventDefault();
         try{
             console.log("hahshagg")
-            const res = await axios.post("http://localhost:4000/api/user/registerUser",formData)
+            const res = await axios.post("http://localhost:4000/api/user/registerUser",formData);
+            if(res.status === 201) {
+                setSuccess("User created successfully")
+              }
             console.log("nbsbdhqb",res?.data)
         }catch(err){
             console.log(err)
@@ -197,6 +201,9 @@ function CreateUser() {
                             <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit} >
                                 Create
                             </MDButton>
+                            {success && (
+                      <MDTypography variant="success-message" sx={{ fontSize: "12px", paddingX: "10px", textAlign: "center", }}>{success}</MDTypography>
+                    )}
                         </MDBox>
                         <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
                         </MDBox>

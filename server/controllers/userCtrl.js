@@ -104,52 +104,6 @@ const Login = async (req, res) => {
     }
   };
 
-
-
-//   const deleteEvent= async (req, res) => {
-//     const eventId = req.params.id;
-//     try {
-//         const deletedEvent = await Event.findByIdAndDelete(eventId);
-//         if(!deletedEvent) {
-//             return res.status(404).json({ message: `Cannot find by any event with ID ${eventId}` });
-//         }
-//         res.status(201).json({ success: true, message: "Event Deleted Successfully", deletedEvent});
-//     } catch (error) {
-//         res.status(500).json({ message: 'Error deleting event', error: error.message });
-//     }
-// };
-  
-  //UPDATE USER
-  // const updateUsers = async (req, res) => {
-  //   try {
-  //     const userId = req.params.id;
-  //     const { username, fullName, email, password, nation, mobile, balance } =
-  //       req.body;
-  //     const user = await userModel.findById(userId);
-  
-  //     if (!user) {
-  //       return res.status(404).json({ message: "User not found" });
-  //     }
-  
-  //     // Update user properties
-  //     Object.assign(user, {
-  //       username,
-  //       fullName,
-  //       email,
-  //       password,
-  //       nation,
-  //       mobile,
-  //       balance,
-  //     });
-  //     const updatedUser = await user.save();
-  //     res
-  //       .status(200)
-  //       .json({ message: "User updated successfully", user: updatedUser });
-  //   } catch (error) {
-  //     res.status(500).json({ message: "Update failed", error });
-  //   }
-  // };
-
   const updateUsers = async (req, res) => {
     try {
       const userId = req.params.id;

@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 const createAdmin = async (req, res) => {
    
-        const { adminID, fullname, password, privilages } = req.body;
+        const { adminID, fullname, password, privileges } = req.body;
 
         try {
             const existingAdmin = await Admin.find({adminID});
@@ -18,7 +18,7 @@ const createAdmin = async (req, res) => {
             adminID,
             fullname,
             password: hashedPassword,
-            privilages,
+            privileges,
         });
 
         if(admin) {
@@ -26,7 +26,7 @@ const createAdmin = async (req, res) => {
             res.status(201).json({
                 _id: savedAdmin.adminID,
                 fullname: savedAdmin.fullname,
-                privilages: savedAdmin.privilages,
+                privileges: savedAdmin.privileges,
             });
         } else {
             res.status(400).json({ message: 'Error Occured'});

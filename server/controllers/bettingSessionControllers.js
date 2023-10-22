@@ -49,24 +49,6 @@ const deleteBettingSession = async(req, res) => {
     }
 };
 
-//get current bets
-// const getCurrentBets = async (req, res) => {
-//     try {
-//         const currentDate = new Date();
-//         const formattedCurrentDate = currentDate.toISOString();
-//         console.log('Current Date:', currentDate);
-
-//         const currentBets = await BettingSession.find({ timeRemaining: { $gt: formattedCurrentDate }});
-//         if(!currentBets || currentBets.length === 0) {
-//             return res.status(404).json({ success: false, message: 'No current bets found '});
-//         }
-//         console.log('Current Bets:', currentBets);
-//         res.status(201).json({ success: true, message: 'Current Bets', currentBets });
-//     } catch(error) {
-//         res.status(500).json({ success: false, message: 'Error retrieving current bets', error: error.message });
-//     }
-// };
-
 const getCurrentBets = async (req, res) => {
     try {
         const currentDate = new Date();
@@ -103,4 +85,10 @@ function formatTimestamp(timestamp) {
 }
 
 
-module.exports = { createBettingSession, getAllBettingSessions, updateBettingSession, deleteBettingSession, getCurrentBets };
+module.exports = { 
+    createBettingSession, 
+    getAllBettingSessions, 
+    updateBettingSession, 
+    deleteBettingSession, 
+    getCurrentBets 
+};
