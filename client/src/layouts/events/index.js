@@ -46,13 +46,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import UserHistory from "layouts/userHistory";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 
 function Events() {
 
   const navigate = useNavigate()
-  const {data,loading,error} = useFetch("http://localhost:4000/api/admin/getAllEvents")
-  const events = data?.data?.events || [];
 
   const handleCreate = (event) => {
     navigate('/events/add-events')
@@ -60,6 +60,45 @@ function Events() {
   const handleEdit = (event) => {
     navigate(`/events/edit-events/${event._id}`);
   };
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch events from the API
+    axios.get('http://localhost:4000/api/admin/getAllEvents')
+      .then((response) => {
+        console.log("hbs",response?.data?.data?.events)
+        setEvents(response?.data?.events);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching events:', error);
+        setLoading(false);
+      });
+  }, []);
+
+  const handleDelete = (event) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this event?");
+    const eventId = event._id
+    if (isConfirmed) {
+      // Make the delete request
+      axios.delete(`http://localhost:4000/api/admin/deleteEvent/${event._id}`)
+        .then((response) => {
+          console.log(response)
+          if (response?.data?.success) {
+            const updatedEvents = events.filter((event) => event._id !== eventId);
+            setEvents(updatedEvents);
+          }
+        })
+        .catch((error) => {
+          console.error('Error deleting event:', error);
+        });
+    }
+  };
+
+
+
+
 
   return (
     <DashboardLayout>
