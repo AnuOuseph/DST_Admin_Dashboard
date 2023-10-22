@@ -228,7 +228,7 @@ function Tables() {
                         checked={formData.privileges.includes('Account Statement')} 
                         onChange={handleAdmin} 
                         name="privileges"
-                        value="Accout Statement"
+                        value="Account Statement"
                         />}
                       label="Account Statement"
                     />
@@ -293,13 +293,6 @@ function Tables() {
                       display: "flex",
                       justifyContent: "flex-end",
                     }}>
-                    {/* <TextField
-                      sx={{
-                        padding: "10px",
-                      }}
-                      label="Transaction Code"
-                      type="text"
-                    /> */}
                     <MDButton variant="gradient" color="error" sx={{marginY: 1}} onClick={handleSubmit}>
                       Submit
                     </MDButton>

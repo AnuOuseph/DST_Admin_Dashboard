@@ -95,8 +95,6 @@ function Events() {
     }
   };
 
-
-
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -151,15 +149,59 @@ function Events() {
                           <TableCell>
                             <MDButton variant="outlined" color="dark" onClick={() => handleDelete(row)}>Delete</MDButton>
                           </TableCell>
+              <Card sx={{ boxShadow: "none" }}>
+                <MDBox p={2} >
+                  <MDTypography sx={{ padding: "20px" }} variant="h6" fontWeight="medium" textTransform="capitalize">
+                  Events
+                  </MDTypography>
+                  <Grid item xs={12} lg={12}>
+                  <Card sx={{ height: "100%" }}>
+                    <MDButton variant="gradient" color="error" sx={{margin: "10px", width: "20%", padding: "10px", alignSelf:"end"}} onClick={handleCreate}>
+                      Create Event
+                    </MDButton>
+                    <TableContainer component={Paper}>
+                    <Table sx={{ width: "100%" }} aria-label="simple table">
+                      <TableHead sx={{ display: "table-header-group" }}>
+                        <TableRow sx={{width: "20px"}}>
+                          <TableCell >Title</TableCell>
+                          <TableCell >Date</TableCell>
+                          <TableCell >Location</TableCell>
+                          <TableCell >Sport</TableCell>
+                          <TableCell >Team 1</TableCell>
+                          <TableCell >Team 2</TableCell>
+                          <TableCell >Edit</TableCell>
+                          <TableCell >Delete</TableCell>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                      </TableHead>
+                      <TableBody>
+                        {events.map((row) => (
+                          <TableRow
+                            key={row?._id}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                          >
+                            <TableCell component="th" scope="row">
+                              {row?.title}
+                            </TableCell>
+                            <TableCell>{row?.date}</TableCell>
+                            <TableCell>{row?.location}</TableCell>
+                            <TableCell>{row?.sport}</TableCell>
+                            <TableCell>{row?.team1}</TableCell>
+                            <TableCell>{row?.team2}</TableCell>
+                            <TableCell>
+                              <MDButton variant="outlined" color="warning" onClick={() => handleEdit(row)}>Edit</MDButton>
+                            </TableCell>
+                            <TableCell>
+                              <MDButton variant="outlined" color="dark" onClick={() => handleDelete(row)}>Delete</MDButton>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Card>
+                </Grid>
+                </MDBox>
               </Card>
-              </Grid>
-            </MDBox>
-            </Card>
             </Grid>
           </Grid>
         </MDBox>
