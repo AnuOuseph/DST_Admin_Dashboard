@@ -30,7 +30,8 @@ import Footer from "examples/Footer";
 // Overview page components
 import Header from "layouts/profile/components/Header";
 import PlatformSettings from "layouts/profile/components/PlatformSettings";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // Data
 import { Card } from "@mui/material";
 import MDButton from "components/MDButton";
@@ -67,7 +68,6 @@ function Events() {
     // Fetch events from the API
     axios.get('http://localhost:4000/api/admin/getAllEvents')
       .then((response) => {
-        console.log("hbs",response?.data?.data?.events)
         setEvents(response?.data?.events);
         setLoading(false);
       })
@@ -83,12 +83,11 @@ function Events() {
     if (isConfirmed) {
       // Make the delete request
       axios.delete(`http://localhost:4000/api/admin/deleteEvent/${event._id}`)
-        .then((response) => {
-          console.log(response)
-          if (response?.data?.success) {
-            const updatedEvents = events.filter((event) => event._id !== eventId);
-            setEvents(updatedEvents);
-          }
+        .then(() => {
+          toast.success("Successfully deleted");
+          setTimeout(()=>{
+              location.reload()
+          },1000)
         })
         .catch((error) => {
           console.error('Error deleting event:', error);
@@ -101,6 +100,7 @@ function Events() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <ToastContainer />
       <MDBox mb={2} />
         <MDBox mt={5} mb={3}>
           <Grid container spacing={1}>
@@ -119,6 +119,7 @@ function Events() {
                   <Table sx={{ width: "100%" }} aria-label="simple table">
                     <TableHead sx={{ display: "table-header-group" }}>
                       <TableRow sx={{width: "20px"}}>
+                        <TableCell >Sl.No</TableCell>
                         <TableCell >Title</TableCell>
                         <TableCell >Date</TableCell>
                         <TableCell >Location</TableCell>
@@ -130,11 +131,12 @@ function Events() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {events.map((row) => (
+                      {events.map((row, index) => (
                         <TableRow
                           key={row?._id}
                           sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
+                          <TableCell>{index + 1}</TableCell>
                           <TableCell component="th" scope="row">
                             {row?.title}
                           </TableCell>

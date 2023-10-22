@@ -30,6 +30,8 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Footer from "examples/Footer";
 import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
 import ProfilesList from "examples/Lists/ProfilesList";
@@ -55,10 +57,12 @@ import { Box, Card, TextField } from "@mui/material";
 import MDButton from "components/MDButton";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function AddEvents() {
-    const [error,setError] = useState(null)
+    const [error, setError] = useState(null)
     const [message, setMessage] = useState(null)
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         title: '',
         date: '',
@@ -74,136 +78,140 @@ function AddEvents() {
         setFormData({ ...formData, [name]: value });
     };
     console.log(formData)
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const { name, value } = e.target;
-        try{
+        try {
             console.log("hahshagg")
-            const res = await axios.post("http://localhost:4000/api/admin/createEvent",formData)
+            const res = await axios.post("http://localhost:4000/api/admin/createEvent", formData)
             const mess = res?.data?.message;
-            console.log("nbsbdhqb",res?.data)
+            toast.success("Successfully deleted");
+            setTimeout(() => {
+                navigate('/events')
+            }, 1000)
             setMessage(mess)
             setFormData({ ...formData, [name]: '' })
-        }catch(err){
+        } catch (err) {
             console.log(err)
             setError(err)
         }
     };
-  return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox mb={2} />
-        <MDBox mt={5} mb={3}>
-            <Grid container spacing={1}>
-                <Grid item xs={12} md={6}>
-                    <Card sx={{ boxShadow: "none" }}>
-                        <MDBox p={2}>
-                            <MDTypography sx={{ margin: '20px' }} variant="h6" fontWeight="medium" textTransform="capitalize">
-                                Create Event
-                            </MDTypography>
-                            <form>
+    return (
+        <DashboardLayout>
+            <DashboardNavbar />
+            <ToastContainer />
+            <MDBox mb={2} />
+            <MDBox mt={5} mb={3}>
+                <Grid container spacing={1}>
+                    <Grid item xs={12} md={6}>
+                        <Card sx={{ boxShadow: "none" }}>
+                            <MDBox p={2}>
+                                <MDTypography sx={{ margin: '20px' }} variant="h6" fontWeight="medium" textTransform="capitalize">
+                                    Create Event
+                                </MDTypography>
+                                <form>
+                                    <Box p={2}>
+                                        <TextField
+                                            name="title"
+                                            label="Title"
+                                            type="text"
+                                            value={formData.title}
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box p={2}>
+                                        <TextField
+                                            name="date"
+                                            type="date"
+                                            value={formData.date}
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box p={2}>
+                                        <TextField
+                                            name="sport"
+                                            label="Sport"
+                                            type="text"
+                                            value={formData.sport}
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box p={2}>
+                                        <TextField
+                                            name="location"
+                                            label="Location"
+                                            type="text"
+                                            value={formData.location}
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box p={2}>
+                                        <TextField
+                                            name="description"
+                                            label="Description"
+                                            type="text"
+                                            value={formData.description}
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                </form>
+                            </MDBox>
+                            <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
+                            </MDBox>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Card sx={{ boxShadow: "none" }}>
+                            <MDBox p={2}>
                                 <Box p={2}>
                                     <TextField
-                                        name="title"
-                                        label="Title"
+                                        name="outcome"
+                                        label="Outcome"
                                         type="text"
-                                        value={formData.title}
+                                        value={formData.outcome}
                                         onChange={handleChange}
                                         fullWidth
                                     />
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        name="date"
-                                        type="date"
-                                        value={formData.date}
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Box p={2}>
-                                    <TextField
-                                        name="sport"
-                                        label="Sport"
+                                        name="team1"
+                                        label="Team1"
                                         type="text"
-                                        value={formData.sport}
+                                        value={formData.team1}
                                         onChange={handleChange}
                                         fullWidth
                                     />
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        name="location"
-                                        label="Location"
+                                        name="team2"
+                                        label="Team2"
                                         type="text"
-                                        value={formData.location}
+                                        value={formData.team2}
                                         onChange={handleChange}
                                         fullWidth
                                     />
                                 </Box>
-                                <Box p={2}>
-                                    <TextField
-                                        name="description"
-                                        label="Description"
-                                        type="text"
-                                        value={formData.description}
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                            </form>
-                        </MDBox>
-                        <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
-                        </MDBox>
-                    </Card>
+                                <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit}>
+                                    Create
+                                </MDButton>
+                                <p style={{ fontSize: "12px", paddingX: "20px" }}>{message ? message : null}</p>
+                                <p style={{ fontSize: "12px", paddingX: "20px", color: "red" }}>{error ? error : null}</p>
+                            </MDBox>
+                            <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
+                            </MDBox>
+                        </Card>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                    <Card sx={{ boxShadow: "none" }}>
-                        <MDBox p={2}>
-                            <Box p={2}>
-                                <TextField
-                                    name="outcome"
-                                    label="Outcome"
-                                    type="text"
-                                    value={formData.outcome}
-                                    onChange={handleChange}
-                                    fullWidth
-                                />
-                            </Box>
-                            <Box p={2}>
-                                <TextField
-                                    name="team1"
-                                    label="Team1"
-                                    type="text"
-                                    value={formData.team1}
-                                    onChange={handleChange}
-                                    fullWidth
-                                />
-                            </Box>
-                            <Box p={2}>
-                                <TextField
-                                    name="team2"
-                                    label="Team2"
-                                    type="text"
-                                    value={formData.team2}
-                                    onChange={handleChange}
-                                    fullWidth
-                                />
-                            </Box>
-                            <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit}>
-                                Create
-                            </MDButton>
-                            <p style={{ fontSize: "12px", paddingX: "20px" }}>{message?message:null}</p>
-                            <p style={{ fontSize: "12px", paddingX: "20px", color: "red" }}>{error?error:null}</p>
-                        </MDBox>
-                        <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
-                        </MDBox>
-                    </Card>
-                </Grid>
-            </Grid>
-        </MDBox>
-    </DashboardLayout>
-  );
+            </MDBox>
+        </DashboardLayout>
+    );
 }
 
 export default AddEvents;

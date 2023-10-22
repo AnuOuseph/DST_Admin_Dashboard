@@ -69,7 +69,7 @@ function User() {
         toast.success("Successfully deleted");
         setTimeout(()=>{
             location.reload()
-        },1500)
+        },1000)
       })
       .catch((error) => {
         console.error('Error deleting user', error);

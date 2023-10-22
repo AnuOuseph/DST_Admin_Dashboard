@@ -67,11 +67,11 @@ function Overview() {
   const navigate = useNavigate()
   const {data,loading,error} = useFetch("http://localhost:4000/api/admin/getCurrentBets")
   const currentBets = data?.data?.currentBets || [];
-  console.log(currentBets);
+
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <DashboardNavbar  />
       <MDBox mb={2} />
         <MDBox mt={5} mb={3}>
           <Grid container spacing={1}>
@@ -104,6 +104,7 @@ function Overview() {
                 <Table sx={{ width: "100%" }} aria-label="simple table">
                   <TableHead sx={{ display: "table-header-group" }}>
                     <TableRow sx={{width: "20px"}}>
+                    <TableCell >Sl.No</TableCell>
                     <TableCell >User</TableCell>
                       <TableCell >Event</TableCell>
                       <TableCell >Event Type</TableCell>
@@ -115,11 +116,12 @@ function Overview() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {currentBets.map((row) => (
+                    {currentBets.map((row, index) => (
                       <TableRow
                         key={row?.user}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                       >
+                        <TableCell>{index + 1}</TableCell>
                         <TableCell component="th" scope="row">
                           {row?.user && row.user.username}
                         </TableCell>
