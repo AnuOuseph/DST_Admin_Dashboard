@@ -53,11 +53,8 @@ import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 import { Box, Card, TextField } from "@mui/material";
 import MDButton from "components/MDButton";
-import useFetch from "hooks/useFetch";
-import { useState } from "react";
-import axios from "axios";
 
-function CreateUser() {
+function EditUser() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -75,50 +72,30 @@ function CreateUser() {
                                     <TextField
                                         name="username"
                                         label="Username"
-                                        type="text"
-                                        value={formData.username}
-                                        onChange={handleChange}
                                         fullWidth
                                     />
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        name="fullname"
+                                        name="fullName"
                                         label="Full Name"
-                                        type="text"
-                                        value={formData.fullname}
-                                        onChange={handleChange}
                                         fullWidth
                                     />
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        name="password"
-                                        label="Password"
-                                        type="password"
-                                        value={formData.password}
-                                        onChange={handleChange}
+                                        name="email"
+                                        label="Email"
                                         fullWidth
                                     />
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        label="Confirm Password"
-                                        type="password"
+                                        name="mobile"
+                                        label="Mobile Number"
                                         fullWidth
                                     />
                                 </Box>
-                                <Box p={2}>
-                                    <TextField
-                                        name="balance"
-                                        label="Balance"
-                                        type="number"
-                                        value={formData.balance}
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                                
                             </form>
                         </MDBox>
                         <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
@@ -130,11 +107,8 @@ function CreateUser() {
                         <MDBox p={2}>
                             <Box p={2}>
                                 <TextField
-                                    name="email"
-                                    label="Email"
-                                    type="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
+                                    name="role"
+                                    label="User Type"
                                     fullWidth
                                 />
                             </Box>
@@ -142,32 +116,11 @@ function CreateUser() {
                                 <TextField
                                     name="nation"
                                     label="Nation"
-                                    type="text"
-                                    value={formData.nation}
-                                    onChange={handleChange}
                                     fullWidth
                                 />
                             </Box>
-                            <Box p={2}>
-                                <TextField
-                                    name="mobile"
-                                    label="Mobile Number"
-                                    type="number"
-                                    value={formData.mobile}
-                                    onChange={handleChange}
-                                    fullWidth
-                                />
-                            </Box>
-                            <Box p={2}>
-                                <TextField
-                                    name="role"
-                                    label="User Type"
-                                    type="text"
-                                    fullWidth
-                                />
-                            </Box>
-                            <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit} >
-                                Create
+                            <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" >
+                                Update
                             </MDButton>
                         </MDBox>
                         <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
@@ -180,4 +133,4 @@ function CreateUser() {
   );
 }
 
-export default CreateUser;
+export default EditUser;

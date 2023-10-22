@@ -53,11 +53,42 @@ import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 import { Box, Card, TextField } from "@mui/material";
 import MDButton from "components/MDButton";
-import useFetch from "hooks/useFetch";
 import { useState } from "react";
 import axios from "axios";
 
-function CreateUser() {
+function AddEvents() {
+    const [error,setError] = useState(null)
+    const [message, setMessage] = useState(null)
+    const [formData, setFormData] = useState({
+        title: '',
+        date: '',
+        sport: '',
+        location: '',
+        description: '',
+        outcome: '',
+        team1: '',
+        team2: '',
+    });
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+    console.log(formData)
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        const { name, value } = e.target;
+        try{
+            console.log("hahshagg")
+            const res = await axios.post("http://localhost:4000/api/admin/createEvent",formData)
+            const mess = res?.data?.message;
+            console.log("nbsbdhqb",res?.data)
+            setMessage(mess)
+            setFormData({ ...formData, [name]: '' })
+        }catch(err){
+            console.log(err)
+            setError(err)
+        }
+    };
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -68,57 +99,59 @@ function CreateUser() {
                     <Card sx={{ boxShadow: "none" }}>
                         <MDBox p={2}>
                             <MDTypography sx={{ margin: '20px' }} variant="h6" fontWeight="medium" textTransform="capitalize">
-                                General Information
+                                Create Event
                             </MDTypography>
                             <form>
                                 <Box p={2}>
                                     <TextField
-                                        name="username"
-                                        label="Username"
+                                        name="title"
+                                        label="Title"
                                         type="text"
-                                        value={formData.username}
+                                        value={formData.title}
                                         onChange={handleChange}
                                         fullWidth
                                     />
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        name="fullname"
-                                        label="Full Name"
+                                        name="date"
+                                        label="Date"
+                                        type="date"
+                                        value={formData.date}
+                                        onChange={handleChange}
+                                        fullWidth
+                                    />
+                                </Box>
+                                <Box p={2}>
+                                    <TextField
+                                        name="sport"
+                                        label="Sport"
                                         type="text"
-                                        value={formData.fullname}
+                                        value={formData.sport}
                                         onChange={handleChange}
                                         fullWidth
                                     />
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        name="password"
-                                        label="Password"
-                                        type="password"
-                                        value={formData.password}
+                                        name="location"
+                                        label="Location"
+                                        type="text"
+                                        value={formData.location}
                                         onChange={handleChange}
                                         fullWidth
                                     />
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        label="Confirm Password"
-                                        type="password"
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Box p={2}>
-                                    <TextField
-                                        name="balance"
-                                        label="Balance"
-                                        type="number"
-                                        value={formData.balance}
+                                        name="description"
+                                        label="Description"
+                                        type="text"
+                                        value={formData.description}
                                         onChange={handleChange}
                                         fullWidth
                                     />
                                 </Box>
-                                
                             </form>
                         </MDBox>
                         <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
@@ -130,45 +163,39 @@ function CreateUser() {
                         <MDBox p={2}>
                             <Box p={2}>
                                 <TextField
-                                    name="email"
-                                    label="Email"
-                                    type="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    fullWidth
-                                />
-                            </Box>
-                            <Box p={2}>
-                                <TextField
-                                    name="nation"
-                                    label="Nation"
+                                    name="outcome"
+                                    label="Outcome"
                                     type="text"
-                                    value={formData.nation}
+                                    value={formData.outcome}
                                     onChange={handleChange}
                                     fullWidth
                                 />
                             </Box>
                             <Box p={2}>
                                 <TextField
-                                    name="mobile"
-                                    label="Mobile Number"
-                                    type="number"
-                                    value={formData.mobile}
-                                    onChange={handleChange}
-                                    fullWidth
-                                />
-                            </Box>
-                            <Box p={2}>
-                                <TextField
-                                    name="role"
-                                    label="User Type"
+                                    name="team1"
+                                    label="Team1"
                                     type="text"
+                                    value={formData.team1}
+                                    onChange={handleChange}
                                     fullWidth
                                 />
                             </Box>
-                            <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit} >
+                            <Box p={2}>
+                                <TextField
+                                    name="team2"
+                                    label="Team2"
+                                    type="text"
+                                    value={formData.team2}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Box>
+                            <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit}>
                                 Create
                             </MDButton>
+                            <p style={{ fontSize: "12px", paddingX: "20px" }}>{message?message:null}</p>
+                            <p style={{ fontSize: "12px", paddingX: "20px", color: "red" }}>{error?error:null}</p>
                         </MDBox>
                         <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
                         </MDBox>
@@ -180,4 +207,4 @@ function CreateUser() {
   );
 }
 
-export default CreateUser;
+export default AddEvents;

@@ -23,7 +23,7 @@ app.use(logger('dev'))
 app.use(cors());
 
 app.use('/api/admin', adminRouter);
-app.use("/", userRoute);
+app.use("/api/user", userRoute);
 
 app.use((req, res) => {
     res.send({ code: 404, error: httpMsg[404] })

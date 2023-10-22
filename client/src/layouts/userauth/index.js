@@ -38,11 +38,21 @@ import { Card } from "@mui/material";
 import MDButton from "components/MDButton";
 import authorsTableData from "layouts/tables/data/authorsTableData";
 import { useNavigate } from "react-router-dom";
+import useFetch from "hooks/useFetch";
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 function UserAuth() {
-    const { columns, rows } = authorsTableData();
-    const navigate = useNavigate()
+  const navigate = useNavigate()
+  const {data,loading,error} = useFetch("http://localhost:4000/api/user/allUser")
+  const userAuth = data?.data || [];
+  console.log(userAuth);
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -70,13 +80,29 @@ function UserAuth() {
                 <Grid item xs={12} lg={12}>
                 <Card sx={{ height: "100%" }}>
                     <MDBox pt={3}>
-                        <DataTable
-                        table={{ columns, rows }}
-                        isSorted={false}
-                        entriesPerPage={false}
-                        showTotalEntries={false}
-                        noEndBorder
-                        />
+                    <TableContainer component={Paper}>
+                  <Table sx={{ width: "100%" }} aria-label="simple table">
+                    <TableHead sx={{ display: "table-header-group" }}>
+                      <TableRow sx={{width: "20px"}}>
+                        <TableCell >Username</TableCell>
+                        <TableCell >Authentication</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {userAuth.map((row) => (
+                        <TableRow
+                          key={row?._id}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {row?.username}
+                          </TableCell>
+                          <TableCell>{row?.isAuthenticated ? 'Authenticated' : 'Not Authenticated'}</TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                  </Table>
+                </TableContainer>
                     </MDBox>
                 </Card>
                 </Grid>
