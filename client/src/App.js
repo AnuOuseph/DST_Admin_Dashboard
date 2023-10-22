@@ -207,7 +207,7 @@ export default function App() {
         <Route path="/user-history" element={<UserHistory />} />
         <Route path="/users/edit-user" element={<EditUser />} />
         <Route path="/events/add-events" element={<AddEvents />} />
-        <Route path="/events/edit-events" element={<EditEvents />} />
+        <Route path="/events/edit-events/:id" element={<EditEvents />} />
       </Routes>
     </ThemeProvider>
   );

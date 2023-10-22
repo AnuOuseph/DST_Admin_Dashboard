@@ -58,7 +58,7 @@ function Events() {
     navigate('/events/add-events')
   }
   const handleEdit = (event) => {
-    console.log("Edit event:", event.title);
+    navigate(`/events/edit-events/${event._id}`);
   };
 
   const handleDelete = (event) => {
@@ -78,7 +78,7 @@ function Events() {
                 </MDTypography>
                 <Grid item xs={12} lg={12}>
                 <Card sx={{ height: "100%" }}>
-                  <MDButton sx={{width: "20%", margin:"2%",padding: "10px", alignSelf:"end"}} variant="contained" color="primary" size="small" onClick={handleCreate}>
+                  <MDButton variant="gradient" color="error" sx={{margin: "10px", width: "20%", padding: "10px", alignSelf:"end"}} onClick={handleCreate}>
                     Create Event
                   </MDButton>
                   <TableContainer component={Paper}>
@@ -98,7 +98,7 @@ function Events() {
                     <TableBody>
                       {events.map((row) => (
                         <TableRow
-                          key={row?.title}
+                          key={row?._id}
                           sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                           <TableCell component="th" scope="row">
@@ -110,10 +110,10 @@ function Events() {
                           <TableCell>{row?.team1}</TableCell>
                           <TableCell>{row?.team2}</TableCell>
                           <TableCell>
-                            <MDButton variant="outlined" color="primary" onClick={() => handleEdit(row)}>Edit</MDButton>
+                            <MDButton variant="outlined" color="warning" onClick={() => handleEdit(row)}>Edit</MDButton>
                           </TableCell>
                           <TableCell>
-                            <MDButton variant="outlined" color="secondary" onClick={() => handleDelete(row)}>Delete</MDButton>
+                            <MDButton variant="outlined" color="dark" onClick={() => handleDelete(row)}>Delete</MDButton>
                           </TableCell>
                         </TableRow>
                       ))}
