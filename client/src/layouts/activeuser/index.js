@@ -64,22 +64,7 @@ function ActiveUser() {
       <MDBox mt={8}>
         <MDBox mb={3}>
         <Card sx={{ boxShadow: "none" }}>
-          <Grid xs={12} lg={12} sx={{ display: "flex", justifyContent: "space-between", paddingX: "20px" }}>
-              <MDBox height="100%" mt={2} lineHeight={1}>
-              <TextField
-                sx={{
-                  padding: "10px",
-                }}
-                label="Search User"
-                type="text"
-              />
-                <MDButton variant="gradient" color="dark" sx={{margin: "10px"}}  >
-                  Load
-                </MDButton>
-                <MDButton variant="outlined" color="dark" sx={{margin: "10px"}}>
-                  Reset
-                </MDButton>
-              </MDBox>
+          <Grid xs={12} lg={12} sx={{ display: "flex", justifyContent: "end", paddingX: "20px" }}>
               <MDBox height="100%" mt={2} lineHeight={1}>
                 <MDButton variant="gradient" color="error" sx={{margin: "10px"}} onClick={()=>{navigate('/users/active-user')}}>
                   Active User

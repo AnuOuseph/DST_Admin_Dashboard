@@ -46,6 +46,7 @@ const getEventById = async (req, res) => {
 //update an event by id
 const updateEvent = async (req, res) => {
     const eventId = req.params.id;
+    console.log('Received eventId:', eventId);
     try {
         const updatedEvent = await Event.findByIdAndUpdate(eventId, req.body, { new: true });
         if(!updatedEvent) {
