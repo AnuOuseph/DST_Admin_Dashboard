@@ -22,4 +22,6 @@ router.get("/LoginHistory", getAllUsersLoginHistory);
 router.get('/getSingleUserById/:id', getSingleUserById);
 router.get('/usersActiveAndInActive', usersActiveAndInActive);
 
+
+
 module.exports = router;

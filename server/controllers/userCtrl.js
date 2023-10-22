@@ -39,6 +39,8 @@ const register = async (req, res) => {
     res.status(500).json({ message: "Registration failed", error });
   }
 };
+
+//Login
 const Login = async (req, res) => {
     const user = await userModel.findOne({ email: req.body.email });
     const userEmail = req.body.email;
@@ -52,8 +54,8 @@ const Login = async (req, res) => {
       { _id: user._id },
       {
         isAuthenticated: true,
-        lastLogin: new Date(),
-        loginHistory: [{ timestamp: new Date(), source: "source" }],
+        lastLogin: new Date.now(),
+        loginHistory: [{ timestamp: new Date.now(), source: "source" }],
       }
     );
   
