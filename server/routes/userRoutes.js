@@ -6,6 +6,8 @@ const {
   deleteUsers,
   updateUsers,
   getAllUsersLoginHistory,
+  getSingleUserById,
+  usersActiveAndInActive
 } = require("../controllers/userCtrl");
 
 //router
@@ -14,9 +16,11 @@ const router = express.Router();
 router.post("/registerUser", register);
 router.post("/login", Login);
 router.get("/alluser", allusers);
-router.post("/deleteUser/:id", deleteUsers);
-router.post("/updateUser/:id", updateUsers);
+router.delete("/deleteUser/:id", deleteUsers);
+router.patch("/updateUser/:id", updateUsers);
 router.get("/LoginHistory", getAllUsersLoginHistory);
+router.get('/getSingleUserById/:id', getSingleUserById);
+router.get('/usersActiveAndInActive', usersActiveAndInActive);
 
 
 

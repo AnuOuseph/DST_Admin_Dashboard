@@ -85,42 +85,46 @@ const Login = async (req, res) => {
       res.json(error);
     }
   };
-  
-  //DELETE USER
+
   const deleteUsers = async (req, res) => {
-    let id = req.params.id;
-    await userModel.findByIdAndDelete({ _id: id });
-    res.json("success");
+    const userId = req.params.id;
+    try {
+      const deletedUser = await userModel.findByIdAndDelete(userId);
+      if(!deletedUser) {
+        return res.status(404).json({ success:false, message: `Cannot find by any user with ID ${userId}` });
+      }
+      res.status(201).json({ success: true, message: "User Deleted Successfully", deletedUser});
+    } catch(error) {
+        res.status(500).json({ message: 'Error deleting user', error: error.message });  
+    }
   };
-  
-  //UPDATE USER
+
   const updateUsers = async (req, res) => {
     try {
       const userId = req.params.id;
-      const { username, fullName, email, password, nation, mobile, balance } =
+      const { username, fullname, email, nation, mobile, balance, accountStatus } =
         req.body;
       const user = await userModel.findById(userId);
   
       if (!user) {
-        return res.status(404).json({ message: "User not found" });
+        return res.status(404).json({ success:false, message: "User not found" });
       }
-  
-      // Update user properties
-      Object.assign(user, {
-        username,
-        fullName,
-        email,
-        password,
-        nation,
-        mobile,
-        balance,
-      });
-      const updatedUser = await user.save();
-      res
-        .status(200)
-        .json({ message: "User updated successfully", user: updatedUser });
+
+      const updatedUser = await userModel.updateOne({_id:userId},{
+        $set:{
+          username : username,
+          fullname : fullname,
+          email : email,
+          nation : nation,
+          mobile : mobile,
+          balance : balance,
+          accountStatus : accountStatus
+        }
+      })
+
+      res.status(200).json({ success:true, message: "User updated successfully", user: updatedUser });
     } catch (error) {
-      res.status(500).json({ message: "Update failed", error });
+      res.status(500).json({ success:false, message: "Update failed", error: error.message });
     }
   };
   
@@ -149,6 +153,28 @@ const Login = async (req, res) => {
       });
     }
   };
+
+  const getSingleUserById = async (req, res) => {
+    const userId = req.params.id;
+    try {
+      const user = await userModel.findById(userId);
+      if(!user) {
+        return res.status(404).json({ success: false, message: 'User not found' });
+      }
+      return res.status(200).json({ success: true, user});
+    } catch (error) {
+      return res.status(500).json({ success: false, message: `Error fetching user by ID ${userId}`, error: error.message });
+    }
+  };
+
+  const usersActiveAndInActive = async(req,res) => {
+    try {
+      const usersActiveAndInActive = await userModel.find();
+      return res.json({ success: true, usersActiveAndInActive});
+    } catch(error) {
+      res.json(error);
+    }
+  };
   
   module.exports = {
     register,
@@ -157,5 +183,7 @@ const Login = async (req, res) => {
     deleteUsers,
     updateUsers,
     getAllUsersLoginHistory,
+    getSingleUserById,
+    usersActiveAndInActive
   };
   

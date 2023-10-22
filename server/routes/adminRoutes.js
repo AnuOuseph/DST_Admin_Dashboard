@@ -1,8 +1,20 @@
 const express = require("express");
 
-const { createEvent, getAllEvents, getEventById, updateEvent, deleteEvent, updateEventOutcome } = require('../controllers/eventControllers');
-const { createBettingSession, getAllBettingSessions, updateBettingSession, deleteBettingSession, getCurrentBets } = require('../controllers/bettingSessionControllers');
+
 const { createAdmin, adminLogin } = require('../controllers/adminControllers');
+const { createEvent, 
+    getAllEvents, 
+    getEventById, 
+    updateEvent, 
+    deleteEvent, 
+    updateEventOutcome } = require('../controllers/eventControllers');
+
+const { createBettingSession, 
+    getAllBettingSessions, 
+    updateBettingSession, 
+    deleteBettingSession, 
+    getCurrentBets } = require('../controllers/bettingSessionControllers');
+    
 const { totalUsers, 
     totalInvestedInBet, 
     totalRevenue, 
@@ -17,7 +29,8 @@ const { totalUsers,
     totalRevenueThisYear, 
     totalRevenueByDay,
     totalRevenueByMonth,
-    totalRevenueByYear} = require("../controllers/dashboardController");
+    totalRevenueByYear,
+    profitLoss} = require("../controllers/dashboardController");
 
 const router = express.Router();
 
@@ -56,6 +69,7 @@ router.get('/totalRevenueThisYear', totalRevenueThisYear)
 router.get('/totalRevenueByDay', totalRevenueByDay)
 router.get('/totalRevenueByMonth', totalRevenueByMonth)
 router.get('/totalRevenueByYear', totalRevenueByYear)
+router.get('/profitLossBySport', profitLoss)
 
 
 module.exports = router;

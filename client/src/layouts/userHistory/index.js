@@ -81,34 +81,32 @@ function UserHistory() {
                 User History
                 </MDTypography>
                 <Grid item xs={12} lg={12}>
-                <Card sx={{ height: "100%" }}>
-                    <MDBox pt={3}>
-                    <TableContainer component={Paper}>
-                  <Table sx={{ width: "100%" }} aria-label="simple table">
-                    <TableHead sx={{ display: "table-header-group" }}>
-                      <TableRow sx={{width: "20px"}}>
-                        <TableCell >UserId</TableCell>
-                        <TableCell >Name</TableCell>
-                        <TableCell >Date</TableCell>
-                       
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                            {loginHistory.map((user) => (
-                              user.loginHistory.map((history, index) => (
-                                <TableRow key={index}>
-                                  <TableCell>{user.userId}</TableCell>
-                                  <TableCell>{user.username}</TableCell>
-                                  <TableCell>{history.timestamp}</TableCell>
-                          
-                                </TableRow>
-                              ))
-                            ))}
-                          </TableBody>
-                  </Table>
-                </TableContainer>
-                    </MDBox>
-                </Card>
+                  <Card sx={{ height: "100%" }}>
+                      <MDBox pt={3}>
+                        <TableContainer component={Paper}>
+                          <Table sx={{ width: "100%" }} aria-label="simple table">
+                            <TableHead sx={{ display: "table-header-group" }}>
+                              <TableRow sx={{width: "20px"}}>
+                                <TableCell >UserId</TableCell>
+                                <TableCell >Name</TableCell>
+                                <TableCell >Date</TableCell>                      
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {loginHistory.map((user) => (
+                                user.loginHistory.map((history, index) => (
+                                  <TableRow key={index}>
+                                    <TableCell>{user.userId}</TableCell>
+                                    <TableCell>{user.username}</TableCell>
+                                    <TableCell>{history.timestamp}</TableCell>                          
+                                  </TableRow>
+                                ))
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </MDBox>
+                  </Card>
                 </Grid>
             </MDBox>
             </Card>

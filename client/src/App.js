@@ -163,7 +163,7 @@ export default function App() {
             <Sidenav
               color={sidenavColor}
               brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-              brandName="Material Dashboard 2"
+              brandName="BETZHUB ADMIN"
               routes={routes}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
@@ -187,7 +187,7 @@ export default function App() {
           <Sidenav
             color={sidenavColor}
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-            brandName="Material Dashboard 2"
+            brandName="BETZHUB ADMIN"
             routes={routes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
@@ -201,13 +201,13 @@ export default function App() {
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/dashboard" />} />
         <Route path="/authentication/sign-in" element={<SignIn />} />
-        <Route path="/active-user" element={<ActiveUser />} />
-        <Route path="/create-user" element={<CreateUser />} />
+        <Route path="/users/active-user" element={<ActiveUser />} />
+        <Route path="/users/create-user" element={<CreateUser />} />
         <Route path="/user-authentication" element={<UserAuth />} />
         <Route path="/user-history" element={<UserHistory />} />
-        <Route path="/edit-user" element={<EditUser />} />
-        <Route path="/add-events" element={<AddEvents />} />
-        <Route path="/edit-events" element={<EditEvents />} />
+        <Route path="/users/active-user/edit-user/:id" element={<EditUser />} />
+        <Route path="/events/add-events" element={<AddEvents />} />
+        <Route path="/events/edit-events/:id" element={<EditEvents />} />
       </Routes>
     </ThemeProvider>
   );

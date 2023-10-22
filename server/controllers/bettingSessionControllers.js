@@ -49,24 +49,46 @@ const deleteBettingSession = async(req, res) => {
     }
 };
 
-//get current bets
 const getCurrentBets = async (req, res) => {
     try {
         const currentDate = new Date();
         const formattedCurrentDate = currentDate.toISOString();
         console.log('Current Date:', currentDate);
 
-        const currentBets = await BettingSession.find({ timeRemaining: { $gt: formattedCurrentDate }});
+        const currentBets = await BettingSession.find({ timeRemaining: { $gt: formattedCurrentDate }})
+        .populate('user', 'username')
+        .populate('event', 'title');
         if(!currentBets || currentBets.length === 0) {
             return res.status(404).json({ success: false, message: 'No current bets found '});
         }
-        console.log('Current Bets:', currentBets);
+        const formattedBets = currentBets.map(bet => ({
+            user: bet.user ? bet.user.username : 'N/A', 
+            event: bet.event ? bet.event.title : 'N/A', 
+            eventType: bet.eventType,
+            nation: bet.nation,
+            amount: bet.amount,
+            odds: bet.odds,
+            timeRemaining: formatTimestamp(bet.timeRemaining),
+            createdAt: formatTimestamp(bet.createdAt),
+        }));
+
+        console.log('Current Bets:', formattedBets);
         res.status(201).json({ success: true, message: 'Current Bets', currentBets });
     } catch(error) {
         res.status(500).json({ success: false, message: 'Error retrieving current bets', error: error.message });
     }
 };
 
+function formatTimestamp(timestamp) {
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    return new Date(timestamp).toLocaleString('en-US', options);
+}
 
 
-module.exports = { createBettingSession, getAllBettingSessions, updateBettingSession, deleteBettingSession, getCurrentBets };
+module.exports = { 
+    createBettingSession, 
+    getAllBettingSessions, 
+    updateBettingSession, 
+    deleteBettingSession, 
+    getCurrentBets 
+};

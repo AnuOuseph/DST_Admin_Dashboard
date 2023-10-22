@@ -30,7 +30,8 @@ import Footer from "examples/Footer";
 // Overview page components
 import Header from "layouts/profile/components/Header";
 import PlatformSettings from "layouts/profile/components/PlatformSettings";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // Data
 import { Card } from "@mui/material";
 import MDButton from "components/MDButton";
@@ -45,27 +46,61 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import UserHistory from "layouts/userHistory";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 
 function Events() {
 
   const navigate = useNavigate()
-  const {data,loading,error} = useFetch("http://localhost:4000/api/admin/getAllEvents")
-  const events = data?.data?.events || [];
 
   const handleCreate = (event) => {
-    console.log('Create event');
+    navigate('/events/add-events')
   }
   const handleEdit = (event) => {
-    console.log("Edit event:", event.title);
+    navigate(`/events/edit-events/${event._id}`);
   };
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch events from the API
+    axios.get('http://localhost:4000/api/admin/getAllEvents')
+      .then((response) => {
+        setEvents(response?.data?.events);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching events:', error);
+        setLoading(false);
+      });
+  }, []);
 
   const handleDelete = (event) => {
-    console.log("Delete Event: ", event.title);
-  }
+    const isConfirmed = window.confirm("Are you sure you want to delete this event?");
+    const eventId = event._id
+    if (isConfirmed) {
+      // Make the delete request
+      axios.delete(`http://localhost:4000/api/admin/deleteEvent/${event._id}`)
+        .then(() => {
+          toast.success("Successfully deleted");
+          setTimeout(()=>{
+              location.reload()
+          },1000)
+        })
+        .catch((error) => {
+          console.error('Error deleting event:', error);
+        });
+    }
+  };
+
+
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <ToastContainer />
       <MDBox mb={2} />
         <MDBox mt={5} mb={3}>
           <Grid container spacing={1}>
@@ -77,13 +112,14 @@ function Events() {
                 </MDTypography>
                 <Grid item xs={12} lg={12}>
                 <Card sx={{ height: "100%" }}>
-                  <MDButton sx={{width: "20%", margin:"2%"}} variant="contained" color="primary" size="small" onClick={handleCreate}>
+                  <MDButton variant="gradient" color="error" sx={{margin: "10px", width: "20%", padding: "10px", alignSelf:"end"}} onClick={handleCreate}>
                     Create Event
                   </MDButton>
                   <TableContainer component={Paper}>
                   <Table sx={{ width: "100%" }} aria-label="simple table">
                     <TableHead sx={{ display: "table-header-group" }}>
                       <TableRow sx={{width: "20px"}}>
+                        <TableCell >Sl.No</TableCell>
                         <TableCell >Title</TableCell>
                         <TableCell >Date</TableCell>
                         <TableCell >Location</TableCell>
@@ -95,11 +131,12 @@ function Events() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {events.map((row) => (
+                      {events.map((row, index) => (
                         <TableRow
-                          key={row?.title}
+                          key={row?._id}
                           sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
+                          <TableCell>{index + 1}</TableCell>
                           <TableCell component="th" scope="row">
                             {row?.title}
                           </TableCell>
@@ -109,10 +146,10 @@ function Events() {
                           <TableCell>{row?.team1}</TableCell>
                           <TableCell>{row?.team2}</TableCell>
                           <TableCell>
-                            <MDButton variant="outlined" color="primary" onClick={() => handleEdit(row)}>Edit</MDButton>
+                            <MDButton variant="outlined" color="warning" onClick={() => handleEdit(row)}>Edit</MDButton>
                           </TableCell>
                           <TableCell>
-                            <MDButton variant="outlined" color="secondary" onClick={() => handleDelete(row)}>Delete</MDButton>
+                            <MDButton variant="outlined" color="dark" onClick={() => handleDelete(row)}>Delete</MDButton>
                           </TableCell>
                         </TableRow>
                       ))}
