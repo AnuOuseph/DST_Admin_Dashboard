@@ -18,4 +18,6 @@ router.post("/deleteUser/:id", deleteUsers);
 router.post("/updateUser/:id", updateUsers);
 router.get("/LoginHistory", getAllUsersLoginHistory);
 
+
+
 module.exports = router;

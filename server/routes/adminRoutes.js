@@ -2,7 +2,7 @@ const express = require("express");
 
 const { createEvent, getAllEvents, getEventById, updateEvent, deleteEvent, updateEventOutcome } = require('../controllers/eventControllers');
 const { createBettingSession, getAllBettingSessions, updateBettingSession, deleteBettingSession, getCurrentBets } = require('../controllers/bettingSessionControllers');
-const { createAdmin } = require('../controllers/adminControllers');
+const { createAdmin, adminLogin } = require('../controllers/adminControllers');
 const { totalUsers, 
     totalInvestedInBet, 
     totalRevenue, 
@@ -38,6 +38,7 @@ router.get('/getCurrentBets', getCurrentBets);
 
 //admin
 router.post('/createAdmin', createAdmin);
+router.post('/adminlogin',adminLogin)
 
 //dashboard
 router.get('/totalUsers', totalUsers)
