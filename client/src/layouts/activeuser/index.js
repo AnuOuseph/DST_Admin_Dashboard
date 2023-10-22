@@ -60,28 +60,8 @@ function ActiveUser() {
   const handleEdit = (id) => {
     navigate(`/users/edit-user/${id}`)
   }
-  
 
-  const handleDelete = (id) => {
-    const isConfirmed = window.confirm("Are you sure you want to delete this user?");
-    const userId = id._id
-    console.log(userId);
-    if(isConfirmed){
-      axios.delete(`http://localhost:4000/api/admin/deleteUser/${id._id}`)
-      .then((respo) => {
-        console.log("response",respo);
-        if(respo?.data?.success) {
-          const updatedUsers = user.filter((item) => item._id !== userId);
-          setUser(updatedUsers);
-          console.log(updatedUsers);
-        }
-      })
-      .catch((error) => {
-        console.error('Error deleting user', error);
-      })
-    }
-  }
-
+ 
   return (
     <DashboardLayout>
       <DashboardNavbar absolute isMini />
@@ -133,7 +113,7 @@ function ActiveUser() {
                             <MDButton variant="outlined" color="primary" onClick={() => handleEdit(row._id)}>Edit</MDButton>
                           </TableCell>
                           <TableCell>
-                            <MDButton variant="outlined" color="secondary" onClick={() => handleDelete(row)}>Delete</MDButton>
+                            <MDButton variant="outlined" color="secondary" onClick={() => handleDelete(row._id)}>Delete</MDButton>
                           </TableCell>
                         </TableRow>
                       ))}

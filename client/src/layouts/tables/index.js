@@ -37,15 +37,43 @@ import DataTable from "examples/Tables/DataTable";
 import authorsTableData from "layouts/tables/data/authorsTableData";
 import projectsTableData from "layouts/tables/data/projectsTableData";
 import MDButton from "components/MDButton";
+import axios from "axios";
+
 
 function Tables() {
   const { columns, rows } = authorsTableData();
   const { columns: pColumns, rows: pRows } = projectsTableData();
   const [checked, setChecked] = React.useState(false);
+  const [error, setError] = useState(null);
+  const [formData, setFormData] = useState({
+    adminID:'',
+    fullname:'',
+    password:'',
+    privilages:'',
+  })
+
+  const handleAdmin = (e) => {
+    const {name, value} = e.target;
+    setFormData({...formData, [name]: value});
+  };
+  console.log(formData);
+
+
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
 
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`http://localhost:4000/api/admin/createAdmin`, formData);
+    } catch (err) {
+      console.log(err);
+      setError(err);
+    }
+  };
+
+  
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -63,8 +91,11 @@ function Tables() {
                       sx={{
                         padding: "10px", // Add your desired padding value here
                       }}
-                      label="Client Id"
+                      name="adminID"
+                      label="Admin Id"
                       type="text"
+                      value={formData.adminID}
+                      onChange={handleAdmin}
                     />
                   </Grid>
                   <Grid lg={4}>
@@ -72,8 +103,11 @@ function Tables() {
                       sx={{
                         padding: "10px", // Add your desired padding value here
                       }}
+                      name="fullname"
                       label="Full Name"
                       type="text"
+                      value={formData.fullname}
+                      onChange={handleAdmin}
                     />
                   </Grid>
                   <Grid lg={4}>
@@ -81,8 +115,11 @@ function Tables() {
                       sx={{
                         padding: "10px", // Add your desired padding value here
                       }}
+                      name="password"
                       label="Password"
                       type="password"
+                      value={formData.password}
+                      onChange={handleAdmin}
                     />
                   </Grid>
                   <Grid lg={4}>
@@ -90,8 +127,8 @@ function Tables() {
                       sx={{
                         padding: "10px", // Add your desired padding value here
                       }}
+                      name="confirm password"
                       label="Confirm Password"
-                      type="password"
                     />
                   </Grid>
                 </Grid>
@@ -183,7 +220,7 @@ function Tables() {
                       label="Transaction Code"
                       type="text"
                     />
-                    <MDButton variant="gradient" color="error" sx={{marginY: "10px"}}>
+                    <MDButton variant="gradient" color="error" sx={{marginY: "10px"}} onClick={handleSubmit}>
                       Submit
                     </MDButton>
                   </Box>

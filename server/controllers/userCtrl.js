@@ -85,11 +85,39 @@ const Login = async (req, res) => {
   };
   
   //DELETE USER
+  // const deleteUsers = async (req, res) => {
+  //   let id = req.params.id;
+  //   await userModel.findByIdAndDelete({ _id: id });
+  //   res.json("success");
+  // };
+
   const deleteUsers = async (req, res) => {
-    let id = req.params.id;
-    await userModel.findByIdAndDelete({ _id: id });
-    res.json("success");
+    const userId = req.params.id;
+    try {
+      const deletedUser = await userModel.findByIdAndDelete(userId);
+      if(!deletedUser) {
+        return res.status(404).json({ success:false, message: `Cannot find by any user with ID ${userId}` });
+      }
+      res.status(201).json({ success: true, message: "User Deleted Successfully", deletedUser});
+    } catch(error) {
+        res.status(500).json({ message: 'Error deleting user', error: error.message });  
+    }
   };
+
+
+
+//   const deleteEvent= async (req, res) => {
+//     const eventId = req.params.id;
+//     try {
+//         const deletedEvent = await Event.findByIdAndDelete(eventId);
+//         if(!deletedEvent) {
+//             return res.status(404).json({ message: `Cannot find by any event with ID ${eventId}` });
+//         }
+//         res.status(201).json({ success: true, message: "Event Deleted Successfully", deletedEvent});
+//     } catch (error) {
+//         res.status(500).json({ message: 'Error deleting event', error: error.message });
+//     }
+// };
   
   //UPDATE USER
   // const updateUsers = async (req, res) => {

@@ -84,9 +84,9 @@ function Overview() {
                 <MDButton variant={sports?"gradient":"outlined"} color="dark" sx={{marginX: "10px"}} onClick={() => {setSports(true),setCasino(false)}} >
                   Sports
                 </MDButton>
-                <MDButton variant={casino?"gradient":"outlined"} color="dark" onClick={() => {setSports(false),setCasino(true)}}>
+                {/* <MDButton variant={casino?"gradient":"outlined"} color="dark" onClick={() => {setSports(false),setCasino(true)}}>
                   Casino
-                </MDButton>
+                </MDButton> */}
               </MDBox>
               <MDBox height="100%" mt={2} lineHeight={1}>
                 <MDButton variant="outlined" color="error" sx={{marginX: "10px"}} onClick={()=>{navigate('/user-history')}}>
