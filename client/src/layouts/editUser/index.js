@@ -101,17 +101,18 @@ function EditUser() {
         setFormData({ ...formData, [name]: value });
     };
     console.log("mo",formData)
+
     const handleSubmit = async(e) => {
         e.preventDefault();
         try{
             console.log("hahshagg")
             console.log("id",id,formData)
-            const res = await axios.post(`http://localhost:4000/api/user/updateUser/${id}`, formData);
+            const res = await axios.patch(`http://localhost:4000/api/user/updateUser/${id}`, formData);
             const mess = res?.data?.message;
             console.log("nbsbdhqb",res?.data)
             setMessage(mess)
         }catch(err){
-            console.log(err)
+            console.error('Error:', err);
             setErr(err)
         }
     };
@@ -167,6 +168,15 @@ function EditUser() {
                 <Grid item xs={12} md={6}>
                     <Card sx={{ boxShadow: "none" }}>
                         <MDBox p={2}>
+                        <Box p={2}>
+                                    <TextField
+                                        name="passowrd"
+                                        value={formData?.password}
+                                        type="password"
+                                        onChange={handleChange}
+                                        fullWidth
+                                    />
+                                </Box>
                             <Box p={2}>
                                 <TextField
                                     name="mobile"

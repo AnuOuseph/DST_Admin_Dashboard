@@ -92,33 +92,60 @@ const Login = async (req, res) => {
   };
   
   //UPDATE USER
+  // const updateUsers = async (req, res) => {
+  //   try {
+  //     const userId = req.params.id;
+  //     const { username, fullName, email, password, nation, mobile, balance } =
+  //       req.body;
+  //     const user = await userModel.findById(userId);
+  
+  //     if (!user) {
+  //       return res.status(404).json({ message: "User not found" });
+  //     }
+  
+  //     // Update user properties
+  //     Object.assign(user, {
+  //       username,
+  //       fullName,
+  //       email,
+  //       password,
+  //       nation,
+  //       mobile,
+  //       balance,
+  //     });
+  //     const updatedUser = await user.save();
+  //     res
+  //       .status(200)
+  //       .json({ message: "User updated successfully", user: updatedUser });
+  //   } catch (error) {
+  //     res.status(500).json({ message: "Update failed", error });
+  //   }
+  // };
+
   const updateUsers = async (req, res) => {
     try {
       const userId = req.params.id;
-      const { username, fullName, email, password, nation, mobile, balance } =
+      const { username, fullname, email, password, nation, mobile, balance } =
         req.body;
       const user = await userModel.findById(userId);
   
       if (!user) {
-        return res.status(404).json({ message: "User not found" });
+        return res.status(404).json({ success:false, message: "User not found" });
       }
   
       // Update user properties
-      Object.assign(user, {
-        username,
-        fullName,
-        email,
-        password,
-        nation,
-        mobile,
-        balance,
-      });
+      user.username = username;
+      user.fullname = fullname;
+      user.email = email;
+      user.password = password;
+      user.nation = nation;
+      user.mobile = mobile;
+      user.balance = balance;
+
       const updatedUser = await user.save();
-      res
-        .status(200)
-        .json({ message: "User updated successfully", user: updatedUser });
+      res.status(200).json({ success:true, message: "User updated successfully", user: updatedUser });
     } catch (error) {
-      res.status(500).json({ message: "Update failed", error });
+      res.status(500).json({ success:false, message: "Update failed", error: error.message });
     }
   };
   

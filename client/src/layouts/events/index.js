@@ -98,8 +98,6 @@ function Events() {
 
 
 
-
-
   return (
     <DashboardLayout>
       <DashboardNavbar />

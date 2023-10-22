@@ -46,9 +46,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import {  useState } from "react";
+import axios from "axios";
 
 function ActiveUser() {
 
+  const [user, setUser] = useState([]);
   const navigate = useNavigate();
   const {data,loading,error} = useFetch("http://localhost:4000/api/user/alluser")
   const users = data?.data  || [];
@@ -58,6 +61,27 @@ function ActiveUser() {
     navigate(`/users/edit-user/${id}`)
   }
   
+
+  const handleDelete = (id) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this user?");
+    const userId = id._id
+    console.log(userId);
+    if(isConfirmed){
+      axios.delete(`http://localhost:4000/api/admin/deleteUser/${id._id}`)
+      .then((respo) => {
+        console.log("response",respo);
+        if(respo?.data?.success) {
+          const updatedUsers = user.filter((item) => item._id !== userId);
+          setUser(updatedUsers);
+          console.log(updatedUsers);
+        }
+      })
+      .catch((error) => {
+        console.error('Error deleting user', error);
+      })
+    }
+  }
+
   return (
     <DashboardLayout>
       <DashboardNavbar absolute isMini />
