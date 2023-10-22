@@ -38,6 +38,8 @@ import Transactions from "layouts/billing/components/Transactions";
 import { Box, Button, Card, TextField } from "@mui/material";
 import MDButton from "components/MDButton";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -58,13 +60,30 @@ function ActiveUser() {
   console.log(users);
 
   const handleEdit = (id) => {
-    navigate(`/users/edit-user/${id}`)
+    navigate(`/users/active-user/edit-user/${id}`)
+  }
+  
+
+  const handleDelete = (id) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this user?");
+    if(isConfirmed){
+      axios.delete(`http://localhost:4000/api/user/deleteUser/${id._id}`)
+      .then(() => {
+        toast.success("Successfully deleted");
+        setTimeout(()=>{
+          location.reload()
+        },1500)
+      })
+      .catch((error) => {
+        console.error('Error deleting user', error);
+      })
+    }
   }
 
- 
   return (
     <DashboardLayout>
       <DashboardNavbar absolute isMini />
+      <ToastContainer />
       <MDBox mt={8}>
         <MDBox mb={3}>
         <Card sx={{ boxShadow: "none" }}>
@@ -85,6 +104,7 @@ function ActiveUser() {
                   <Table sx={{ width: "100%" }} aria-label="simple table">
                     <TableHead sx={{ display: "table-header-group" }}>
                       <TableRow sx={{width: "20px"}}>
+                        <TableCell >Sl.No</TableCell>
                         <TableCell >Email</TableCell>
                         <TableCell >Username</TableCell>
                         <TableCell >Full name</TableCell>
@@ -96,11 +116,12 @@ function ActiveUser() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {users.map((row) => (
+                      {users.map((row, index) => (
                         <TableRow
-                          key={row?.email}
-                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        key={row?.email}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
+                          <TableCell>{index + 1}</TableCell>
                           <TableCell component="th" scope="row">
                             {row?.email}
                           </TableCell>
@@ -113,7 +134,7 @@ function ActiveUser() {
                             <MDButton variant="outlined" color="primary" onClick={() => handleEdit(row._id)}>Edit</MDButton>
                           </TableCell>
                           <TableCell>
-                            <MDButton variant="outlined" color="secondary" onClick={() => handleDelete(row._id)}>Delete</MDButton>
+                            <MDButton variant="outlined" color="secondary" onClick={() => handleDelete(row)}>Delete</MDButton>
                           </TableCell>
                         </TableRow>
                       ))}

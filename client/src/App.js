@@ -163,7 +163,7 @@ export default function App() {
             <Sidenav
               color={sidenavColor}
               brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-              brandName="Material Dashboard 2"
+              brandName="BETZHUB ADMIN"
               routes={routes}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
@@ -187,7 +187,7 @@ export default function App() {
           <Sidenav
             color={sidenavColor}
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-            brandName="Material Dashboard 2"
+            brandName="BETZHUB ADMIN"
             routes={routes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
@@ -205,7 +205,7 @@ export default function App() {
         <Route path="/users/create-user" element={<CreateUser />} />
         <Route path="/user-authentication" element={<UserAuth />} />
         <Route path="/user-history" element={<UserHistory />} />
-        <Route path="/users/edit-user/:id" element={<EditUser />} />
+        <Route path="/users/active-user/edit-user/:id" element={<EditUser />} />
         <Route path="/events/add-events" element={<AddEvents />} />
         <Route path="/events/edit-events/:id" element={<EditEvents />} />
       </Routes>
