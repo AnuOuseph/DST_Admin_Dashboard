@@ -21,7 +21,8 @@ export const reportsLineChartData = (
   investmentByYear,
   revenueByDay,
   revenueByMonth,
-  revenueByYear
+  revenueByYear,
+  profitandLossBySport
 ) => {
   const days = [];
   const totalInvestmentDay = [];
@@ -29,6 +30,8 @@ export const reportsLineChartData = (
   const totalInvestmentYear = [];
   const totalRevenueDay = [];
   const totalRevnueYear = [];
+  const sport = [];
+  const sportRevenue = [];
   investmentByDay.forEach((item) => {
     days.push(item.day);
     totalInvestmentDay.push(item.totalInvestment);
@@ -42,6 +45,10 @@ export const reportsLineChartData = (
   });
   revenueByYear.forEach((item) => {
     totalRevnueYear.push(item.totalRevenue);
+  });
+  profitandLossBySport.forEach((item) => {
+    sport.push(item.sportName);
+    sportRevenue.push(item.revenue);
   });
   return {
     dailyInvestment: {
@@ -73,6 +80,16 @@ export const reportsLineChartData = (
     yearlyRevenue: {
       labels: year,
       datasets: { label: "Yearly Revenue", data: totalRevnueYear },
+    },
+
+    profitLossBySport: {
+      labels: sport,
+      datasets: [
+        {
+          label: "Sport P/L",
+          data: sportRevenue,
+        },
+      ],
     },
   };
 };

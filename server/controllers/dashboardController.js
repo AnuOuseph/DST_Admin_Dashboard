@@ -1,6 +1,7 @@
 const User = require('../models/userModel')
 const Bet = require('../models/bettingModel')
-const FinancialData = require('../models/financialDataModel')
+const FinancialData = require('../models/financialDataModel');
+const BettingSession = require('../models/bettingModel');
 
 
 const BetInvestment = async (startDate, endDate) => {
@@ -24,7 +25,7 @@ const WinTotal = async (startDate, endDate) => {
     const totalWinnings = await FinancialData.aggregate([
         {
             $match: {
-                activityType: 'win',
+                transactionType: 'win',
                 createdAt: { $gte: startDate, $lte: endDate },
             },
         },
@@ -93,7 +94,7 @@ const totalRevenue = async (req, res) => {
                 }
             }
         ])
-
+        
         const totalStakesAmount = totalStakes.length > 0 ? totalStakes[0].total : 0;
         const totalPayoutsAmount = totalPayouts.length > 0 ? totalPayouts[0].total : 0;
 
@@ -405,6 +406,59 @@ const totalRevenueByYear = async (req, res) => {
     }
 }
 
+const profitLoss = async (req,res) => {
+    try {
+        const totalStakesBySport = await BettingSession.aggregate([
+            {
+              $group: {
+                _id: '$eventType',
+                totalStakes: { $sum: '$amount' },
+              },
+            },
+          ]);
+          
+          const totalPayoutsBySport = await FinancialData.aggregate([
+            {
+              $match: { transactionType: 'win' },
+            },
+            {
+              $lookup: {
+                from: 'bettingsessions',
+                localField: '_id',
+                foreignField: 'associatedFinancialTransaction',
+                as: 'bettingSession',
+              },
+            },
+            {
+              $unwind: '$bettingSession',
+            },
+            {
+              $group: {
+                _id: '$bettingSession.eventType',
+                totalPayouts: { $sum: '$amount' },
+              },
+            },
+          ]);
+          
+          const sportRevenue = totalStakesBySport.map((sportStakes) => {
+            const totalPayoutsForSport = totalPayoutsBySport.find((sportPayouts) => sportPayouts._id === sportStakes._id);
+            const sportName = sportStakes._id;
+            const totalStakes = sportStakes.totalStakes || 0;
+            const totalPayouts = (totalPayoutsForSport && totalPayoutsForSport.totalPayouts) || 0;
+            const revenue = totalStakes - totalPayouts;
+            return {
+              sportName,
+              revenue,
+            };
+          });
+          
+          res.json({sportRevenue})
+          
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error fetching profit and loss', error: error.message });
+    }
+}
+
 
 
 
@@ -423,5 +477,6 @@ module.exports = {
     totalRevenueThisYear,
     totalRevenueByDay,
     totalRevenueByMonth,
-    totalRevenueByYear
+    totalRevenueByYear,
+    profitLoss
 }
