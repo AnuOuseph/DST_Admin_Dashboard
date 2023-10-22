@@ -190,14 +190,6 @@ function CreateUser() {
                                     fullWidth
                                 />
                             </Box>
-                            <Box p={2}>
-                                <TextField
-                                    name="role"
-                                    label="User Type"
-                                    type="text"
-                                    fullWidth
-                                />
-                            </Box>
                             <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit} >
                                 Create
                             </MDButton>
