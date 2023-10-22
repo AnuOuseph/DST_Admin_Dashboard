@@ -41,7 +41,6 @@ function EditUser() {
             try {
                 const res = await axios.get(`http://localhost:4000/api/user/getSingleUserById/${id}`);
                 const userData = res?.data?.user;
-                console.log("Event Data:", userData); // Debugging line
                 setUser(userData);
                 setFormData({
                     username: userData?.username || "",
@@ -89,7 +88,7 @@ function EditUser() {
             toast.success("User Updated");
             setTimeout(()=>{
                 navigate('/users')
-            },1500)
+            },1000)
             setMessage(mess)
         } catch (err) {
             setErr(err)

@@ -38,6 +38,8 @@ import authorsTableData from "layouts/tables/data/authorsTableData";
 import projectsTableData from "layouts/tables/data/projectsTableData";
 import MDButton from "components/MDButton";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function Tables() {
@@ -85,6 +87,10 @@ function Tables() {
     try {
       const res = await axios.post(`http://localhost:4000/api/admin/createAdmin`, formData);
       if(res.status === 201) {
+        toast.success("Successfully created");
+          setTimeout(()=>{
+              location.reload()
+          },1000)
         setSuccess("Admin created successfully")
       }
     } catch (err) {
@@ -96,6 +102,7 @@ function Tables() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <ToastContainer />
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>

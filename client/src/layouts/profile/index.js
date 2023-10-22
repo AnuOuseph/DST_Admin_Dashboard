@@ -67,11 +67,11 @@ function Overview() {
   const navigate = useNavigate()
   const {data,loading,error} = useFetch("http://localhost:4000/api/admin/getCurrentBets")
   const currentBets = data?.data?.currentBets || [];
-  console.log(currentBets);
+
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <DashboardNavbar  />
       <MDBox mb={2} />
         <MDBox mt={5} mb={3}>
           <Grid container spacing={1}>
@@ -143,8 +143,59 @@ function Overview() {
             </Grid>
           </Grid>
         </MDBox>
-      </DashboardLayout>
-    );
+        <MDBox p={2}>
+          <MDTypography sx={{ padding: "20px" }} variant="h6" fontWeight="medium" textTransform="capitalize">
+          </MDTypography>
+          <Grid item xs={12} lg={12}>
+            <Card sx={{ height: "100%" }}>
+              <MDBox pt={3}>
+                <TableContainer component={Paper}>
+                <Table sx={{ width: "100%" }} aria-label="simple table">
+                  <TableHead sx={{ display: "table-header-group" }}>
+                    <TableRow sx={{width: "20px"}}>
+                    <TableCell >Sl.No</TableCell>
+                    <TableCell >User</TableCell>
+                      <TableCell >Event</TableCell>
+                      <TableCell >Event Type</TableCell>
+                      <TableCell >Nation</TableCell>
+                      <TableCell >Amount</TableCell>
+                      <TableCell >Odds</TableCell>
+                      <TableCell >Time Remaining</TableCell>
+                      <TableCell >Created At</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {currentBets.map((row, index) => (
+                      <TableRow
+                        key={row?.user}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                      >
+                        <TableCell>{index + 1}</TableCell>
+                        <TableCell component="th" scope="row">
+                          {row?.user && row.user.username}
+                        </TableCell>
+                        <TableCell>{row?.event?.title}</TableCell>
+                        <TableCell>{row?.eventType}</TableCell>
+                        <TableCell>{row?.nation}</TableCell>
+                        <TableCell>{row?.amount}</TableCell>
+                        <TableCell>{row?.odds}</TableCell>
+                        <TableCell>{row?.timeRemaining}</TableCell>
+                        <TableCell>{row?.createdAt}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+                </TableContainer>
+              </MDBox>
+            </Card>
+          </Grid>
+        </MDBox>
+        </Card>
+        </Grid>
+        </Grid>
+        </MDBox>
+    </DashboardLayout>
+  );
 }
 
 export default Overview;

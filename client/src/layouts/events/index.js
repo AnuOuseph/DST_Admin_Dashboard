@@ -30,7 +30,8 @@ import Footer from "examples/Footer";
 // Overview page components
 import Header from "layouts/profile/components/Header";
 import PlatformSettings from "layouts/profile/components/PlatformSettings";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // Data
 import { Card } from "@mui/material";
 import MDButton from "components/MDButton";
@@ -67,7 +68,6 @@ function Events() {
     // Fetch events from the API
     axios.get('http://localhost:4000/api/admin/getAllEvents')
       .then((response) => {
-        console.log("hbs",response?.data?.data?.events)
         setEvents(response?.data?.events);
         setLoading(false);
       })
@@ -83,12 +83,11 @@ function Events() {
     if (isConfirmed) {
       // Make the delete request
       axios.delete(`http://localhost:4000/api/admin/deleteEvent/${event._id}`)
-        .then((response) => {
-          console.log(response)
-          if (response?.data?.success) {
-            const updatedEvents = events.filter((event) => event._id !== eventId);
-            setEvents(updatedEvents);
-          }
+        .then(() => {
+          toast.success("Successfully deleted");
+          setTimeout(()=>{
+              location.reload()
+          },1000)
         })
         .catch((error) => {
           console.error('Error deleting event:', error);
@@ -99,10 +98,57 @@ function Events() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <ToastContainer />
       <MDBox mb={2} />
         <MDBox mt={5} mb={3}>
           <Grid container spacing={1}>
             <Grid item xs={12} md={12} xl={12}>
+            <Card sx={{ boxShadow: "none" }}>
+            <MDBox p={2} >
+                <MDTypography sx={{ padding: "20px" }} variant="h6" fontWeight="medium" textTransform="capitalize">
+                Events
+                </MDTypography>
+                <Grid item xs={12} lg={12}>
+                <Card sx={{ height: "100%" }}>
+                  <MDButton variant="gradient" color="error" sx={{margin: "10px", width: "20%", padding: "10px", alignSelf:"end"}} onClick={handleCreate}>
+                    Create Event
+                  </MDButton>
+                  <TableContainer component={Paper}>
+                  <Table sx={{ width: "100%" }} aria-label="simple table">
+                    <TableHead sx={{ display: "table-header-group" }}>
+                      <TableRow sx={{width: "20px"}}>
+                        <TableCell >Sl.No</TableCell>
+                        <TableCell >Title</TableCell>
+                        <TableCell >Date</TableCell>
+                        <TableCell >Location</TableCell>
+                        <TableCell >Sport</TableCell>
+                        <TableCell >Team 1</TableCell>
+                        <TableCell >Team 2</TableCell>
+                        <TableCell >Edit</TableCell>
+                        <TableCell >Delete</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {events.map((row, index) => (
+                        <TableRow
+                          key={row?._id}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                          <TableCell>{index + 1}</TableCell>
+                          <TableCell component="th" scope="row">
+                            {row?.title}
+                          </TableCell>
+                          <TableCell>{row?.date}</TableCell>
+                          <TableCell>{row?.location}</TableCell>
+                          <TableCell>{row?.sport}</TableCell>
+                          <TableCell>{row?.team1}</TableCell>
+                          <TableCell>{row?.team2}</TableCell>
+                          <TableCell>
+                            <MDButton variant="outlined" color="warning" onClick={() => handleEdit(row)}>Edit</MDButton>
+                          </TableCell>
+                          <TableCell>
+                            <MDButton variant="outlined" color="dark" onClick={() => handleDelete(row)}>Delete</MDButton>
+                          </TableCell>
               <Card sx={{ boxShadow: "none" }}>
                 <MDBox p={2} >
                   <MDTypography sx={{ padding: "20px" }} variant="h6" fontWeight="medium" textTransform="capitalize">
