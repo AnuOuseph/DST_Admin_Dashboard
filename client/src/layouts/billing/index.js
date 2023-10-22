@@ -38,8 +38,26 @@ import { Box, Button, Card, TextField } from "@mui/material";
 import MDButton from "components/MDButton";
 import { useNavigate } from "react-router-dom";
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+import useFetch from "hooks/useFetch";
+
 function User() {
   const navigate = useNavigate();
+  const {data,loading,error} = useFetch("http://localhost:4000/api/user/usersActiveAndInActive")
+  const users = data?.data?.usersActiveAndInActive || [];
+  console.log(users);
+
+  // const handleEdit = (id) => {
+  //   navigate(`/users/edit-user/${id}`)
+  // }
+
   return (
     <DashboardLayout>
       <DashboardNavbar absolute isMini />
@@ -47,6 +65,7 @@ function User() {
         <MDBox mb={3}>
         <Card sx={{ boxShadow: "none" }}>
           <Grid xs={12} lg={12} sx={{ display: "flex", justifyContent: "end", paddingX: "20px" }}>
+            
               <MDBox height="100%" mt={2} lineHeight={1}>
                 <MDButton variant="outlined" color="error" sx={{margin: "10px"}} onClick={()=>{navigate('/users/active-user')}}>
                   Active User
@@ -59,7 +78,42 @@ function User() {
           <Grid container spacing={3}>
              <Grid item xs={12} lg={12}>
               <Card sx={{ padding:"20px",boxShadow: "1px" }}>
-                <Invoices />
+                
+                {/* <Invoices /> */}
+                <TableContainer component={Paper}>
+                  <Table sx={{ width: "100%" }} aria-label="simple table">
+                    <TableHead sx={{ display: "table-header-group" }}>
+                      <TableRow sx={{width: "20px"}}>
+                        <TableCell >Email</TableCell>
+                        <TableCell >Username</TableCell>
+                        <TableCell >Full name</TableCell>
+                        <TableCell >Nation</TableCell>
+                        <TableCell >Mobile</TableCell>
+                        <TableCell >Balance</TableCell>
+                        <TableCell >Account Status</TableCell>
+                        
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {users.map((row) => (
+                        <TableRow
+                          key={row?.email}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {row?.email}
+                          </TableCell>
+                          <TableCell>{row?.username}</TableCell>
+                          <TableCell>{row?.fullname}</TableCell>
+                          <TableCell>{row?.nation}</TableCell>
+                          <TableCell>{row?.mobile}</TableCell>
+                          <TableCell>{row?.balance}</TableCell>
+                          <TableCell style={getStatusCellStyle(row?.accountStatus)}>{row?.accountStatus}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
               </Card>
             </Grid>
           </Grid>
@@ -69,5 +123,26 @@ function User() {
     </DashboardLayout>
   );
 }
+
+function getStatusCellStyle(accountStatus) {
+  let style = {
+    color: 'black', 
+  };
+  switch (accountStatus) {
+    case 'active':
+      style.color = 'green'; 
+      break;
+    case 'banned':
+      style.color = 'red'; 
+      break;
+    case 'suspended':
+      style.color = 'orange'; 
+
+    default:
+      break;
+  }
+  return style;
+}
+
 
 export default User;

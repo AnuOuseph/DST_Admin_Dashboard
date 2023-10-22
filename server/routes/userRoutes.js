@@ -7,6 +7,7 @@ const {
   updateUsers,
   getAllUsersLoginHistory,
   getSingleUserById,
+  usersActiveAndInActive
 } = require("../controllers/userCtrl");
 
 //router
@@ -19,5 +20,6 @@ router.post("/deleteUser/:id", deleteUsers);
 router.post("/updateUser/:id", updateUsers);
 router.get("/LoginHistory", getAllUsersLoginHistory);
 router.get('/getSingleUserById/:id', getSingleUserById);
+router.get('/usersActiveAndInActive', usersActiveAndInActive);
 
 module.exports = router;

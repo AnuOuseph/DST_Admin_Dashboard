@@ -1,12 +1,16 @@
 const mongoose = require('mongoose');
+const User = require('./userModel');
+
 
 const bettingSessionSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users',
         required: true,
     },
     event: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'event',
         required: true,
     },
     amount: {

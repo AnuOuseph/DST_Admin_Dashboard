@@ -160,6 +160,15 @@ const Login = async (req, res) => {
       return res.status(500).json({ success: false, message: `Error fetching user by ID ${userId}`, error: error.message });
     }
   };
+
+  const usersActiveAndInActive = async(req,res) => {
+    try {
+      const usersActiveAndInActive = await userModel.find();
+      return res.json({ success: true, usersActiveAndInActive});
+    } catch(error) {
+      res.json(error);
+    }
+  };
   
   module.exports = {
     register,
@@ -168,6 +177,7 @@ const Login = async (req, res) => {
     deleteUsers,
     updateUsers,
     getAllUsersLoginHistory,
-    getSingleUserById
+    getSingleUserById,
+    usersActiveAndInActive
   };
   
