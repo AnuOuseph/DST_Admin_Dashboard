@@ -83,13 +83,6 @@ const Login = async (req, res) => {
       res.json(error);
     }
   };
-  
-  //DELETE USER
-  // const deleteUsers = async (req, res) => {
-  //   let id = req.params.id;
-  //   await userModel.findByIdAndDelete({ _id: id });
-  //   res.json("success");
-  // };
 
   const deleteUsers = async (req, res) => {
     const userId = req.params.id;
@@ -107,24 +100,26 @@ const Login = async (req, res) => {
   const updateUsers = async (req, res) => {
     try {
       const userId = req.params.id;
-      const { username, fullname, email, password, nation, mobile, balance } =
+      const { username, fullname, email, nation, mobile, balance, accountStatus } =
         req.body;
       const user = await userModel.findById(userId);
   
       if (!user) {
         return res.status(404).json({ success:false, message: "User not found" });
       }
-  
-      // Update user properties
-      user.username = username;
-      user.fullname = fullname;
-      user.email = email;
-      user.password = password;
-      user.nation = nation;
-      user.mobile = mobile;
-      user.balance = balance;
 
-      const updatedUser = await user.save();
+      const updatedUser = await userModel.updateOne({_id:userId},{
+        $set:{
+          username : username,
+          fullname : fullname,
+          email : email,
+          nation : nation,
+          mobile : mobile,
+          balance : balance,
+          accountStatus : accountStatus
+        }
+      })
+
       res.status(200).json({ success:true, message: "User updated successfully", user: updatedUser });
     } catch (error) {
       res.status(500).json({ success:false, message: "Update failed", error: error.message });

@@ -16,12 +16,6 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Grid from "@mui/material/Grid";
-import Divider from "@mui/material/Divider";
-
-// @mui icons
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -30,62 +24,44 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
-import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
-import ProfilesList from "examples/Lists/ProfilesList";
-import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
-
-// Overview page components
-import Header from "layouts/profile/components/Header";
-import PlatformSettings from "layouts/profile/components/PlatformSettings";
-
-// Data
-import profilesListData from "layouts/profile/data/profilesListData";
-
 // Images
-import homeDecor1 from "assets/images/home-decor-1.jpg";
-import homeDecor2 from "assets/images/home-decor-2.jpg";
-import homeDecor3 from "assets/images/home-decor-3.jpg";
-import homeDecor4 from "assets/images/home-decor-4.jpeg";
-import team1 from "assets/images/team-1.jpg";
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
-import { Box, Card, TextField } from "@mui/material";
+import { Box, Card, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import MDButton from "components/MDButton";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function EditUser() {
     const { id } = useParams();
-    console.log(id)
     const [user, setUser] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
-          try {
-            const res = await axios.get(`http://localhost:4000/api/user/getSingleUserById/${id}`);
-            const userData = res?.data?.user;
-            console.log("Event Data:", userData); // Debugging line
-            setUser(userData);
-            setFormData({
-                username: userData?.username || "",
-                fullname: userData?.fullname || "",
-                email: userData?.email || "",
-                nation: userData?.nation || "",
-                mobile: userData?.mobile || "",
-                balance: userData?.balance || "",
-              });
+            try {
+                const res = await axios.get(`http://localhost:4000/api/user/getSingleUserById/${id}`);
+                const userData = res?.data?.user;
+                console.log("Event Data:", userData); // Debugging line
+                setUser(userData);
+                setFormData({
+                    username: userData?.username || "",
+                    fullname: userData?.fullname || "",
+                    email: userData?.email || "",
+                    nation: userData?.nation || "",
+                    mobile: userData?.mobile || "",
+                    balance: userData?.balance || "",
+                    accountStatus: userData?.accountStatus || "",
+                });
 
-          } catch (error) {
-            console.error("Error fetching event data:", error);
-          }
+            } catch (error) {
+                console.error("Error fetching event data:", error);
+            }
         };
-      
-        fetchData();
-      }, [id]);
 
-    const [err,setErr] = useState(null)
+        fetchData();
+    }, [id]);
+
+    const [err, setErr] = useState(null)
     const [message, setMessage] = useState(null)
     const [formData, setFormData] = useState({
         username: "",
@@ -94,47 +70,92 @@ function EditUser() {
         nation: "",
         mobile: "",
         balance: "",
+        accountStatus: ""
     });
-    console.log(formData)
+    const navigate = useNavigate()
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
-    console.log("mo",formData)
+    const selectStyle = {
+        height: '50px', 
+      };
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
-            console.log("hahshagg")
-            console.log("id",id,formData)
+        try {
             const res = await axios.patch(`http://localhost:4000/api/user/updateUser/${id}`, formData);
             const mess = res?.data?.message;
-            console.log("nbsbdhqb",res?.data)
+            toast.success("User Updated");
+            setTimeout(()=>{
+                navigate('/users')
+            },1500)
             setMessage(mess)
-        }catch(err){
-            console.error('Error:', err);
+        } catch (err) {
             setErr(err)
         }
     };
 
 
-  return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox mb={2} />
-        <MDBox mt={5} mb={3}>
-            <Grid container spacing={1}>
-                <Grid item xs={12} md={6}>
-                    <Card sx={{ boxShadow: "none" }}>
-                        <MDBox p={2}>
-                            <MDTypography sx={{ margin: '20px' }} variant="h6" fontWeight="medium" textTransform="capitalize">
-                                General Information
-                            </MDTypography>
-                            <form>
-                                <Box p={2}> 
+    return (
+        <DashboardLayout>
+            <DashboardNavbar />
+            <ToastContainer />
+            <MDBox mb={2} />
+            <MDBox mt={5} mb={3}>
+                <Grid container spacing={1}>
+                    <Grid item xs={12} md={6}>
+                        <Card sx={{ boxShadow: "none" }}>
+                            <MDBox p={2}>
+                                <MDTypography sx={{ margin: '20px' }} variant="h6" fontWeight="medium" textTransform="capitalize">
+                                    General Information
+                                </MDTypography>
+                                <form>
+                                    <Box p={2}>
+                                        <TextField
+                                            label="User name"
+                                            name="username"
+                                            value={formData?.username}
+                                            type="text"
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box p={2}>
+                                        <TextField
+                                            label="Full name"
+                                            name="fullname"
+                                            value={formData?.fullname}
+                                            type="text"
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box p={2}>
+                                        <TextField
+                                            label="Email"
+                                            name="email"
+                                            value={formData?.email}
+                                            type="email"
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+
+                                </form>
+                            </MDBox>
+                            <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
+                            </MDBox>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Card sx={{ boxShadow: "none" }}>
+                            <MDBox p={2}>
+                                <Box p={2}>
                                     <TextField
-                                        name="username"
-                                        value={formData?.username}
+                                        label="Balance"
+                                        name="balance"
+                                        value={formData?.balance}
                                         type="text"
                                         onChange={handleChange}
                                         fullWidth
@@ -142,8 +163,9 @@ function EditUser() {
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        name="fullname"
-                                        value={formData?.fullname}
+                                        label="Mobile"
+                                        name="mobile"
+                                        value={formData?.mobile}
                                         type="text"
                                         onChange={handleChange}
                                         fullWidth
@@ -151,64 +173,46 @@ function EditUser() {
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        name="email"
-                                        value={formData?.email}
-                                        type="email"
+                                        label="Nation"
+                                        name="nation"
+                                        value={formData?.nation}
+                                        type="text"
                                         onChange={handleChange}
                                         fullWidth
                                     />
                                 </Box>
-                                
-                            </form>
-                        </MDBox>
-                        <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
-                        </MDBox>
-                    </Card>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <Card sx={{ boxShadow: "none" }}>
-                        <MDBox p={2}>
-                        <Box p={2}>
-                                    <TextField
-                                        name="passowrd"
-                                        value={formData?.password}
-                                        type="password"
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
+                                <Box p={2}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label">Account Status</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            name="accountStatus"
+                                            value={formData?.accountStatus}
+                                            label="Account Status"
+                                            onChange={handleChange}
+                                            style={selectStyle}
+                                        >
+                                            <MenuItem value={"active"}>Active</MenuItem>
+                                            <MenuItem value={"banned"}>Banned</MenuItem>
+                                            <MenuItem value={"suspended"}>Suspended</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                 </Box>
-                            <Box p={2}>
-                                <TextField
-                                    name="mobile"
-                                    value={formData?.mobile}
-                                    type="text"
-                                    onChange={handleChange}
-                                    fullWidth
-                                />
-                            </Box>
-                            <Box p={2}>
-                                <TextField
-                                    name="nation"
-                                    value={formData?.nation}
-                                    type="text"
-                                    onChange={handleChange}
-                                    fullWidth
-                                />
-                            </Box>
-                            <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit} >
-                                Update
-                            </MDButton>
-                            {/* <p style={{ fontSize: "12px", paddingX: "20px" }}>{message?message:null}</p>
+                                <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit} >
+                                    Update
+                                </MDButton>
+                                {/* <p style={{ fontSize: "12px", paddingX: "20px" }}>{message?message:null}</p>
                             <p style={{ fontSize: "12px", paddingX: "20px", color: "red" }}>{err?err:null}</p> */}
-                        </MDBox>
-                        <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
-                        </MDBox>
-                    </Card>
+                            </MDBox>
+                            <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
+                            </MDBox>
+                        </Card>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </MDBox>
-    </DashboardLayout>
-  );
+            </MDBox>
+        </DashboardLayout>
+    );
 }
 
 export default EditUser;

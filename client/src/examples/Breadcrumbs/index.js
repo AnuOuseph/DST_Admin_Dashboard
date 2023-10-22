@@ -29,7 +29,7 @@ import MDTypography from "components/MDTypography";
 
 function Breadcrumbs({ icon, title, route, light }) {
   const routes = route.slice(0, -1);
-
+  console.log(routes, route, "routes");
   return (
     <MDBox mr={{ xs: 0, xl: 8 }}>
       <MuiBreadcrumbs
@@ -50,8 +50,8 @@ function Breadcrumbs({ icon, title, route, light }) {
             <Icon>{icon}</Icon>
           </MDTypography>
         </Link>
-        {routes.map((el) => (
-          <Link to={`/${el}`} key={el}>
+        {routes.map((el, index) => (
+          <Link to={`/${routes.slice(0, index + 1).join(`/`)}`} key={el}>
             <MDTypography
               component="span"
               variant="button"
