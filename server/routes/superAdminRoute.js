@@ -7,7 +7,6 @@ const {
 //router
 const router = express.Router();
 
-router.post("/superadminregister", SuperAdminRegister);
 router.post("/superadminlogin", superAdminLogin);
 
 module.exports = router;
