@@ -56,9 +56,12 @@ import MDButton from "components/MDButton";
 import useFetch from "hooks/useFetch";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CreateUser() {
-    const [error,setError] = useState(null)
+    const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null);
 
     const [formData, setFormData] = useState({
@@ -75,7 +78,6 @@ function CreateUser() {
         setFormData({ ...formData, [name]: value });
         setError(null);
     };
-
     const isFormValid = () => {
         const {
           username,
@@ -104,7 +106,7 @@ function CreateUser() {
         mobile.match(mobileRegex)
           );
         };
-
+    const navigate = useNavigate()
     const handleSubmit = async(e) => {
         e.preventDefault();
 
@@ -112,92 +114,88 @@ function CreateUser() {
             setError("Please fill out all the required fields.");
             return;
           } else {
-              try{
-                  const res = await axios.post("http://localhost:4000/api/user/registerUser",formData);
-                  if(res.status === 201) {
-                      setSuccess("User created successfully")
-                    }
-                  console.log("nbsbdhqb",res?.data)
-              }catch(err){
-                  console.log(err)
-                  setError(err)
-              }
+              try {
+            const res = await axios.post("http://localhost:4000/api/user/registerUser", formData);
+            if (res.status === 201) {
+                toast.success("Successfully created");
+                setTimeout(() => {
+                    navigate('/users')
+                }, 1000)
+                setSuccess("User created successfully")
+            }
+        } catch (err) {
+            setError(err)
+        }
           }
     };
-
-
-  return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox mb={2} />
-        <MDBox mt={5} mb={3}>
-            <Grid container spacing={1}>
-                <Grid item xs={12} md={6}>
-                    <Card sx={{ boxShadow: "none" }}>
-                        <MDBox p={2}>
-                            <MDTypography 
-                            sx={{ margin: '20px' }} 
-                            variant="h6" 
-                            fontWeight="medium" 
-                            textTransform="capitalize"
-                            >
-                                General Information
-                            </MDTypography>
-                            <form>
-                                <Box p={2}>
-                                    <TextField
-                                        name="username"
-                                        label="Username"
-                                        type="text"
-                                        value={formData.username}
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Box p={2}>
-                                    <TextField
-                                        name="fullname"
-                                        label="Full Name"
-                                        type="text"
-                                        value={formData.fullname}
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Box p={2}>
-                                    <TextField
-                                        name="password"
-                                        label="Password"
-                                        type="password"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Box p={2}>
-                                    <TextField
-                                        label="Confirm Password"
-                                        type="password"
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Box p={2}>
-                                    <TextField
-                                        name="balance"
-                                        label="Balance"
-                                        type="number"
-                                        value={formData.balance}
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                                
-                            </form>
-                        </MDBox>
-                        <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
-                        </MDBox>
-                    </Card>
-                </Grid>
+  
+    return (
+        <DashboardLayout>
+            <DashboardNavbar />
+            <ToastContainer />
+            <MDBox mb={2} />
+            <MDBox mt={5} mb={3}>
+                <Grid container spacing={1}>
+                    <Grid item xs={12} md={6}>
+                        <Card sx={{ boxShadow: "none" }}>
+                            <MDBox p={2}>
+                                <MDTypography sx={{ margin: '20px' }} variant="h6" fontWeight="medium" textTransform="capitalize">
+                                    General Information
+                                </MDTypography>
+                                <form>
+                                    <Box p={2}>
+                                        <TextField
+                                            name="username"
+                                            label="Username"
+                                            type="text"
+                                            value={formData.username}
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box p={2}>
+                                        <TextField
+                                            name="fullname"
+                                            label="Full Name"
+                                            type="text"
+                                            value={formData.fullname}
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box p={2}>
+                                        <TextField
+                                            name="password"
+                                            label="Password"
+                                            type="password"
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box p={2}>
+                                        <TextField
+                                            label="Confirm Password"
+                                            type="password"
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box p={2}>
+                                        <TextField
+                                            name="balance"
+                                            label="Balance"
+                                            type="number"
+                                            value={formData.balance}
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                </form>
+                            </MDBox>
+                            <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
+                            </MDBox>
+                        </Card>
+                    </Grid>
                 <Grid item xs={12} md={6}>
                     <Card sx={{ boxShadow: "none" }}>
                         <MDBox p={2}>
@@ -253,10 +251,9 @@ function CreateUser() {
                         </MDBox>
                     </Card>
                 </Grid>
-            </Grid>
-        </MDBox>
-    </DashboardLayout>
-  );
+            </MDBox>
+        </DashboardLayout>
+    );
 }
 
 export default CreateUser;

@@ -53,11 +53,12 @@ import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 import { Box, Card, TextField } from "@mui/material";
 import MDButton from "components/MDButton";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useFetch from "hooks/useFetch";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function EditEvents() {
@@ -66,38 +67,36 @@ function EditEvents() {
     const [event, setEvent] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
-          try {
-            const res = await axios.get(`http://localhost:4000/api/admin/getEventById/${id}`);
-            const eventData = res?.data?.event;
-            console.log("Event Data:", eventData); 
-            setEvent(eventData);
-            const inputDate = eventData?.date;
-            const dateObject = new Date(inputDate);
-            const year = dateObject.getFullYear();
-            const month = String(dateObject.getMonth() + 1).padStart(2, '0');
-            const day = String(dateObject.getDate()).padStart(2, '0');
-            const formattedDate = `${year}-${month}-${day}`;
-            console.log(formattedDate);
-            setFormData({
-                title: eventData?.title || "",
-                date: formattedDate || "",
-                sport: eventData?.sport || "",
-                location: eventData?.location || "",
-                description: eventData?.description || "",
-                outcome: eventData?.outcome || "",
-                team1: eventData?.team1 || "",
-                team2: eventData?.team2 || "",
-              });
+            try {
+                const res = await axios.get(`http://localhost:4000/api/admin/getEventById/${id}`);
+                const eventData = res?.data?.event;
+                setEvent(eventData);
+                const inputDate = eventData?.date;
+                const dateObject = new Date(inputDate);
+                const year = dateObject.getFullYear();
+                const month = String(dateObject.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+                const day = String(dateObject.getDate()).padStart(2, '0');
+                const formattedDate = `${year}-${month}-${day}`;
+                setFormData({
+                    title: eventData?.title || "",
+                    date: formattedDate || "",
+                    sport: eventData?.sport || "",
+                    location: eventData?.location || "",
+                    description: eventData?.description || "",
+                    outcome: eventData?.outcome || "",
+                    team1: eventData?.team1 || "",
+                    team2: eventData?.team2 || "",
+                });
 
-          } catch (error) {
-            console.error("Error fetching event data:", error);
-          }
+            } catch (error) {
+                console.error("Error fetching event data:", error);
+            }
         };
-      
-        fetchData();
-      }, [id]);
 
-    const [err,setErr] = useState(null)
+        fetchData();
+    }, [id]);
+    const navigate = useNavigate()
+    const [err, setErr] = useState(null)
     const [message, setMessage] = useState(null)
     const [formData, setFormData] = useState({
         title: "",
@@ -108,49 +107,104 @@ function EditEvents() {
         outcome: "",
         team1: "",
         team2: "",
-      });
-    console.log(formData)
+    });
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
-    console.log("mo",formData)
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
-            console.log("hahshagg")
-            console.log("id",id,formData)
+        try {
             const res = await axios.patch(`http://localhost:4000/api/admin/updateEvent/${id}`, formData);
             const mess = res?.data?.message;
-            console.log("nbsbdhqb",res?.data)
+            toast.success("Successfully updated");
+            setTimeout(() => {
+                navigate('/events')
+            }, 1000)
             setMessage(mess)
-        }catch(err){
+        } catch (err) {
             console.log(err)
             setErr(err)
         }
     };
-  return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox mb={2} />
-        <MDBox mt={5} mb={3}>
-            <Grid container spacing={1}>
-                <Grid item xs={12} md={6}>
-                    <Card sx={{ boxShadow: "none" }}>
-                        <MDBox p={2}>
-                            <MDTypography 
-                                sx={{ margin: '20px' }} 
-                                variant="h6" 
-                                fontWeight="medium" 
-                                textTransform="capitalize"
-                            >
-                                Edit Event
-                            </MDTypography>
-                            <form>
+    return (
+        <DashboardLayout>
+            <DashboardNavbar />
+            <ToastContainer />
+            <MDBox mb={2} />
+            <MDBox mt={5} mb={3}>
+                <Grid container spacing={1}>
+                    <Grid item xs={12} md={6}>
+                        <Card sx={{ boxShadow: "none" }}>
+                            <MDBox p={2}>
+                                <MDTypography sx={{ margin: '20px' }} variant="h6" fontWeight="medium" textTransform="capitalize">
+                                    Edit Event
+                                </MDTypography>
+                                <form>
+                                    <Box p={2}>
+                                        <TextField
+                                            name="title"
+                                            label="Title"
+                                            value={formData?.title}
+                                            type="text"
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box p={2}>
+                                        <TextField
+                                            name="date"
+                                            label="Date"
+                                            value={formData?.date}
+                                            type="date"
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box p={2}>
+                                        <TextField
+                                            name="sport"
+                                            label="Sport"
+                                            value={formData?.sport}
+                                            type="text"
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box p={2}>
+                                        <TextField
+                                            name="location"
+                                            label="Location"
+                                            value={formData?.location}
+                                            type="text"
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box p={2}>
+                                        <TextField
+                                            name="description"
+                                            label="Description"
+                                            value={formData?.description}
+                                            type="text"
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                </form>
+                            </MDBox>
+                            <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
+                            </MDBox>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Card sx={{ boxShadow: "none" }}>
+                            <MDBox p={2}>
                                 <Box p={2}>
                                     <TextField
-                                        name="title"
-                                        value={formData?.title}
+                                        name="outcome"
+                                        label="Outcome"
+                                        value={formData?.outcome}
                                         type="text"
                                         onChange={handleChange}
                                         fullWidth
@@ -158,17 +212,9 @@ function EditEvents() {
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        name="date"
-                                        value={formData?.date}
-                                        type="date"
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Box p={2}>
-                                    <TextField
-                                        name="sport"
-                                        value={formData?.sport}
+                                        label="Team 1"
+                                        name="team1"
+                                        value={formData?.team1}
                                         type="text"
                                         onChange={handleChange}
                                         fullWidth
@@ -176,77 +222,28 @@ function EditEvents() {
                                 </Box>
                                 <Box p={2}>
                                     <TextField
-                                        name="location"
-                                        value={formData?.location}
+                                        label="Team 2"
+                                        name="team2"
+                                        value={formData?.team2}
                                         type="text"
                                         onChange={handleChange}
                                         fullWidth
                                     />
                                 </Box>
-                                <Box p={2}>
-                                    <TextField
-                                        name="description"
-                                        value={formData?.description}
-                                        type="text"
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                            </form>
-                        </MDBox>
-                        <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
-                        </MDBox>
-                    </Card>
+                                <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit} >
+                                    Update
+                                </MDButton>
+                                <p style={{ fontSize: "12px", paddingX: "20px" }}>{message ? message : null}</p>
+                                <p style={{ fontSize: "12px", paddingX: "20px", color: "red" }}>{err ? err : null}</p>
+                            </MDBox>
+                            <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
+                            </MDBox>
+                        </Card>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                    <Card sx={{ boxShadow: "none" }}>
-                        <MDBox p={2}>
-                            <Box p={2}>
-                                <TextField
-                                    name="outcome"
-                                    value={formData?.outcome}
-                                    type="text"
-                                    onChange={handleChange}
-                                    fullWidth
-                                />
-                            </Box>
-                            <Box p={2}>
-                                <TextField
-                                    name="team1"
-                                    value={formData?.team1}
-                                    type="text"
-                                    onChange={handleChange}
-                                    fullWidth
-                                />
-                            </Box>
-                            <Box p={2}>
-                                <TextField
-                                    name="team2"
-                                    value={formData?.team2}
-                                    type="text"
-                                    onChange={handleChange}
-                                    fullWidth
-                                />
-                            </Box>
-                            <MDButton 
-                                sx={{ margin: '20px' }} 
-                                variant="gradient" 
-                                color="dark" 
-                                onClick={handleSubmit} 
-                            >
-                                Update
-                            </MDButton>
-                            <p style={{ fontSize: "12px", paddingX: "20px" }}>{message?message:null}</p>
-                            <p style={{ fontSize: "12px", paddingX: "20px", color: "red" }}>{err?err:null}</p>
-                        </MDBox>
-                        <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
-                        </MDBox>
-                    </Card>
-                </Grid>
-            </Grid>
-        </MDBox>
-    </DashboardLayout>
-  );
+            </MDBox>
+        </DashboardLayout>
+    );
 }
 
 export default EditEvents;

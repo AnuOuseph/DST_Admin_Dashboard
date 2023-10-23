@@ -4,6 +4,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const adminRouter = require('./routes/adminRoutes');
 const userRoute = require('./routes/userRoutes');
+const superadminRoute = require('./routes/superAdminRoute');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const logger = require('morgan')
@@ -24,6 +25,7 @@ app.use(cors());
 
 app.use('/api/admin', adminRouter);
 app.use("/api/user", userRoute);
+app.use("/api/superadmin", superadminRoute);
 
 app.use((req, res) => {
     res.send({ code: 404, error: httpMsg[404] })

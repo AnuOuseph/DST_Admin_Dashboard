@@ -13,7 +13,9 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 // react-router-dom components
 import { Link } from "react-router-dom";
@@ -40,12 +42,35 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
-
-function Basic() {
-  const [rememberMe, setRememberMe] = useState(false);
-
-  const handleSetRememberMe = () => setRememberMe(!rememberMe);
-
+import button from "./../../../assets/theme-dark/components/button/index";
+function SignIn() {
+  const history = useNavigate();
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  async function submit(e) {
+    e.preventDefault();
+    try {
+      await axios
+        .post("http://localhost:4000/api/superadmin/superadminlogin", {
+          username,
+          password,
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.data.status) {
+            history("/dashboard", { state: { id: username } });
+          } else if (res.data == "notexist") {
+            alert("User have not sign up");
+          }
+        })
+        .catch((e) => {
+          alert("wrong details");
+          console.log(e);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  }
   return (
     <BasicLayout image={bgImage}>
       <Card>
@@ -82,27 +107,40 @@ function Basic() {
           </Grid>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
-          <MDBox component="form" role="form">
+          <MDBox component="form" role="form" onSubmit={submit}>
             <MDBox mb={2}>
-              <MDInput type="email" label="Email" fullWidth />
+              <MDInput
+                type="text"
+                label="User Name"
+                value={username}
+                onChange={(e) => setUserName(e.target.value)}
+                fullWidth
+                required
+              />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" label="Password" fullWidth />
+              <MDInput
+                type="password"
+                label="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                fullWidth
+                required
+              />
             </MDBox>
             <MDBox display="flex" alignItems="center" ml={-1}>
-              <Switch checked={rememberMe} onChange={handleSetRememberMe} />
+              <Switch />
               <MDTypography
                 variant="button"
                 fontWeight="regular"
                 color="text"
-                onClick={handleSetRememberMe}
                 sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
               >
                 &nbsp;&nbsp;Remember me
               </MDTypography>
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
+              <MDButton variant="gradient" color="info" onClick={submit} fullWidth>
                 sign in
               </MDButton>
             </MDBox>
@@ -128,4 +166,4 @@ function Basic() {
   );
 }
 
-export default Basic;
+export default SignIn;

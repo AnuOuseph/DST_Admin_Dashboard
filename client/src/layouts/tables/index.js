@@ -38,6 +38,8 @@ import authorsTableData from "layouts/tables/data/authorsTableData";
 import projectsTableData from "layouts/tables/data/projectsTableData";
 import MDButton from "components/MDButton";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Tables() {
   const { columns, rows } = authorsTableData();
@@ -92,7 +94,6 @@ function Tables() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const { adminID, fullname, password } = formData;
     const nameRegex = /^[a-zA-Z]+$/;
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
@@ -113,17 +114,20 @@ function Tables() {
       newValidationErrors.password =
         "Password must be at least 6 characters long and contain letters and numbers.";
     }
-
-    if (Object.keys(newValidationErrors).length === 0) {
+    
+     if (Object.keys(newValidationErrors).length === 0) {
       try {
         const res = await axios.post(
           `http://localhost:4000/api/admin/createAdmin`,
           formData
         );
-        if (res.status === 201) {
-          setSuccess("Admin created successfully");
-          setError(null); 
-        }
+       if (res.status === 201) {
+          toast.success("Successfully created");
+          setTimeout(()=>{
+              location.reload()
+          },1000)
+        setSuccess("Admin created successfully")
+      } 
       } catch (err) {
         console.log(err);
         setError(err);
@@ -139,6 +143,7 @@ function Tables() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <ToastContainer />
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
