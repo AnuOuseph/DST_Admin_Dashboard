@@ -30,25 +30,30 @@ const SuperAdminRegister = async (req, res) => {
 };
 
 const superAdminLogin = async (req, res) => {
-  const user = await superAdminModel.findOne({ username: req.body.username });
-  const JWT_SECRET = process.env.JWT_SECRET;
-  if (!user) {
-    return res.status(400).send("The user not found");
-  }
+  try {
+    const user = await superAdminModel.findOne({ username: req.body.username });
+    const JWT_SECRET = process.env.JWT_SECRET;
+    if (!user) {
+      return res.status(400).send("The user not found");
+    }
 
-  if (user && bcrypt.compareSync(req.body.password, user.password)) {
-    const token = jwt.sign(
-      {
-        userId: user.id,
-      },
-      JWT_SECRET,
-      { expiresIn: "4w" }
-    );
-    console.log(token);
+    if (user && bcrypt.compareSync(req.body.password, user.password)) {
+      const token = jwt.sign(
+        {
+          userId: user.id,
+        },
+        JWT_SECRET,
+        { expiresIn: "4w" }
+      );
+      console.log(token);
 
-    res.status(200).send({ user: user.username, status: true, token: token });
-  } else {
-    res.status(400).send("Password is Wrong!");
+      res.status(200).send({ user: user.username, status: true, token: token });
+    } else {
+      res.status(404).send("Password is Wrong!");
+    }
+  } catch (error) {
+    console.log(error)
+    res.status(500).send(error)
   }
 };
 
