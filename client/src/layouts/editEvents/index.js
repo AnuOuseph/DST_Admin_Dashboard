@@ -63,7 +63,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function EditEvents() {
     const { id } = useParams();
-    console.log(id)
     const [event, setEvent] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
@@ -123,7 +122,6 @@ function EditEvents() {
             }, 1000)
             setMessage(mess)
         } catch (err) {
-            console.log(err)
             setErr(err)
         }
     };

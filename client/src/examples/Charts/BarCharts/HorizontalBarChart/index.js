@@ -47,7 +47,6 @@ import colors from "assets/theme/base/colors";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function HorizontalBarChart({ icon, title, description, height, chart }) {
-  console.log(chart.datasets);
   const chartDatasets = chart.datasets
     ? chart.datasets.map((dataset) => ({
         ...dataset,

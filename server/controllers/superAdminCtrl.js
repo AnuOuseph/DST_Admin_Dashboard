@@ -5,7 +5,6 @@ const jwt = require(`jsonwebtoken`);
 const SuperAdminRegister = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    console.log(req.body);
     const existingAdmin = await superAdminModel.findOne({ email });
     if (existingAdmin) {
       return res.status(409).json({ message: "User already exists" });
@@ -45,14 +44,12 @@ const superAdminLogin = async (req, res) => {
         JWT_SECRET,
         { expiresIn: "4w" }
       );
-      console.log(token);
 
       res.status(200).send({ user: user.username, status: true, token: token });
     } else {
       res.status(404).send("Password is Wrong!");
     }
   } catch (error) {
-    console.log(error)
     res.status(500).send(error)
   }
 };

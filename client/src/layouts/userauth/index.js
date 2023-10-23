@@ -52,7 +52,6 @@ function UserAuth() {
   const navigate = useNavigate()
   const {data,loading,error} = useFetch("http://localhost:4000/api/user/allUser")
   const userAuth = data?.data || [];
-  console.log(userAuth);
   return (
     <DashboardLayout>
       <DashboardNavbar />

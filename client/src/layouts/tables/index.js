@@ -129,7 +129,6 @@ function Tables() {
         setSuccess("Admin created successfully")
       } 
       } catch (err) {
-        console.log(err);
         setError(err);
       }
     } else {

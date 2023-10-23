@@ -57,8 +57,7 @@ function ActiveUser() {
   const navigate = useNavigate();
   const {data,loading,error} = useFetch("http://localhost:4000/api/user/alluser")
   const users = data?.data  || [];
-  console.log(users);
-
+  
   const handleEdit = (id) => {
     navigate(`/users/active-user/edit-user/${id}`)
   }

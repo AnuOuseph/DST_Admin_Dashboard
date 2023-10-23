@@ -54,8 +54,7 @@ function UserHistory() {
     const {data,loading,error} = useFetch("http://localhost:4000/api/user/LoginHistory")
     const loginHistory = data?.data?.loginHistoryForAllUsers
     || [];
-    
-    console.log(loginHistory);
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
