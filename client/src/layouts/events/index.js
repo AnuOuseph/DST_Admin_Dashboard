@@ -67,12 +67,10 @@ function Events() {
     // Fetch events from the API
     axios.get('http://localhost:4000/api/admin/getAllEvents')
       .then((response) => {
-        console.log("hbs",response?.data?.data?.events)
         setEvents(response?.data?.events);
         setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching events:', error);
         setLoading(false);
       });
   }, []);
@@ -84,7 +82,6 @@ function Events() {
       // Make the delete request
       axios.delete(`http://localhost:4000/api/admin/deleteEvent/${event._id}`)
         .then((response) => {
-          console.log(response)
           if (response?.data?.success) {
             const updatedEvents = events.filter((event) => event._id !== eventId);
             setEvents(updatedEvents);

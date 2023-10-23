@@ -53,7 +53,6 @@ const getCurrentBets = async (req, res) => {
     try {
         const currentDate = new Date();
         const formattedCurrentDate = currentDate.toISOString();
-        console.log('Current Date:', currentDate);
 
         const currentBets = await BettingSession.find({ timeRemaining: { $gt: formattedCurrentDate }})
         .populate('user', 'username')
@@ -72,7 +71,6 @@ const getCurrentBets = async (req, res) => {
             createdAt: formatTimestamp(bet.createdAt),
         }));
 
-        console.log('Current Bets:', formattedBets);
         res.status(201).json({ success: true, message: 'Current Bets', currentBets });
     } catch(error) {
         res.status(500).json({ success: false, message: 'Error retrieving current bets', error: error.message });

@@ -61,7 +61,6 @@ function SignIn() {
           password,
         })
         .then((res) => {
-          console.log(res);
           if (res.data.status) {
             localStorage.setItem("token", res.data?.token);
             history("/dashboard", { state: { id: username } });
@@ -71,7 +70,6 @@ function SignIn() {
         })
         .catch((e) => {
           alert("wrong details");
-          console.log(e);
         });
     } catch (e) {
       console.log(e);
@@ -94,23 +92,6 @@ function SignIn() {
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
             Sign in
           </MDTypography>
-          <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
-                <FacebookIcon color="inherit" />
-              </MDTypography>
-            </Grid>
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
-                <GitHubIcon color="inherit" />
-              </MDTypography>
-            </Grid>
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
-                <GoogleIcon color="inherit" />
-              </MDTypography>
-            </Grid>
-          </Grid>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form" onSubmit={submit}>
@@ -149,11 +130,6 @@ function SignIn() {
               <MDButton variant="gradient" color="info" onClick={submit} fullWidth>
                 sign in
               </MDButton>
-            </MDBox>
-            <MDBox mt={3} mb={1} textAlign="center">
-              <MDTypography variant="button" color="text">
-                Don&apos;t have an account?{" "}
-              </MDTypography>
             </MDBox>
           </MDBox>
         </MDBox>

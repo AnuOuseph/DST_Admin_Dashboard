@@ -4,7 +4,6 @@ const jwt = require(`jsonwebtoken`);
 
 const register = async (req, res) => {
   try {
-    console.log(req.body);
     const { username, fullname, email, password, nation, mobile, balance } =
       req.body;
 
@@ -44,7 +43,6 @@ const register = async (req, res) => {
 const Login = async (req, res) => {
     const user = await userModel.findOne({ email: req.body.email });
     const userEmail = req.body.email;
-    console.log("Email received:", userEmail);
     const JWT_SECRET = process.env.JWT_SECRET;
     if (!user) {
       return res.status(400).send("The user not found");
@@ -69,7 +67,6 @@ const Login = async (req, res) => {
         { expiresIn: "4w" }
         
       );
-      console.log(token);
       res.status(200).send({ user: user.email, token: token });
     } else {
       res.status(400).send("Password is Wrong!");
@@ -138,7 +135,7 @@ const Login = async (req, res) => {
         .exec();
   
       // Process the user data to extract login history
-      const loginHistoryForAllUsers = users.map((user) => ({
+      const loginHistoryForAllUsers = await users.map((user) => ({
         userId: user._id,
         username: user.username,
         loginHistory: user.loginHistory,

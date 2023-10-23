@@ -101,7 +101,6 @@ function AddEvents() {
             setError("All fields are required");
         } else {
             try {
-                console.log("hahshagg")
                 const res = await axios.post("http://localhost:4000/api/admin/createEvent", formData)
                 const mess = res?.data?.message;
                 setMessage(mess)
@@ -121,7 +120,6 @@ function AddEvents() {
                     navigate('/events')
                 }, 1000)
             } catch (err) {
-                console.log(err)
                 setError(err)
             }
         }
