@@ -16,6 +16,7 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Grid from "@mui/material/Grid";
+import Divider from "@mui/material/Divider";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -24,194 +25,144 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-// Images
-import { Box, Card, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import Footer from "examples/Footer";
+
+// Overview page components
+import Header from "layouts/profile/components/Header";
+import PlatformSettings from "layouts/profile/components/PlatformSettings";
+
+// Data
+import { Card } from "@mui/material";
 import MDButton from "components/MDButton";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useFetch from "hooks/useFetch";
+
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import UserHistory from "layouts/userHistory";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-function EditUser() {
-    const { id } = useParams();
-    const [user, setUser] = useState(null);
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await axios.get(`http://localhost:4000/api/user/getSingleUserById/${id}`);
-                const userData = res?.data?.user;
-                setUser(userData);
-                setFormData({
-                    username: userData?.username || "",
-                    fullname: userData?.fullname || "",
-                    email: userData?.email || "",
-                    nation: userData?.nation || "",
-                    mobile: userData?.mobile || "",
-                    balance: userData?.balance || "",
-                    accountStatus: userData?.accountStatus || "",
-                });
-
-            } catch (error) {
-                console.error("Error fetching event data:", error);
-            }
-        };
-
-        fetchData();
-    }, [id]);
-
-    const [err, setErr] = useState(null)
-    const [message, setMessage] = useState(null)
-    const [formData, setFormData] = useState({
-        username: "",
-        fullname: "",
-        email: "",
-        nation: "",
-        mobile: "",
-        balance: "",
-        accountStatus: ""
-    });
-    const navigate = useNavigate()
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
-    const selectStyle = {
-        height: '50px', 
-      };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await axios.patch(`http://localhost:4000/api/user/updateUser/${id}`, formData);
-            const mess = res?.data?.message;
-            toast.success("User Updated");
-            setTimeout(()=>{
-                navigate('/users')
-            },1000)
-            setMessage(mess)
-        } catch (err) {
-            setErr(err)
-        }
-    };
+import { useEffect, useState } from "react";
 
 
-    return (
-        <DashboardLayout>
-            <DashboardNavbar />
-            <ToastContainer />
-            <MDBox mb={2} />
-            <MDBox mt={5} mb={3}>
-                <Grid container spacing={1}>
-                    <Grid item xs={12} md={6}>
-                        <Card sx={{ boxShadow: "none" }}>
-                            <MDBox p={2}>
-                                <MDTypography sx={{ margin: '20px' }} variant="h6" fontWeight="medium" textTransform="capitalize">
-                                    General Information
-                                </MDTypography>
-                                <form>
-                                    <Box p={2}>
-                                        <TextField
-                                            label="User name"
-                                            name="username"
-                                            value={formData?.username}
-                                            type="text"
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
-                                    </Box>
-                                    <Box p={2}>
-                                        <TextField
-                                            label="Full name"
-                                            name="fullname"
-                                            value={formData?.fullname}
-                                            type="text"
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
-                                    </Box>
-                                    <Box p={2}>
-                                        <TextField
-                                            label="Email"
-                                            name="email"
-                                            value={formData?.email}
-                                            type="email"
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
-                                    </Box>
+function Events() {
 
-                                </form>
-                            </MDBox>
-                            <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
-                            </MDBox>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <Card sx={{ boxShadow: "none" }}>
-                            <MDBox p={2}>
-                                <Box p={2}>
-                                    <TextField
-                                        label="Balance"
-                                        name="balance"
-                                        value={formData?.balance}
-                                        type="text"
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Box p={2}>
-                                    <TextField
-                                        label="Mobile"
-                                        name="mobile"
-                                        value={formData?.mobile}
-                                        type="text"
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Box p={2}>
-                                    <TextField
-                                        label="Nation"
-                                        name="nation"
-                                        value={formData?.nation}
-                                        type="text"
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Box p={2}>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Account Status</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            name="accountStatus"
-                                            value={formData?.accountStatus}
-                                            label="Account Status"
-                                            onChange={handleChange}
-                                            style={selectStyle}
-                                        >
-                                            <MenuItem value={"active"}>Active</MenuItem>
-                                            <MenuItem value={"banned"}>Banned</MenuItem>
-                                            <MenuItem value={"suspended"}>Suspended</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-                                <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit} >
-                                    Update
-                                </MDButton>
-                                {/* <p style={{ fontSize: "12px", paddingX: "20px" }}>{message?message:null}</p>
-                            <p style={{ fontSize: "12px", paddingX: "20px", color: "red" }}>{err?err:null}</p> */}
-                            </MDBox>
-                            <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
-                            </MDBox>
-                        </Card>
-                    </Grid>
-                </Grid>
+  const navigate = useNavigate()
+
+  const handleCreate = (event) => {
+    navigate('/events/add-events')
+  }
+  const handleEdit = (event) => {
+    navigate(`/events/edit-events/${event._id}`);
+  };
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch events from the API
+    axios.get('http://localhost:4000/api/admin/getAllEvents')
+      .then((response) => {
+        console.log("hbs",response?.data?.data?.events)
+        setEvents(response?.data?.events);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching events:', error);
+        setLoading(false);
+      });
+  }, []);
+
+  const handleDelete = (event) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this event?");
+    const eventId = event._id
+    if (isConfirmed) {
+      // Make the delete request
+      axios.delete(`http://localhost:4000/api/admin/deleteEvent/${event._id}`)
+        .then((response) => {
+          console.log(response)
+          if (response?.data?.success) {
+            const updatedEvents = events.filter((event) => event._id !== eventId);
+            setEvents(updatedEvents);
+          }
+        })
+        .catch((error) => {
+          console.error('Error deleting event:', error);
+        });
+    }
+  };
+
+
+
+  return (
+    <DashboardLayout>
+      <DashboardNavbar />
+      <MDBox mb={2} />
+        <MDBox mt={5} mb={3}>
+          <Grid container spacing={1}>
+            <Grid item xs={12} md={12} xl={12}>
+            <Card sx={{ boxShadow: "none" }}>
+            <MDBox p={2} >
+                <MDTypography sx={{ padding: "20px" }} variant="h6" fontWeight="medium" textTransform="capitalize">
+                Events
+                </MDTypography>
+                <Grid item xs={12} lg={12}>
+                <Card sx={{ height: "100%" }}>
+                  <MDButton variant="gradient" color="error" sx={{margin: "10px", width: "20%", padding: "10px", alignSelf:"end"}} onClick={handleCreate}>
+                    Create Event
+                  </MDButton>
+                  <TableContainer component={Paper}>
+                  <Table sx={{ width: "100%" }} aria-label="simple table">
+                    <TableHead sx={{ display: "table-header-group" }}>
+                      <TableRow sx={{width: "20px"}}>
+                        <TableCell >Title</TableCell>
+                        <TableCell >Date</TableCell>
+                        <TableCell >Location</TableCell>
+                        <TableCell >Sport</TableCell>
+                        <TableCell >Team 1</TableCell>
+                        <TableCell >Team 2</TableCell>
+                        <TableCell >Edit</TableCell>
+                        <TableCell >Delete</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {events.map((row) => (
+                        <TableRow
+                          key={row?._id}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {row?.title}
+                          </TableCell>
+                          <TableCell>{row?.date}</TableCell>
+                          <TableCell>{row?.location}</TableCell>
+                          <TableCell>{row?.sport}</TableCell>
+                          <TableCell>{row?.team1}</TableCell>
+                          <TableCell>{row?.team2}</TableCell>
+                          <TableCell>
+                            <MDButton variant="outlined" color="warning" onClick={() => handleEdit(row)}>Edit</MDButton>
+                          </TableCell>
+                          <TableCell>
+                            <MDButton variant="outlined" color="dark" onClick={() => handleDelete(row)}>Delete</MDButton>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Card>
+              </Grid>
             </MDBox>
-        </DashboardLayout>
-    );
+            </Card>
+            </Grid>
+          </Grid>
+        </MDBox>
+    </DashboardLayout>
+  );
 }
 
-export default EditUser;
+export default Events;
