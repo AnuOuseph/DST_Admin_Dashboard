@@ -63,6 +63,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function CreateUser() {
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null);
+
     const [formData, setFormData] = useState({
         username: '',
         fullname: '',
@@ -75,11 +76,45 @@ function CreateUser() {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+        setError(null);
     };
+    const isFormValid = () => {
+        const {
+          username,
+          fullname,
+          email,
+          password,
+          mobile,
+          nation,
+          balance,
+        } = formData;
+
+        const usernameRegex = /^[a-zA-Z0-9]+$/;
+        const fullnameRegex = /^[A-Za-z]+$/;
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        const mobileRegex = /^(?!0{10}|1{10}|2{10}|3{10}|4{10}|5{10})[0-9]{10}$/;
+
+        return (
+        username.trim() !== "" &&
+        fullname.trim() !== "" &&
+        email.match(emailRegex) &&
+        password.match(passwordRegex) &&
+        balance.trim() !== "" &&
+        parseFloat(balance) > 0 &&
+        nation.match(fullnameRegex) &&
+        mobile.match(mobileRegex)
+          );
+        };
     const navigate = useNavigate()
-    const handleSubmit = async (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        try {
+
+        if (!isFormValid()) {
+            setError("Please fill out all the required fields.");
+            return;
+          } else {
+              try {
             const res = await axios.post("http://localhost:4000/api/user/registerUser", formData);
             if (res.status === 201) {
                 toast.success("Successfully created");
@@ -91,9 +126,9 @@ function CreateUser() {
         } catch (err) {
             setError(err)
         }
+          }
     };
-
-
+  
     return (
         <DashboardLayout>
             <DashboardNavbar />
@@ -155,57 +190,66 @@ function CreateUser() {
                                             fullWidth
                                         />
                                     </Box>
-
                                 </form>
                             </MDBox>
                             <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
                             </MDBox>
                         </Card>
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <Card sx={{ boxShadow: "none" }}>
-                            <MDBox p={2}>
-                                <Box p={2}>
-                                    <TextField
-                                        name="email"
-                                        label="Email"
-                                        type="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Box p={2}>
-                                    <TextField
-                                        name="nation"
-                                        label="Nation"
-                                        type="text"
-                                        value={formData.nation}
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Box p={2}>
-                                    <TextField
-                                        name="mobile"
-                                        label="Mobile Number"
-                                        type="number"
-                                        value={formData.mobile}
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                                <MDButton sx={{ margin: '20px' }} variant="gradient" color="dark" onClick={handleSubmit} >
-                                    Create
-                                </MDButton>
-                                {success && (
-                                    <MDTypography variant="success-message" sx={{ fontSize: "12px", paddingX: "10px", textAlign: "center", }}>{success}</MDTypography>
-                                )}
-                            </MDBox>
-                            <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
-                            </MDBox>
-                        </Card>
-                    </Grid>
+                <Grid item xs={12} md={6}>
+                    <Card sx={{ boxShadow: "none" }}>
+                        <MDBox p={2}>
+                            <Box p={2}>
+                                <TextField
+                                    name="email"
+                                    label="Email"
+                                    type="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Box>
+                            <Box p={2}>
+                                <TextField
+                                    name="nation"
+                                    label="Nation"
+                                    type="text"
+                                    value={formData.nation}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Box>
+                            <Box p={2}>
+                                <TextField
+                                    name="mobile"
+                                    label="Mobile Number"
+                                    type="number"
+                                    value={formData.mobile}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Box>
+                            <MDButton 
+                                sx={{ margin: '20px' }} 
+                                variant="gradient" 
+                                color="dark" 
+                                onClick={handleSubmit} 
+                                disabled={!isFormValid()} 
+                            >
+                                Create
+                            </MDButton>
+                            {success && (
+                      <MDTypography 
+                      variant="success-message" 
+                      sx={{ fontSize: "12px", paddingX: "10px", textAlign: "center", }}
+                      >
+                        {success}
+                    </MDTypography>
+                    )}
+                        </MDBox>
+                        <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
+                        </MDBox>
+                    </Card>
                 </Grid>
             </MDBox>
         </DashboardLayout>

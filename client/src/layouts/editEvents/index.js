@@ -77,7 +77,6 @@ function EditEvents() {
                 const month = String(dateObject.getMonth() + 1).padStart(2, '0'); // Months are zero-based
                 const day = String(dateObject.getDate()).padStart(2, '0');
                 const formattedDate = `${year}-${month}-${day}`;
-                console.log(formattedDate);
                 setFormData({
                     title: eventData?.title || "",
                     date: formattedDate || "",
