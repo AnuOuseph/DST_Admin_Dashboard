@@ -52,6 +52,7 @@ import CreateUser from "layouts/account";
 import ActiveUser from "layouts/activeuser";
 import Events from "layouts/events";
 import User from "layouts/billing";
+import ProtectedRoute from "layouts/authentication/protectedRoute/protectedRoute";
 
 const routes = [
   {
@@ -60,7 +61,7 @@ const routes = [
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
-    component: <Dashboard />,
+    component: <ProtectedRoute><Dashboard /></ProtectedRoute>,
   },
   {
     type: "collapse",
@@ -68,7 +69,7 @@ const routes = [
     key: "multi login",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/multi-login",
-    component: <Tables />,
+    component: <ProtectedRoute><Tables /></ProtectedRoute>,
   },
   {
     type: "collapse",
@@ -76,7 +77,7 @@ const routes = [
     key: "users",
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/users",
-    component: <User />,
+    component: <ProtectedRoute><User /></ProtectedRoute>,
   },
   {
     type: "collapse",
@@ -84,7 +85,7 @@ const routes = [
     key: "events",
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/events",
-    component: <Events />,
+    component: <ProtectedRoute><Events /></ProtectedRoute>,
   },
   {
     type: "collapse",
@@ -92,7 +93,7 @@ const routes = [
     key: "Current Bet",
     icon: <Icon fontSize="small">person</Icon>,
     route: "/current-bets",
-    component: <Profile />,
+    component: <ProtectedRoute><Profile /></ProtectedRoute>,
   },
   // {
   //   type: "collapse",

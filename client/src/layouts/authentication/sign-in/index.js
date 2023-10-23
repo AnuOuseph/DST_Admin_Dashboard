@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -45,6 +45,11 @@ import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 import button from "./../../../assets/theme-dark/components/button/index";
 function SignIn() {
   const history = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      history("/dashboard");
+    }
+  }, []);
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   async function submit(e) {
@@ -58,6 +63,7 @@ function SignIn() {
         .then((res) => {
           console.log(res);
           if (res.data.status) {
+            localStorage.setItem("token", res.data?.token);
             history("/dashboard", { state: { id: username } });
           } else if (res.data == "notexist") {
             alert("User have not sign up");
@@ -147,16 +153,6 @@ function SignIn() {
             <MDBox mt={3} mb={1} textAlign="center">
               <MDTypography variant="button" color="text">
                 Don&apos;t have an account?{" "}
-                <MDTypography
-                  component={Link}
-                  to="/authentication/sign-up"
-                  variant="button"
-                  color="info"
-                  fontWeight="medium"
-                  textGradient
-                >
-                  Sign up
-                </MDTypography>
               </MDTypography>
             </MDBox>
           </MDBox>

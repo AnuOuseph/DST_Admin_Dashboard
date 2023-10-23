@@ -60,7 +60,9 @@ import UserHistory from "layouts/userHistory";
 import EditUser from "layouts/editUser";
 import AddEvents from "layouts/addEvents";
 import EditEvents from "layouts/editEvents";
-
+import ProtectedRoute from "layouts/authentication/protectedRoute/protectedRoute";
+import SignOut from "layouts/authentication/sign-out/SignOut";
+/* eslint-disable */
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
   const {
@@ -201,13 +203,14 @@ export default function App() {
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/dashboard" />} />
         <Route path="/authentication/sign-in" element={<SignIn />} />
-        <Route path="/users/active-user" element={<ActiveUser />} />
-        <Route path="/users/create-user" element={<CreateUser />} />
-        <Route path="/user-authentication" element={<UserAuth />} />
-        <Route path="/user-history" element={<UserHistory />} />
-        <Route path="/users/active-user/edit-user/:id" element={<EditUser />} />
-        <Route path="/events/add-events" element={<AddEvents />} />
-        <Route path="/events/edit-events/:id" element={<EditEvents />} />
+        <Route path="/authentication/sign-out" element={<SignOut />} />
+        <Route path="/users/active-user" element={<ProtectedRoute><ActiveUser /></ProtectedRoute>} />
+        <Route path="/users/create-user" element={<ProtectedRoute><CreateUser /></ProtectedRoute>} />
+        <Route path="/user-authentication" element={<ProtectedRoute><UserAuth /></ProtectedRoute>} />
+        <Route path="/user-history" element={<ProtectedRoute><UserHistory /></ProtectedRoute>} />
+        <Route path="/users/active-user/edit-user/:id" element={<ProtectedRoute><EditUser /></ProtectedRoute>} />
+        <Route path="/events/add-events" element={<ProtectedRoute><AddEvents /></ProtectedRoute>} />
+        <Route path="/events/edit-events/:id" element={<ProtectedRoute><EditEvents /></ProtectedRoute>} />
       </Routes>
     </ThemeProvider>
   );
