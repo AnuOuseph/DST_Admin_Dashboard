@@ -97,7 +97,7 @@ function CreateUser() {
 
         return (
             username.trim() !== "" &&
-            fullname.trim() !== "" &&
+            fullname !== "" &&
             email.match(emailRegex) &&
             password.match(passwordRegex) &&
             balance.trim() !== "" &&
