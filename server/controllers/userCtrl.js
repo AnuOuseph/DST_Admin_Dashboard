@@ -52,8 +52,8 @@ const Login = async (req, res) => {
       { _id: user._id },
       {
         isAuthenticated: true,
-        lastLogin: new Date.now(),
-        loginHistory: [{ timestamp: new Date.now(), source: "source" }],
+        lastLogin:  Date.now(),
+        loginHistory: [{ timestamp:  Date.now(), source: "source" }],
       }
     );
   
